@@ -121,14 +121,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.PostScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  createdById: 'createdById'
-};
-
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -175,6 +167,172 @@ exports.Prisma.VerificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ConcoursScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  iconUrl: 'iconUrl',
+  order: 'order',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SubjectScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  iconUrl: 'iconUrl',
+  order: 'order',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  concoursId: 'concoursId'
+};
+
+exports.Prisma.ChapterScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  description: 'description',
+  order: 'order',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  subjectId: 'subjectId'
+};
+
+exports.Prisma.LessonScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  content: 'content',
+  readingTimeMin: 'readingTimeMin',
+  order: 'order',
+  isFree: 'isFree',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  chapterId: 'chapterId'
+};
+
+exports.Prisma.LessonObjectiveScalarFieldEnum = {
+  id: 'id',
+  text: 'text',
+  order: 'order',
+  lessonId: 'lessonId'
+};
+
+exports.Prisma.QuestionScalarFieldEnum = {
+  id: 'id',
+  text: 'text',
+  type: 'type',
+  explanation: 'explanation',
+  points: 'points',
+  isFree: 'isFree',
+  isActive: 'isActive',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  chapterId: 'chapterId',
+  dossierId: 'dossierId'
+};
+
+exports.Prisma.AnswerScalarFieldEnum = {
+  id: 'id',
+  text: 'text',
+  isCorrect: 'isCorrect',
+  explanation: 'explanation',
+  order: 'order',
+  questionId: 'questionId'
+};
+
+exports.Prisma.DossierScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  chapterId: 'chapterId'
+};
+
+exports.Prisma.QuizSessionScalarFieldEnum = {
+  id: 'id',
+  mode: 'mode',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt',
+  timeSpentMs: 'timeSpentMs',
+  score: 'score',
+  totalPoints: 'totalPoints',
+  earnedPoints: 'earnedPoints',
+  chapterIds: 'chapterIds',
+  userId: 'userId'
+};
+
+exports.Prisma.QuizResponseScalarFieldEnum = {
+  id: 'id',
+  isCorrect: 'isCorrect',
+  pointsEarned: 'pointsEarned',
+  answeredAt: 'answeredAt',
+  order: 'order',
+  quizSessionId: 'quizSessionId',
+  questionId: 'questionId'
+};
+
+exports.Prisma.QuizResponseAnswerScalarFieldEnum = {
+  id: 'id',
+  quizResponseId: 'quizResponseId',
+  answerId: 'answerId'
+};
+
+exports.Prisma.UserConcoursScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  concoursId: 'concoursId'
+};
+
+exports.Prisma.UserLessonProgressScalarFieldEnum = {
+  id: 'id',
+  completed: 'completed',
+  lastReadAt: 'lastReadAt',
+  readTimeMs: 'readTimeMs',
+  userId: 'userId',
+  lessonId: 'lessonId'
+};
+
+exports.Prisma.SpacedRepetitionCardScalarFieldEnum = {
+  id: 'id',
+  easeFactor: 'easeFactor',
+  interval: 'interval',
+  repetitions: 'repetitions',
+  nextReviewAt: 'nextReviewAt',
+  lastReviewedAt: 'lastReviewedAt',
+  userId: 'userId',
+  questionId: 'questionId'
+};
+
+exports.Prisma.ErrorReportScalarFieldEnum = {
+  id: 'id',
+  message: 'message',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  questionId: 'questionId'
+};
+
+exports.Prisma.UserSubscriptionScalarFieldEnum = {
+  id: 'id',
+  tier: 'tier',
+  startsAt: 'startsAt',
+  expiresAt: 'expiresAt',
+  polarCustomerId: 'polarCustomerId',
+  polarSubscriptionId: 'polarSubscriptionId',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -189,14 +347,43 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.QuestionType = exports.$Enums.QuestionType = {
+  QCM: 'QCM',
+  QCM_MULTI: 'QCM_MULTI',
+  KFP: 'KFP'
+};
 
+exports.QuizMode = exports.$Enums.QuizMode = {
+  STUDY: 'STUDY',
+  EXAM: 'EXAM'
+};
+
+exports.SubscriptionTier = exports.$Enums.SubscriptionTier = {
+  FREE: 'FREE',
+  PREMIUM: 'PREMIUM'
+};
 
 exports.Prisma.ModelName = {
-  Post: 'Post',
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  Concours: 'Concours',
+  Subject: 'Subject',
+  Chapter: 'Chapter',
+  Lesson: 'Lesson',
+  LessonObjective: 'LessonObjective',
+  Question: 'Question',
+  Answer: 'Answer',
+  Dossier: 'Dossier',
+  QuizSession: 'QuizSession',
+  QuizResponse: 'QuizResponse',
+  QuizResponseAnswer: 'QuizResponseAnswer',
+  UserConcours: 'UserConcours',
+  UserLessonProgress: 'UserLessonProgress',
+  SpacedRepetitionCard: 'SpacedRepetitionCard',
+  ErrorReport: 'ErrorReport',
+  UserSubscription: 'UserSubscription'
 };
 
 /**

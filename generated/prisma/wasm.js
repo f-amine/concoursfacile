@@ -93,14 +93,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.PostScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  createdById: 'createdById'
-};
-
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -147,6 +139,172 @@ exports.Prisma.VerificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ConcoursScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  iconUrl: 'iconUrl',
+  order: 'order',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SubjectScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  iconUrl: 'iconUrl',
+  order: 'order',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  concoursId: 'concoursId'
+};
+
+exports.Prisma.ChapterScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  description: 'description',
+  order: 'order',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  subjectId: 'subjectId'
+};
+
+exports.Prisma.LessonScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  content: 'content',
+  readingTimeMin: 'readingTimeMin',
+  order: 'order',
+  isFree: 'isFree',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  chapterId: 'chapterId'
+};
+
+exports.Prisma.LessonObjectiveScalarFieldEnum = {
+  id: 'id',
+  text: 'text',
+  order: 'order',
+  lessonId: 'lessonId'
+};
+
+exports.Prisma.QuestionScalarFieldEnum = {
+  id: 'id',
+  text: 'text',
+  type: 'type',
+  explanation: 'explanation',
+  points: 'points',
+  isFree: 'isFree',
+  isActive: 'isActive',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  chapterId: 'chapterId',
+  dossierId: 'dossierId'
+};
+
+exports.Prisma.AnswerScalarFieldEnum = {
+  id: 'id',
+  text: 'text',
+  isCorrect: 'isCorrect',
+  explanation: 'explanation',
+  order: 'order',
+  questionId: 'questionId'
+};
+
+exports.Prisma.DossierScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  chapterId: 'chapterId'
+};
+
+exports.Prisma.QuizSessionScalarFieldEnum = {
+  id: 'id',
+  mode: 'mode',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt',
+  timeSpentMs: 'timeSpentMs',
+  score: 'score',
+  totalPoints: 'totalPoints',
+  earnedPoints: 'earnedPoints',
+  chapterIds: 'chapterIds',
+  userId: 'userId'
+};
+
+exports.Prisma.QuizResponseScalarFieldEnum = {
+  id: 'id',
+  isCorrect: 'isCorrect',
+  pointsEarned: 'pointsEarned',
+  answeredAt: 'answeredAt',
+  order: 'order',
+  quizSessionId: 'quizSessionId',
+  questionId: 'questionId'
+};
+
+exports.Prisma.QuizResponseAnswerScalarFieldEnum = {
+  id: 'id',
+  quizResponseId: 'quizResponseId',
+  answerId: 'answerId'
+};
+
+exports.Prisma.UserConcoursScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  concoursId: 'concoursId'
+};
+
+exports.Prisma.UserLessonProgressScalarFieldEnum = {
+  id: 'id',
+  completed: 'completed',
+  lastReadAt: 'lastReadAt',
+  readTimeMs: 'readTimeMs',
+  userId: 'userId',
+  lessonId: 'lessonId'
+};
+
+exports.Prisma.SpacedRepetitionCardScalarFieldEnum = {
+  id: 'id',
+  easeFactor: 'easeFactor',
+  interval: 'interval',
+  repetitions: 'repetitions',
+  nextReviewAt: 'nextReviewAt',
+  lastReviewedAt: 'lastReviewedAt',
+  userId: 'userId',
+  questionId: 'questionId'
+};
+
+exports.Prisma.ErrorReportScalarFieldEnum = {
+  id: 'id',
+  message: 'message',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  questionId: 'questionId'
+};
+
+exports.Prisma.UserSubscriptionScalarFieldEnum = {
+  id: 'id',
+  tier: 'tier',
+  startsAt: 'startsAt',
+  expiresAt: 'expiresAt',
+  polarCustomerId: 'polarCustomerId',
+  polarSubscriptionId: 'polarSubscriptionId',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -161,14 +319,43 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.QuestionType = exports.$Enums.QuestionType = {
+  QCM: 'QCM',
+  QCM_MULTI: 'QCM_MULTI',
+  KFP: 'KFP'
+};
 
+exports.QuizMode = exports.$Enums.QuizMode = {
+  STUDY: 'STUDY',
+  EXAM: 'EXAM'
+};
+
+exports.SubscriptionTier = exports.$Enums.SubscriptionTier = {
+  FREE: 'FREE',
+  PREMIUM: 'PREMIUM'
+};
 
 exports.Prisma.ModelName = {
-  Post: 'Post',
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  Concours: 'Concours',
+  Subject: 'Subject',
+  Chapter: 'Chapter',
+  Lesson: 'Lesson',
+  LessonObjective: 'LessonObjective',
+  Question: 'Question',
+  Answer: 'Answer',
+  Dossier: 'Dossier',
+  QuizSession: 'QuizSession',
+  QuizResponse: 'QuizResponse',
+  QuizResponseAnswer: 'QuizResponseAnswer',
+  UserConcours: 'UserConcours',
+  UserLessonProgress: 'UserLessonProgress',
+  SpacedRepetitionCard: 'SpacedRepetitionCard',
+  ErrorReport: 'ErrorReport',
+  UserSubscription: 'UserSubscription'
 };
 /**
  * Create the Client
@@ -209,7 +396,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -218,13 +404,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// Prisma schema for Better Auth\n// learn more: https://better-auth.com/docs/concepts/database\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\n// NOTE: When using mysql or sqlserver, uncomment the //@db.Text annotations in model Account below\n// Further reading:\n// https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Post {\n  id        String   @id @default(cuid())\n  name      String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  createdBy   User   @relation(fields: [createdById], references: [id])\n  createdById String\n\n  @@index([name])\n}\n\nmodel User {\n  id            String    @id\n  name          String //@db.Text\n  email         String\n  emailVerified Boolean   @default(false)\n  image         String? //@db.Text\n  createdAt     DateTime  @default(now())\n  updatedAt     DateTime  @default(now()) @updatedAt\n  sessions      Session[]\n  accounts      Account[]\n  posts         Post[]\n\n  @@unique([email])\n  @@map(\"user\")\n}\n\nmodel Session {\n  id        String   @id\n  expiresAt DateTime\n  token     String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  ipAddress String? //@db.Text\n  userAgent String? //@db.Text\n  userId    String\n  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([token])\n  @@map(\"session\")\n}\n\nmodel Account {\n  id                    String    @id\n  accountId             String //@db.Text\n  providerId            String //@db.Text\n  userId                String\n  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)\n  accessToken           String? //@db.Text\n  refreshToken          String? //@db.Text\n  idToken               String? //@db.Text\n  accessTokenExpiresAt  DateTime?\n  refreshTokenExpiresAt DateTime?\n  scope                 String? //@db.Text\n  password              String? //@db.Text\n  createdAt             DateTime  @default(now())\n  updatedAt             DateTime  @updatedAt\n\n  @@map(\"account\")\n}\n\nmodel Verification {\n  id         String   @id\n  identifier String //@db.Text\n  value      String //@db.Text\n  expiresAt  DateTime\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @default(now()) @updatedAt\n\n  @@map(\"verification\")\n}\n",
-  "inlineSchemaHash": "13b811a21e98325911952479534b19039c5183588e791c7b9235c4279bb03147",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n// ============================================\n// BETTER AUTH MODELS (do not modify structure)\n// ============================================\n\nmodel User {\n  id            String    @id\n  name          String\n  email         String\n  emailVerified Boolean   @default(false)\n  image         String?\n  createdAt     DateTime  @default(now())\n  updatedAt     DateTime  @default(now()) @updatedAt\n  sessions      Session[]\n  accounts      Account[]\n\n  // App relations\n  quizSessions          QuizSession[]\n  lessonProgresses      UserLessonProgress[]\n  spacedRepetitionCards SpacedRepetitionCard[]\n  errorReports          ErrorReport[]\n  userConcours          UserConcours[]\n  subscription          UserSubscription?\n\n  @@unique([email])\n  @@map(\"user\")\n}\n\nmodel Session {\n  id        String   @id\n  expiresAt DateTime\n  token     String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  ipAddress String?\n  userAgent String?\n  userId    String\n  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([token])\n  @@map(\"session\")\n}\n\nmodel Account {\n  id                    String    @id\n  accountId             String\n  providerId            String\n  userId                String\n  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)\n  accessToken           String?\n  refreshToken          String?\n  idToken               String?\n  accessTokenExpiresAt  DateTime?\n  refreshTokenExpiresAt DateTime?\n  scope                 String?\n  password              String?\n  createdAt             DateTime  @default(now())\n  updatedAt             DateTime  @updatedAt\n\n  @@map(\"account\")\n}\n\nmodel Verification {\n  id         String   @id\n  identifier String\n  value      String\n  expiresAt  DateTime\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @default(now()) @updatedAt\n\n  @@map(\"verification\")\n}\n\n// ============================================\n// CONTENT HIERARCHY: Concours > Subject > Chapter > Lesson\n// ============================================\n\nmodel Concours {\n  id          String   @id @default(cuid())\n  name        String\n  slug        String   @unique\n  description String?\n  iconUrl     String?\n  order       Int      @default(0)\n  isActive    Boolean  @default(true)\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  subjects     Subject[]\n  userConcours UserConcours[]\n\n  @@map(\"concours\")\n}\n\nmodel Subject {\n  id          String   @id @default(cuid())\n  name        String\n  slug        String\n  description String?\n  iconUrl     String?\n  order       Int      @default(0)\n  isActive    Boolean  @default(true)\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  concoursId String\n  concours   Concours @relation(fields: [concoursId], references: [id], onDelete: Cascade)\n\n  chapters Chapter[]\n\n  @@unique([concoursId, slug])\n  @@map(\"subject\")\n}\n\nmodel Chapter {\n  id          String   @id @default(cuid())\n  title       String\n  slug        String\n  description String?\n  order       Int      @default(0)\n  isActive    Boolean  @default(true)\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  subjectId String\n  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)\n\n  lessons   Lesson[]\n  questions Question[]\n  dossiers  Dossier[]\n\n  @@unique([subjectId, slug])\n  @@map(\"chapter\")\n}\n\nmodel Lesson {\n  id             String   @id @default(cuid())\n  title          String\n  slug           String\n  content        String\n  readingTimeMin Int      @default(5)\n  order          Int      @default(0)\n  isFree         Boolean  @default(false)\n  isActive       Boolean  @default(true)\n  createdAt      DateTime @default(now())\n  updatedAt      DateTime @updatedAt\n\n  chapterId String\n  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)\n\n  objectives     LessonObjective[]\n  userProgresses UserLessonProgress[]\n\n  @@unique([chapterId, slug])\n  @@map(\"lesson\")\n}\n\nmodel LessonObjective {\n  id    String @id @default(cuid())\n  text  String\n  order Int    @default(0)\n\n  lessonId String\n  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)\n\n  @@map(\"lesson_objective\")\n}\n\n// ============================================\n// QUESTIONS & ANSWERS\n// ============================================\n\nenum QuestionType {\n  QCM\n  QCM_MULTI\n  KFP\n}\n\nmodel Question {\n  id          String       @id @default(cuid())\n  text        String\n  type        QuestionType @default(QCM)\n  explanation String?\n  points      Int          @default(1)\n  isFree      Boolean      @default(false)\n  isActive    Boolean      @default(true)\n  order       Int          @default(0)\n  createdAt   DateTime     @default(now())\n  updatedAt   DateTime     @updatedAt\n\n  chapterId String\n  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)\n\n  dossierId String?\n  dossier   Dossier? @relation(fields: [dossierId], references: [id])\n\n  answers               Answer[]\n  quizResponses         QuizResponse[]\n  errorReports          ErrorReport[]\n  spacedRepetitionCards SpacedRepetitionCard[]\n\n  @@map(\"question\")\n}\n\nmodel Answer {\n  id          String  @id @default(cuid())\n  text        String\n  isCorrect   Boolean @default(false)\n  explanation String?\n  order       Int     @default(0)\n\n  questionId String\n  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)\n\n  selectedIn QuizResponseAnswer[]\n\n  @@map(\"answer\")\n}\n\nmodel Dossier {\n  id          String   @id @default(cuid())\n  title       String\n  description String?\n  order       Int      @default(0)\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  chapterId String\n  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)\n\n  questions Question[]\n\n  @@map(\"dossier\")\n}\n\n// ============================================\n// QUIZ SESSIONS & RESPONSES\n// ============================================\n\nenum QuizMode {\n  STUDY\n  EXAM\n}\n\nmodel QuizSession {\n  id           String    @id @default(cuid())\n  mode         QuizMode  @default(STUDY)\n  startedAt    DateTime  @default(now())\n  finishedAt   DateTime?\n  timeSpentMs  Int       @default(0)\n  score        Float?\n  totalPoints  Int       @default(0)\n  earnedPoints Int       @default(0)\n  chapterIds   String[]\n\n  userId String\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  responses QuizResponse[]\n\n  @@index([userId])\n  @@map(\"quiz_session\")\n}\n\nmodel QuizResponse {\n  id           String   @id @default(cuid())\n  isCorrect    Boolean?\n  pointsEarned Int      @default(0)\n  answeredAt   DateTime @default(now())\n  order        Int      @default(0)\n\n  quizSessionId String\n  quizSession   QuizSession @relation(fields: [quizSessionId], references: [id], onDelete: Cascade)\n\n  questionId String\n  question   Question @relation(fields: [questionId], references: [id])\n\n  selectedAnswers QuizResponseAnswer[]\n\n  @@unique([quizSessionId, questionId])\n  @@map(\"quiz_response\")\n}\n\nmodel QuizResponseAnswer {\n  id String @id @default(cuid())\n\n  quizResponseId String\n  quizResponse   QuizResponse @relation(fields: [quizResponseId], references: [id], onDelete: Cascade)\n\n  answerId String\n  answer   Answer @relation(fields: [answerId], references: [id])\n\n  @@unique([quizResponseId, answerId])\n  @@map(\"quiz_response_answer\")\n}\n\n// ============================================\n// USER STATE & PROGRESS\n// ============================================\n\nmodel UserConcours {\n  id        String   @id @default(cuid())\n  createdAt DateTime @default(now())\n\n  userId String\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  concoursId String\n  concours   Concours @relation(fields: [concoursId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, concoursId])\n  @@map(\"user_concours\")\n}\n\nmodel UserLessonProgress {\n  id         String   @id @default(cuid())\n  completed  Boolean  @default(false)\n  lastReadAt DateTime @default(now())\n  readTimeMs Int      @default(0)\n\n  userId String\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  lessonId String\n  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, lessonId])\n  @@map(\"user_lesson_progress\")\n}\n\n// ============================================\n// SPACED REPETITION\n// ============================================\n\nmodel SpacedRepetitionCard {\n  id             String    @id @default(cuid())\n  easeFactor     Float     @default(2.5)\n  interval       Int       @default(1)\n  repetitions    Int       @default(0)\n  nextReviewAt   DateTime  @default(now())\n  lastReviewedAt DateTime?\n\n  userId String\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  questionId String\n  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, questionId])\n  @@index([userId, nextReviewAt])\n  @@map(\"spaced_repetition_card\")\n}\n\n// ============================================\n// ERROR REPORTS\n// ============================================\n\nmodel ErrorReport {\n  id        String   @id @default(cuid())\n  message   String\n  createdAt DateTime @default(now())\n\n  userId String\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  questionId String\n  question   Question @relation(fields: [questionId], references: [id])\n\n  @@map(\"error_report\")\n}\n\n// ============================================\n// FREEMIUM / SUBSCRIPTION\n// ============================================\n\nenum SubscriptionTier {\n  FREE\n  PREMIUM\n}\n\nmodel UserSubscription {\n  id                  String           @id @default(cuid())\n  tier                SubscriptionTier @default(FREE)\n  startsAt            DateTime         @default(now())\n  expiresAt           DateTime?\n  polarCustomerId     String?\n  polarSubscriptionId String?\n\n  userId String @unique\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@map(\"user_subscription\")\n}\n",
+  "inlineSchemaHash": "c3761e8070ec90a2981939982716fefd0099775b191c842d08b5c15b7cf2bf34",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Post\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdBy\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PostToUser\"},{\"name\":\"createdById\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"image\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"sessions\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"SessionToUser\"},{\"name\":\"accounts\",\"kind\":\"object\",\"type\":\"Account\",\"relationName\":\"AccountToUser\"},{\"name\":\"posts\",\"kind\":\"object\",\"type\":\"Post\",\"relationName\":\"PostToUser\"}],\"dbName\":\"user\"},\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userAgent\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SessionToUser\"}],\"dbName\":\"session\"},\"Account\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"accountId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"providerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AccountToUser\"},{\"name\":\"accessToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"refreshToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"idToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"accessTokenExpiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"refreshTokenExpiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"scope\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"account\"},\"Verification\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"identifier\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"value\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"verification\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"image\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"sessions\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"SessionToUser\"},{\"name\":\"accounts\",\"kind\":\"object\",\"type\":\"Account\",\"relationName\":\"AccountToUser\"},{\"name\":\"quizSessions\",\"kind\":\"object\",\"type\":\"QuizSession\",\"relationName\":\"QuizSessionToUser\"},{\"name\":\"lessonProgresses\",\"kind\":\"object\",\"type\":\"UserLessonProgress\",\"relationName\":\"UserToUserLessonProgress\"},{\"name\":\"spacedRepetitionCards\",\"kind\":\"object\",\"type\":\"SpacedRepetitionCard\",\"relationName\":\"SpacedRepetitionCardToUser\"},{\"name\":\"errorReports\",\"kind\":\"object\",\"type\":\"ErrorReport\",\"relationName\":\"ErrorReportToUser\"},{\"name\":\"userConcours\",\"kind\":\"object\",\"type\":\"UserConcours\",\"relationName\":\"UserToUserConcours\"},{\"name\":\"subscription\",\"kind\":\"object\",\"type\":\"UserSubscription\",\"relationName\":\"UserToUserSubscription\"}],\"dbName\":\"user\"},\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userAgent\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SessionToUser\"}],\"dbName\":\"session\"},\"Account\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"accountId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"providerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AccountToUser\"},{\"name\":\"accessToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"refreshToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"idToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"accessTokenExpiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"refreshTokenExpiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"scope\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"account\"},\"Verification\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"identifier\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"value\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"verification\"},\"Concours\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"iconUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"order\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"subjects\",\"kind\":\"object\",\"type\":\"Subject\",\"relationName\":\"ConcoursToSubject\"},{\"name\":\"userConcours\",\"kind\":\"object\",\"type\":\"UserConcours\",\"relationName\":\"ConcoursToUserConcours\"}],\"dbName\":\"concours\"},\"Subject\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"iconUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"order\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"concoursId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"concours\",\"kind\":\"object\",\"type\":\"Concours\",\"relationName\":\"ConcoursToSubject\"},{\"name\":\"chapters\",\"kind\":\"object\",\"type\":\"Chapter\",\"relationName\":\"ChapterToSubject\"}],\"dbName\":\"subject\"},\"Chapter\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"order\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"subjectId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"subject\",\"kind\":\"object\",\"type\":\"Subject\",\"relationName\":\"ChapterToSubject\"},{\"name\":\"lessons\",\"kind\":\"object\",\"type\":\"Lesson\",\"relationName\":\"ChapterToLesson\"},{\"name\":\"questions\",\"kind\":\"object\",\"type\":\"Question\",\"relationName\":\"ChapterToQuestion\"},{\"name\":\"dossiers\",\"kind\":\"object\",\"type\":\"Dossier\",\"relationName\":\"ChapterToDossier\"}],\"dbName\":\"chapter\"},\"Lesson\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"readingTimeMin\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"order\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isFree\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"chapterId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"chapter\",\"kind\":\"object\",\"type\":\"Chapter\",\"relationName\":\"ChapterToLesson\"},{\"name\":\"objectives\",\"kind\":\"object\",\"type\":\"LessonObjective\",\"relationName\":\"LessonToLessonObjective\"},{\"name\":\"userProgresses\",\"kind\":\"object\",\"type\":\"UserLessonProgress\",\"relationName\":\"LessonToUserLessonProgress\"}],\"dbName\":\"lesson\"},\"LessonObjective\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"text\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"order\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"lessonId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lesson\",\"kind\":\"object\",\"type\":\"Lesson\",\"relationName\":\"LessonToLessonObjective\"}],\"dbName\":\"lesson_objective\"},\"Question\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"text\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"QuestionType\"},{\"name\":\"explanation\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"points\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isFree\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"order\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"chapterId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"chapter\",\"kind\":\"object\",\"type\":\"Chapter\",\"relationName\":\"ChapterToQuestion\"},{\"name\":\"dossierId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dossier\",\"kind\":\"object\",\"type\":\"Dossier\",\"relationName\":\"DossierToQuestion\"},{\"name\":\"answers\",\"kind\":\"object\",\"type\":\"Answer\",\"relationName\":\"AnswerToQuestion\"},{\"name\":\"quizResponses\",\"kind\":\"object\",\"type\":\"QuizResponse\",\"relationName\":\"QuestionToQuizResponse\"},{\"name\":\"errorReports\",\"kind\":\"object\",\"type\":\"ErrorReport\",\"relationName\":\"ErrorReportToQuestion\"},{\"name\":\"spacedRepetitionCards\",\"kind\":\"object\",\"type\":\"SpacedRepetitionCard\",\"relationName\":\"QuestionToSpacedRepetitionCard\"}],\"dbName\":\"question\"},\"Answer\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"text\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isCorrect\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"explanation\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"order\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"questionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"question\",\"kind\":\"object\",\"type\":\"Question\",\"relationName\":\"AnswerToQuestion\"},{\"name\":\"selectedIn\",\"kind\":\"object\",\"type\":\"QuizResponseAnswer\",\"relationName\":\"AnswerToQuizResponseAnswer\"}],\"dbName\":\"answer\"},\"Dossier\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"order\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"chapterId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"chapter\",\"kind\":\"object\",\"type\":\"Chapter\",\"relationName\":\"ChapterToDossier\"},{\"name\":\"questions\",\"kind\":\"object\",\"type\":\"Question\",\"relationName\":\"DossierToQuestion\"}],\"dbName\":\"dossier\"},\"QuizSession\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mode\",\"kind\":\"enum\",\"type\":\"QuizMode\"},{\"name\":\"startedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"finishedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"timeSpentMs\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"score\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"totalPoints\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"earnedPoints\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"chapterIds\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"QuizSessionToUser\"},{\"name\":\"responses\",\"kind\":\"object\",\"type\":\"QuizResponse\",\"relationName\":\"QuizResponseToQuizSession\"}],\"dbName\":\"quiz_session\"},\"QuizResponse\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isCorrect\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"pointsEarned\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"answeredAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"order\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"quizSessionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quizSession\",\"kind\":\"object\",\"type\":\"QuizSession\",\"relationName\":\"QuizResponseToQuizSession\"},{\"name\":\"questionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"question\",\"kind\":\"object\",\"type\":\"Question\",\"relationName\":\"QuestionToQuizResponse\"},{\"name\":\"selectedAnswers\",\"kind\":\"object\",\"type\":\"QuizResponseAnswer\",\"relationName\":\"QuizResponseToQuizResponseAnswer\"}],\"dbName\":\"quiz_response\"},\"QuizResponseAnswer\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quizResponseId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"quizResponse\",\"kind\":\"object\",\"type\":\"QuizResponse\",\"relationName\":\"QuizResponseToQuizResponseAnswer\"},{\"name\":\"answerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"answer\",\"kind\":\"object\",\"type\":\"Answer\",\"relationName\":\"AnswerToQuizResponseAnswer\"}],\"dbName\":\"quiz_response_answer\"},\"UserConcours\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToUserConcours\"},{\"name\":\"concoursId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"concours\",\"kind\":\"object\",\"type\":\"Concours\",\"relationName\":\"ConcoursToUserConcours\"}],\"dbName\":\"user_concours\"},\"UserLessonProgress\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"completed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"lastReadAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"readTimeMs\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToUserLessonProgress\"},{\"name\":\"lessonId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lesson\",\"kind\":\"object\",\"type\":\"Lesson\",\"relationName\":\"LessonToUserLessonProgress\"}],\"dbName\":\"user_lesson_progress\"},\"SpacedRepetitionCard\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"easeFactor\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"interval\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"repetitions\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"nextReviewAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lastReviewedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SpacedRepetitionCardToUser\"},{\"name\":\"questionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"question\",\"kind\":\"object\",\"type\":\"Question\",\"relationName\":\"QuestionToSpacedRepetitionCard\"}],\"dbName\":\"spaced_repetition_card\"},\"ErrorReport\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"message\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ErrorReportToUser\"},{\"name\":\"questionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"question\",\"kind\":\"object\",\"type\":\"Question\",\"relationName\":\"ErrorReportToQuestion\"}],\"dbName\":\"error_report\"},\"UserSubscription\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tier\",\"kind\":\"enum\",\"type\":\"SubscriptionTier\"},{\"name\":\"startsAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"polarCustomerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"polarSubscriptionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToUserSubscription\"}],\"dbName\":\"user_subscription\"}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

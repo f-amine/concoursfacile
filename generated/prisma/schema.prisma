@@ -1,43 +1,35 @@
-// Prisma schema for Better Auth
-// learn more: https://better-auth.com/docs/concepts/database
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
-
-// NOTE: When using mysql or sqlserver, uncomment the //@db.Text annotations in model Account below
-// Further reading:
-// https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  createdBy   User   @relation(fields: [createdById], references: [id])
-  createdById String
-
-  @@index([name])
-}
+// ============================================
+// BETTER AUTH MODELS (do not modify structure)
+// ============================================
 
 model User {
   id            String    @id
-  name          String //@db.Text
+  name          String
   email         String
   emailVerified Boolean   @default(false)
-  image         String? //@db.Text
+  image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
-  posts         Post[]
+
+  // App relations
+  quizSessions          QuizSession[]
+  lessonProgresses      UserLessonProgress[]
+  spacedRepetitionCards SpacedRepetitionCard[]
+  errorReports          ErrorReport[]
+  userConcours          UserConcours[]
+  subscription          UserSubscription?
 
   @@unique([email])
   @@map("user")
@@ -49,8 +41,8 @@ model Session {
   token     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  ipAddress String? //@db.Text
-  userAgent String? //@db.Text
+  ipAddress String?
+  userAgent String?
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -60,17 +52,17 @@ model Session {
 
 model Account {
   id                    String    @id
-  accountId             String //@db.Text
-  providerId            String //@db.Text
+  accountId             String
+  providerId            String
   userId                String
   user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  accessToken           String? //@db.Text
-  refreshToken          String? //@db.Text
-  idToken               String? //@db.Text
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
   accessTokenExpiresAt  DateTime?
   refreshTokenExpiresAt DateTime?
-  scope                 String? //@db.Text
-  password              String? //@db.Text
+  scope                 String?
+  password              String?
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
 
@@ -79,11 +71,332 @@ model Account {
 
 model Verification {
   id         String   @id
-  identifier String //@db.Text
-  value      String //@db.Text
+  identifier String
+  value      String
   expiresAt  DateTime
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now()) @updatedAt
 
   @@map("verification")
+}
+
+// ============================================
+// CONTENT HIERARCHY: Concours > Subject > Chapter > Lesson
+// ============================================
+
+model Concours {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  iconUrl     String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  subjects     Subject[]
+  userConcours UserConcours[]
+
+  @@map("concours")
+}
+
+model Subject {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String
+  description String?
+  iconUrl     String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  concoursId String
+  concours   Concours @relation(fields: [concoursId], references: [id], onDelete: Cascade)
+
+  chapters Chapter[]
+
+  @@unique([concoursId, slug])
+  @@map("subject")
+}
+
+model Chapter {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String
+  description String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  subjectId String
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  lessons   Lesson[]
+  questions Question[]
+  dossiers  Dossier[]
+
+  @@unique([subjectId, slug])
+  @@map("chapter")
+}
+
+model Lesson {
+  id             String   @id @default(cuid())
+  title          String
+  slug           String
+  content        String
+  readingTimeMin Int      @default(5)
+  order          Int      @default(0)
+  isFree         Boolean  @default(false)
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  chapterId String
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  objectives     LessonObjective[]
+  userProgresses UserLessonProgress[]
+
+  @@unique([chapterId, slug])
+  @@map("lesson")
+}
+
+model LessonObjective {
+  id    String @id @default(cuid())
+  text  String
+  order Int    @default(0)
+
+  lessonId String
+  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@map("lesson_objective")
+}
+
+// ============================================
+// QUESTIONS & ANSWERS
+// ============================================
+
+enum QuestionType {
+  QCM
+  QCM_MULTI
+  KFP
+}
+
+model Question {
+  id          String       @id @default(cuid())
+  text        String
+  type        QuestionType @default(QCM)
+  explanation String?
+  points      Int          @default(1)
+  isFree      Boolean      @default(false)
+  isActive    Boolean      @default(true)
+  order       Int          @default(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  chapterId String
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  dossierId String?
+  dossier   Dossier? @relation(fields: [dossierId], references: [id])
+
+  answers               Answer[]
+  quizResponses         QuizResponse[]
+  errorReports          ErrorReport[]
+  spacedRepetitionCards SpacedRepetitionCard[]
+
+  @@map("question")
+}
+
+model Answer {
+  id          String  @id @default(cuid())
+  text        String
+  isCorrect   Boolean @default(false)
+  explanation String?
+  order       Int     @default(0)
+
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  selectedIn QuizResponseAnswer[]
+
+  @@map("answer")
+}
+
+model Dossier {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  chapterId String
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  questions Question[]
+
+  @@map("dossier")
+}
+
+// ============================================
+// QUIZ SESSIONS & RESPONSES
+// ============================================
+
+enum QuizMode {
+  STUDY
+  EXAM
+}
+
+model QuizSession {
+  id           String    @id @default(cuid())
+  mode         QuizMode  @default(STUDY)
+  startedAt    DateTime  @default(now())
+  finishedAt   DateTime?
+  timeSpentMs  Int       @default(0)
+  score        Float?
+  totalPoints  Int       @default(0)
+  earnedPoints Int       @default(0)
+  chapterIds   String[]
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  responses QuizResponse[]
+
+  @@index([userId])
+  @@map("quiz_session")
+}
+
+model QuizResponse {
+  id           String   @id @default(cuid())
+  isCorrect    Boolean?
+  pointsEarned Int      @default(0)
+  answeredAt   DateTime @default(now())
+  order        Int      @default(0)
+
+  quizSessionId String
+  quizSession   QuizSession @relation(fields: [quizSessionId], references: [id], onDelete: Cascade)
+
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id])
+
+  selectedAnswers QuizResponseAnswer[]
+
+  @@unique([quizSessionId, questionId])
+  @@map("quiz_response")
+}
+
+model QuizResponseAnswer {
+  id String @id @default(cuid())
+
+  quizResponseId String
+  quizResponse   QuizResponse @relation(fields: [quizResponseId], references: [id], onDelete: Cascade)
+
+  answerId String
+  answer   Answer @relation(fields: [answerId], references: [id])
+
+  @@unique([quizResponseId, answerId])
+  @@map("quiz_response_answer")
+}
+
+// ============================================
+// USER STATE & PROGRESS
+// ============================================
+
+model UserConcours {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  concoursId String
+  concours   Concours @relation(fields: [concoursId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, concoursId])
+  @@map("user_concours")
+}
+
+model UserLessonProgress {
+  id         String   @id @default(cuid())
+  completed  Boolean  @default(false)
+  lastReadAt DateTime @default(now())
+  readTimeMs Int      @default(0)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  lessonId String
+  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+  @@map("user_lesson_progress")
+}
+
+// ============================================
+// SPACED REPETITION
+// ============================================
+
+model SpacedRepetitionCard {
+  id             String    @id @default(cuid())
+  easeFactor     Float     @default(2.5)
+  interval       Int       @default(1)
+  repetitions    Int       @default(0)
+  nextReviewAt   DateTime  @default(now())
+  lastReviewedAt DateTime?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, questionId])
+  @@index([userId, nextReviewAt])
+  @@map("spaced_repetition_card")
+}
+
+// ============================================
+// ERROR REPORTS
+// ============================================
+
+model ErrorReport {
+  id        String   @id @default(cuid())
+  message   String
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id])
+
+  @@map("error_report")
+}
+
+// ============================================
+// FREEMIUM / SUBSCRIPTION
+// ============================================
+
+enum SubscriptionTier {
+  FREE
+  PREMIUM
+}
+
+model UserSubscription {
+  id                  String           @id @default(cuid())
+  tier                SubscriptionTier @default(FREE)
+  startsAt            DateTime         @default(now())
+  expiresAt           DateTime?
+  polarCustomerId     String?
+  polarSubscriptionId String?
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_subscription")
 }
