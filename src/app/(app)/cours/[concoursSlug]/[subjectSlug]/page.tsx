@@ -2,7 +2,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   BookOpen,
-  Clock,
   CheckCircle2,
   Circle,
   FileQuestion,

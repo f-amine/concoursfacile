@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { GitHubIcon } from "~/components/icons";
 
 import { authClient } from "~/server/better-auth/client";
 import { Button } from "~/components/ui/button";
@@ -31,13 +30,6 @@ export default function ConnexionPage() {
     }
 
     router.push("/tableau-de-bord");
-  };
-
-  const handleGithubLogin = async () => {
-    await authClient.signIn.social({
-      provider: "github",
-      callbackURL: "/tableau-de-bord",
-    });
   };
 
   return (
@@ -86,22 +78,6 @@ export default function ConnexionPage() {
           {loading ? "Connexion..." : "Se connecter"}
         </Button>
       </form>
-
-      <div className="relative my-6">
-        <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center">
-          <span className="bg-background px-3 text-xs text-muted-foreground">
-            ou
-          </span>
-        </div>
-      </div>
-
-      <Button variant="outline" className="w-full" onClick={handleGithubLogin}>
-        <GitHubIcon className="mr-2 h-4 w-4" />
-        Continuer avec GitHub
-      </Button>
 
       <p className="mt-8 text-center text-[13px] text-muted-foreground">
         Pas encore de compte ?{" "}
