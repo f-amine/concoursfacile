@@ -195,3 +195,9 @@
   50% { transform: translateY(-6px); }
 }
 .animate-float { animation: float 4s ease-in-out infinite; }
+
+@keyframes shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.animate-shine { animation: shine 2s infinite linear; }
