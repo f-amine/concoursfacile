@@ -1,10 +1,20 @@
 import Link from "next/link";
-import { BookOpen, ArrowRight, Beaker, Scale, Wrench, Stethoscope, FlaskConical } from "lucide-react";
+import {
+  BookOpen,
+  ArrowRight,
+  Beaker,
+  Scale,
+  Wrench,
+  Stethoscope,
+  FlaskConical,
+} from "lucide-react";
 
 import { api } from "~/trpc/server";
 
-/* Map slug → icon + short tagline for visual variety */
-const concoursThemes: Record<string, { icon: React.ComponentType<{ className?: string }>; tagline: string }> = {
+const concoursThemes: Record<
+  string,
+  { icon: React.ComponentType<{ className?: string }>; tagline: string }
+> = {
   ensa: { icon: Beaker, tagline: "Sciences appliquees & ingenierie" },
   encg: { icon: Scale, tagline: "Commerce, gestion & TAFEM" },
   ensam: { icon: Wrench, tagline: "Arts et metiers" },
@@ -16,64 +26,85 @@ const fallbackTheme = { icon: BookOpen, tagline: "Preparation au concours" };
 
 export default async function CoursPage() {
   const concoursList = await api.concours.list();
+  const subjectTotal = concoursList.reduce(
+    (s, c) => s + c._count.subjects,
+    0,
+  );
+  const total = concoursList.length;
 
   return (
-    <div className="py-8">
-      <div className="mb-10">
-        <h1 className="text-2xl font-semibold tracking-tight">Cours</h1>
-        <p className="mt-1.5 text-[13px] text-muted-foreground">
-          Choisissez le concours que vous preparez.
+    <div className="pt-8 sm:pt-10">
+      <header className="mb-12 sm:mb-16">
+        <p className="text-[10px] font-medium tracking-[0.22em] text-muted-foreground uppercase">
+          Bibliotheque
         </p>
-      </div>
+        <h1 className="mt-2 text-[2.25rem] font-semibold leading-[1.05] tracking-display sm:text-[3rem] lg:text-[3.5rem]">
+          Choisissez votre <span className="text-primary">concours</span>.
+        </h1>
+        <p className="mt-3 max-w-md text-[14px] leading-relaxed text-muted-foreground">
+          <span className="font-medium text-foreground">{total} concours</span>,{" "}
+          {subjectTotal} matieres alignees au programme marocain.
+        </p>
+      </header>
 
       {concoursList.length > 0 ? (
-        <div className="grid gap-4 sm:grid-cols-2">
+        <ol className="border-y border-border/70">
           {concoursList.map((concours, index) => {
             const theme = concoursThemes[concours.slug] ?? fallbackTheme;
             const Icon = theme.icon;
             const subjectCount = concours._count.subjects;
 
             return (
-              <Link
+              <li
                 key={concours.id}
-                href={`/cours/${concours.slug}`}
-                className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border bg-card shadow-xs transition-all hover:shadow-md ${
-                  index === 0 ? "sm:col-span-2" : ""
-                }`}
+                className={index !== 0 ? "border-t border-border/70" : ""}
               >
-                {/* Top section */}
-                <div className="relative z-10 p-6">
-                  <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border bg-background/80">
-                    <Icon className="h-5 w-5 text-foreground/70" />
+                <Link
+                  href={`/cours/${concours.slug}`}
+                  className="group relative grid grid-cols-12 items-center gap-4 px-2 py-7 outline-none transition-colors hover:bg-muted/50 focus-visible:bg-muted/70 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/40 sm:gap-6 sm:py-9"
+                >
+                  {/* Number index */}
+                  <span className="col-span-2 font-mono text-[11px] font-medium tabular-nums tracking-wider text-muted-foreground sm:col-span-1 sm:text-[12px]">
+                    {String(index + 1).padStart(2, "0")}
+                    <span className="text-muted-foreground/40">
+                      {" "}/{" "}
+                    </span>
+                    {String(total).padStart(2, "0")}
+                  </span>
+
+                  {/* Display name + tagline */}
+                  <div className="col-span-7 min-w-0 sm:col-span-8">
+                    <h2 className="text-[1.875rem] font-semibold leading-[1] tracking-display transition-colors sm:text-[2.5rem] lg:text-[3rem] group-hover:text-primary">
+                      {concours.name}
+                    </h2>
+                    <p className="mt-2 max-w-md text-[13px] leading-relaxed text-muted-foreground">
+                      {concours.description ?? theme.tagline}
+                    </p>
+                    <p className="mt-3 flex items-center gap-1.5 text-[11px] font-medium tracking-wide text-muted-foreground/80 uppercase tabular-nums">
+                      <span>
+                        {subjectCount} matiere{subjectCount > 1 ? "s" : ""}
+                      </span>
+                    </p>
                   </div>
-                  <h2 className="text-lg font-semibold tracking-tight">
-                    {concours.name}
-                  </h2>
-                  <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
-                    {concours.description ?? theme.tagline}
-                  </p>
-                </div>
 
-                {/* Bottom bar */}
-                <div className="flex items-center justify-between border-t px-6 py-3.5">
-                  <span className="text-xs text-muted-foreground">
-                    {subjectCount} matiere{subjectCount > 1 ? "s" : ""}
-                  </span>
-                  <span className="flex items-center gap-1 text-xs font-medium text-foreground/70 transition-colors group-hover:text-foreground">
-                    Acceder
-                    <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
-                  </span>
-                </div>
-
-                {/* Decorative: large faded icon in background */}
-                <Icon className="pointer-events-none absolute -right-4 -bottom-4 h-28 w-28 text-foreground/[0.03] transition-transform duration-500 group-hover:scale-110" />
-              </Link>
+                  {/* Ghost icon + arrow */}
+                  <div className="col-span-3 flex items-center justify-end gap-3 sm:gap-5">
+                    <Icon
+                      aria-hidden="true"
+                      className="h-12 w-12 text-foreground/[0.08] transition-all duration-500 group-hover:scale-105 group-hover:text-primary/30 sm:h-16 sm:w-16 lg:h-20 lg:w-20"
+                    />
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card text-foreground/60 shadow-xs transition-all group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:shadow-sm">
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-px" />
+                    </span>
+                  </div>
+                </Link>
+              </li>
             );
           })}
-        </div>
+        </ol>
       ) : (
-        <div className="rounded-2xl border border-dashed py-20 text-center">
-          <BookOpen className="mx-auto h-7 w-7 text-muted-foreground/30" />
+        <div className="rounded-2xl border border-dashed bg-card/40 py-20 text-center">
+          <BookOpen className="mx-auto h-7 w-7 text-muted-foreground/40" />
           <p className="mt-4 text-sm text-muted-foreground">
             Aucun concours disponible pour le moment.
           </p>

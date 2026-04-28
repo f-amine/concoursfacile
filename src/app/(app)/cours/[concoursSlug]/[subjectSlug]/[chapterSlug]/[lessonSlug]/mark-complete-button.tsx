@@ -18,13 +18,13 @@ export function MarkCompleteButton({ lessonId }: { lessonId: string }) {
 
   if (marked) {
     return (
-      <div className="flex items-center gap-2.5 rounded-xl border bg-card px-5 py-4 shadow-xs">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground">
-          <Check className="h-4 w-4 text-background" />
-        </div>
+      <div className="flex items-center gap-3 rounded-xl border border-success/20 bg-success/[0.06] px-5 py-4">
+        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-success text-white shadow-xs">
+          <Check className="h-4 w-4" />
+        </span>
         <div>
-          <p className="text-[13px] font-medium">Lecon terminee</p>
-          <p className="text-[11px] text-muted-foreground">
+          <p className="text-[13px] font-semibold text-success">Lecon terminee</p>
+          <p className="text-[11px] text-success/80">
             Votre progression a ete mise a jour.
           </p>
         </div>

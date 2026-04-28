@@ -5,7 +5,7 @@ import { type ReactNode } from 'react'
 
 export function Features() {
     return (
-        <section id="fonctionnalites" className="bg-zinc-50 py-16 md:py-32 dark:bg-transparent">
+        <section id="fonctionnalites" className="bg-zinc-50 py-24 md:py-32 dark:bg-transparent">
             <div className="mx-auto max-w-2xl px-6 lg:max-w-5xl">
                 <div className="mx-auto grid gap-4 lg:grid-cols-2">
                     <FeatureCard>
@@ -174,7 +174,7 @@ const CircularUI = ({ label, circles, className }: CircularUIProps) => (
                             'border-primary': circle.pattern === 'none',
                             'border-primary bg-[repeating-linear-gradient(-45deg,hsl(var(--border)),hsl(var(--border))_1px,transparent_1px,transparent_4px)]': circle.pattern === 'border',
                             'border-primary bg-background bg-[repeating-linear-gradient(-45deg,hsl(var(--primary)),hsl(var(--primary))_1px,transparent_1px,transparent_4px)]': circle.pattern === 'primary',
-                            'bg-background z-1 border-blue-500 bg-[repeating-linear-gradient(-45deg,theme(colors.blue.500),theme(colors.blue.500)_1px,transparent_1px,transparent_4px)]': circle.pattern === 'blue',
+                            'bg-background z-1 border-[#43b870] bg-[repeating-linear-gradient(-45deg,#43b870,#43b870_1px,transparent_1px,transparent_4px)]': circle.pattern === 'blue',
                         })}></div>
                 ))}
             </div>

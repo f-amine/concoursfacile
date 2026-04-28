@@ -212,11 +212,16 @@ MagneticButton.displayName = "MagneticButton";
 // -------------------------------------------------------------------------
 const MarqueeItem = () => (
   <div className="flex items-center space-x-12 px-6">
-    <span>Cours structures</span> <span className="text-primary/60">✦</span>
-    <span>QCM corriges</span> <span className="text-secondary/60">✦</span>
-    <span>Suivi precis</span> <span className="text-primary/60">✦</span>
-    <span>5 concours</span> <span className="text-secondary/60">✦</span>
-    <span>100% marocain</span> <span className="text-primary/60">✦</span>
+    <span>Cours structures</span>
+    <span className="text-primary/70">✦</span>
+    <span>QCM corriges</span>
+    <span className="text-[#43b870]/70">✦</span>
+    <span>Suivi precis</span>
+    <span className="text-primary/70">✦</span>
+    <span>5 concours</span>
+    <span className="text-[#43b870]/70">✦</span>
+    <span>100% marocain</span>
+    <span className="text-primary/70">✦</span>
   </div>
 );
 

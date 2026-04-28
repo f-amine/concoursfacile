@@ -14,73 +14,113 @@ export default async function ConcoursDetailPage({
 
   if (!concours) notFound();
 
+  const total = concours.subjects.length;
+  const totalChapters = concours.subjects.reduce(
+    (s, sub) => s + sub._count.chapters,
+    0,
+  );
+
   return (
-    <div className="py-8">
+    <div className="pt-8 sm:pt-10">
       <Link
         href="/cours"
-        className="mb-8 inline-flex items-center gap-1 text-[13px] text-muted-foreground transition-colors hover:text-foreground"
+        className="mb-10 inline-flex items-center gap-1 rounded-md text-[13px] text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60"
       >
         <ChevronLeft className="h-3.5 w-3.5" />
         Tous les concours
       </Link>
 
-      <div className="mb-10">
-        <h1 className="text-2xl font-semibold tracking-tight">
-          {concours.name}
-        </h1>
-        {concours.description && (
-          <p className="mt-1.5 text-[13px] text-muted-foreground">
-            {concours.description}
+      <header className="mb-12 grid gap-6 sm:mb-16 sm:grid-cols-[1fr_auto] sm:items-end">
+        <div>
+          <p className="text-[10px] font-medium tracking-[0.22em] text-muted-foreground uppercase">
+            Concours
           </p>
-        )}
-      </div>
+          <h1 className="mt-2 text-[2.25rem] font-semibold leading-[1.05] tracking-display sm:text-[3rem] lg:text-[3.5rem]">
+            {concours.name}
+          </h1>
+          {concours.description && (
+            <p className="mt-3 max-w-2xl text-[14px] leading-relaxed text-muted-foreground">
+              {concours.description}
+            </p>
+          )}
+        </div>
+
+        <dl className="grid grid-cols-2 gap-x-8 gap-y-2 text-right sm:gap-x-10">
+          <div>
+            <dt className="text-[10px] font-medium tracking-wide text-muted-foreground uppercase">
+              Matieres
+            </dt>
+            <dd className="font-display-num text-[1.75rem] font-semibold tabular-nums leading-none tracking-display">
+              {total}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-[10px] font-medium tracking-wide text-muted-foreground uppercase">
+              Chapitres
+            </dt>
+            <dd className="font-display-num text-[1.75rem] font-semibold tabular-nums leading-none tracking-display">
+              {totalChapters}
+            </dd>
+          </div>
+        </dl>
+      </header>
 
       {concours.subjects.length > 0 ? (
-        <div className="grid gap-4 sm:grid-cols-2">
-          {concours.subjects.map((subject) => {
+        <ol className="border-y border-border/70">
+          {concours.subjects.map((subject, index) => {
+            const initial = subject.name.charAt(0).toUpperCase();
             const chapterCount = subject._count.chapters;
 
             return (
-              <Link
+              <li
                 key={subject.id}
-                href={`/cours/${concoursSlug}/${subject.slug}`}
-                className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border bg-card shadow-xs transition-all hover:shadow-md"
+                className={index !== 0 ? "border-t border-border/70" : ""}
               >
-                <div className="p-6">
-                  <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border bg-background/80">
-                    <BookOpen className="h-5 w-5 text-foreground/70" />
-                  </div>
-                  <h2 className="text-lg font-semibold tracking-tight">
-                    {subject.name}
-                  </h2>
-                  {subject.description && (
-                    <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
-                      {subject.description}
-                    </p>
-                  )}
-                </div>
-
-                <div className="flex items-center justify-between border-t px-6 py-3.5">
-                  <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1">
-                      <Layers className="h-3 w-3" />
-                      {chapterCount} chapitre{chapterCount > 1 ? "s" : ""}
+                <Link
+                  href={`/cours/${concoursSlug}/${subject.slug}`}
+                  className="group grid grid-cols-12 items-center gap-4 px-2 py-6 outline-none transition-colors hover:bg-muted/50 focus-visible:bg-muted/70 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/40 sm:gap-6 sm:py-7"
+                >
+                  {/* Initial monogram */}
+                  <div className="col-span-2 sm:col-span-1">
+                    <span className="font-mono text-[11px] tabular-nums tracking-wider text-muted-foreground sm:hidden">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className="hidden h-12 w-12 items-center justify-center rounded-xl border border-border/70 bg-card text-[1.25rem] font-semibold tracking-tight text-foreground/70 shadow-xs transition-all group-hover:border-primary/40 group-hover:bg-primary/[0.06] group-hover:text-primary sm:flex"
+                    >
+                      {initial}
                     </span>
                   </div>
-                  <span className="flex items-center gap-1 text-xs font-medium text-foreground/70 transition-colors group-hover:text-foreground">
-                    Etudier
-                    <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
-                  </span>
-                </div>
 
-                <BookOpen className="pointer-events-none absolute -right-3 -bottom-3 h-24 w-24 text-foreground/[0.03] transition-transform duration-500 group-hover:scale-110" />
-              </Link>
+                  <div className="col-span-7 min-w-0 sm:col-span-8">
+                    <h2 className="text-[1.375rem] font-semibold leading-tight tracking-tight transition-colors sm:text-[1.75rem] group-hover:text-primary">
+                      {subject.name}
+                    </h2>
+                    {subject.description && (
+                      <p className="mt-1.5 max-w-xl text-[13px] leading-relaxed text-muted-foreground">
+                        {subject.description}
+                      </p>
+                    )}
+                    <p className="mt-2 flex items-center gap-1.5 text-[11px] font-medium tracking-wide text-muted-foreground/80 uppercase tabular-nums">
+                      <Layers className="h-3 w-3" />
+                      {chapterCount} chapitre{chapterCount > 1 ? "s" : ""}
+                    </p>
+                  </div>
+
+                  <div className="col-span-3 flex items-center justify-end">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card text-foreground/60 shadow-xs transition-all group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:shadow-sm">
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-px" />
+                    </span>
+                  </div>
+                </Link>
+              </li>
             );
           })}
-        </div>
+        </ol>
       ) : (
-        <div className="rounded-2xl border border-dashed py-20 text-center">
-          <BookOpen className="mx-auto h-7 w-7 text-muted-foreground/30" />
+        <div className="rounded-2xl border border-dashed bg-card/40 py-20 text-center">
+          <BookOpen className="mx-auto h-7 w-7 text-muted-foreground/40" />
           <p className="mt-4 text-sm text-muted-foreground">
             Aucune matiere disponible pour le moment.
           </p>

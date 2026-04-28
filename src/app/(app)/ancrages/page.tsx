@@ -9,29 +9,47 @@ import {
   ChevronRight,
   RotateCcw,
   Trophy,
+  Sparkles,
 } from "lucide-react";
 
 import { api } from "~/trpc/react";
 import { Button } from "~/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
-import { Badge } from "~/components/ui/badge";
 import { Checkbox } from "~/components/ui/checkbox";
 import { cn } from "~/lib/utils";
 
-const qualityLabels = [
-  { value: 0, label: "Aucune idee", color: "bg-red-500" },
-  { value: 1, label: "Incorrect", color: "bg-red-400" },
-  { value: 2, label: "Presque", color: "bg-orange-400" },
-  { value: 3, label: "Difficile", color: "bg-yellow-400" },
-  { value: 4, label: "Bien", color: "bg-green-400" },
-  { value: 5, label: "Facile", color: "bg-green-500" },
+type QualityTone = "destructive" | "warning" | "success";
+
+const qualityScale: {
+  value: number;
+  label: string;
+  tone: QualityTone;
+  intensity: 1 | 2;
+}[] = [
+  { value: 0, label: "Aucune idee", tone: "destructive", intensity: 2 },
+  { value: 1, label: "Incorrect", tone: "destructive", intensity: 1 },
+  { value: 2, label: "Presque", tone: "warning", intensity: 2 },
+  { value: 3, label: "Difficile", tone: "warning", intensity: 1 },
+  { value: 4, label: "Bien", tone: "success", intensity: 1 },
+  { value: 5, label: "Facile", tone: "success", intensity: 2 },
 ];
+
+const toneClasses: Record<QualityTone, { strong: string; soft: string; text: string }> = {
+  destructive: {
+    strong: "border-destructive/40 bg-destructive/15 text-destructive hover:bg-destructive/20",
+    soft: "border-destructive/30 bg-destructive/[0.06] text-destructive hover:bg-destructive/10",
+    text: "text-destructive",
+  },
+  warning: {
+    strong: "border-warning/40 bg-warning/15 text-warning hover:bg-warning/20",
+    soft: "border-warning/30 bg-warning/[0.06] text-warning hover:bg-warning/10",
+    text: "text-warning",
+  },
+  success: {
+    strong: "border-success/40 bg-success/15 text-success hover:bg-success/20",
+    soft: "border-success/30 bg-success/[0.06] text-success hover:bg-success/10",
+    text: "text-success",
+  },
+};
 
 export default function AncragesPage() {
   const router = useRouter();
@@ -58,7 +76,6 @@ export default function AncragesPage() {
       if (cards && currentIndex < cards.length - 1) {
         setCurrentIndex((i) => i + 1);
       } else {
-        // All cards reviewed — invalidate and show completion
         void utils.spacedRepetition.getStats.invalidate();
         void utils.spacedRepetition.getDueCards.invalidate();
       }
@@ -92,109 +109,130 @@ export default function AncragesPage() {
     reviewCard.mutate({ cardId: currentCard.id, quality });
   };
 
-  // No cards due
+  // Empty inbox
   if (!isLoading && (!cards || cards.length === 0)) {
     return (
-      <div className="mx-auto max-w-lg space-y-6">
+      <div className="mx-auto max-w-xl space-y-6 pt-8">
         <div>
-          <h1 className="text-2xl font-bold">Ancrages</h1>
-          <p className="text-muted-foreground">
-            Revision par repetition espacee
+          <p className="text-[10px] font-medium tracking-[0.22em] text-muted-foreground uppercase">
+            Repetition espacee
+          </p>
+          <h1 className="mt-2 text-[2rem] font-semibold leading-[1.1] tracking-display sm:text-[2.5rem]">
+            <span className="text-primary">Ancrages</span>.
+          </h1>
+          <p className="mt-3 max-w-md text-[14px] leading-relaxed text-muted-foreground">
+            Memoire long terme. Une carte revue au bon moment vaut dix relectures.
           </p>
         </div>
 
         {stats && (
-          <div className="grid grid-cols-3 gap-3">
-            <Card>
-              <CardHeader className="pb-2">
-                <CardDescription>Aujourd&apos;hui</CardDescription>
-                <CardTitle className="text-2xl">{stats.dueToday}</CardTitle>
-              </CardHeader>
-            </Card>
-            <Card>
-              <CardHeader className="pb-2">
-                <CardDescription>Demain</CardDescription>
-                <CardTitle className="text-2xl">{stats.dueTomorrow}</CardTitle>
-              </CardHeader>
-            </Card>
-            <Card>
-              <CardHeader className="pb-2">
-                <CardDescription>Plus tard</CardDescription>
-                <CardTitle className="text-2xl">{stats.dueLater}</CardTitle>
-              </CardHeader>
-            </Card>
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { label: "Aujourd'hui", value: stats.dueToday, accent: true },
+              { label: "Demain", value: stats.dueTomorrow, accent: false },
+              { label: "Plus tard", value: stats.dueLater, accent: false },
+            ].map((s) => (
+              <div
+                key={s.label}
+                className={cn(
+                  "rounded-xl border bg-card p-4 shadow-xs",
+                  s.accent && stats.dueToday > 0 && "border-primary/30 bg-primary/[0.04]",
+                )}
+              >
+                <p className="text-[11px] text-muted-foreground">{s.label}</p>
+                <p
+                  className={cn(
+                    "mt-1.5 text-[1.5rem] font-semibold tabular-nums leading-none tracking-tight",
+                    s.accent && stats.dueToday > 0 && "text-primary",
+                  )}
+                >
+                  {s.value}
+                </p>
+              </div>
+            ))}
           </div>
         )}
 
-        <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
-            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-950">
-              <Trophy className="h-8 w-8 text-green-600 dark:text-green-400" />
-            </div>
-            <p className="text-lg font-medium">Tout est a jour !</p>
-            <p className="mt-1 text-sm text-muted-foreground">
-              {stats?.total === 0
-                ? "Repondez a des quiz pour ajouter des cartes de revision"
-                : "Revenez demain pour vos prochaines revisions"}
-            </p>
-            <Button
-              variant="outline"
-              className="mt-4"
-              onClick={() => router.push("/cours")}
-            >
-              Aller aux cours
-            </Button>
-          </CardContent>
-        </Card>
+        <div className="rounded-2xl border bg-card p-8 text-center shadow-xs">
+          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-success/10 ring-1 ring-success/20">
+            <Trophy className="h-6 w-6 text-success" />
+          </span>
+          <p className="mt-4 text-[15px] font-semibold tracking-tight">
+            Tout est a jour.
+          </p>
+          <p className="mx-auto mt-1.5 max-w-sm text-[13px] leading-relaxed text-muted-foreground">
+            {stats?.total === 0
+              ? "Repondez a quelques quiz pour commencer a remplir votre paquet de revisions."
+              : "Revenez demain pour les prochaines cartes a ancrer."}
+          </p>
+          <Button
+            variant="outline"
+            size="sm"
+            className="mt-5"
+            onClick={() => router.push("/cours")}
+          >
+            Aller aux cours
+          </Button>
+        </div>
       </div>
     );
   }
 
-  // All current batch reviewed
+  // Batch finished
   if (cards && currentIndex >= cards.length) {
     return (
-      <div className="mx-auto max-w-lg space-y-6">
+      <div className="mx-auto max-w-xl space-y-6 pt-8">
         <div>
-          <h1 className="text-2xl font-bold">Ancrages</h1>
+          <p className="text-[10px] font-medium tracking-[0.22em] text-muted-foreground uppercase">
+            Repetition espacee
+          </p>
+          <h1 className="mt-2 text-[2rem] font-semibold leading-[1.1] tracking-display sm:text-[2.5rem]">
+            <span className="text-primary">Ancrages</span>.
+          </h1>
         </div>
-        <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
-            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-950">
-              <CheckCircle2 className="h-8 w-8 text-green-600 dark:text-green-400" />
-            </div>
-            <p className="text-lg font-medium">
-              {reviewedCount} carte{reviewedCount > 1 ? "s" : ""} revisee
-              {reviewedCount > 1 ? "s" : ""} !
-            </p>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Continuez comme ca !
-            </p>
-            <div className="mt-4 flex gap-2">
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setCurrentIndex(0);
-                  setReviewedCount(0);
-                  void utils.spacedRepetition.getDueCards.invalidate();
-                }}
-              >
-                <RotateCcw className="mr-1 h-4 w-4" />
-                Recharger
-              </Button>
-              <Button onClick={() => router.push("/tableau-de-bord")}>
-                Tableau de bord
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="rounded-2xl border bg-card p-8 text-center shadow-xs">
+          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-success/10 ring-1 ring-success/20">
+            <CheckCircle2 className="h-6 w-6 text-success" />
+          </span>
+          <p className="mt-4 text-[15px] font-semibold tracking-tight">
+            {reviewedCount} carte{reviewedCount > 1 ? "s" : ""} revisee
+            {reviewedCount > 1 ? "s" : ""}
+          </p>
+          <p className="mx-auto mt-1.5 max-w-sm text-[13px] leading-relaxed text-muted-foreground">
+            Bon rythme. Revenez demain pour la prochaine session.
+          </p>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setCurrentIndex(0);
+                setReviewedCount(0);
+                void utils.spacedRepetition.getDueCards.invalidate();
+              }}
+            >
+              <RotateCcw className="mr-1 h-3.5 w-3.5" />
+              Recharger
+            </Button>
+            <Button
+              size="sm"
+              onClick={() => router.push("/tableau-de-bord")}
+            >
+              Tableau de bord
+              <ChevronRight className="ml-1 h-3.5 w-3.5" />
+            </Button>
+          </div>
+        </div>
       </div>
     );
   }
 
+  // Loading
   if (isLoading || !question) {
     return (
-      <div className="flex h-[60vh] items-center justify-center">
-        <p className="text-muted-foreground">Chargement des cartes...</p>
+      <div className="mx-auto max-w-2xl space-y-6 pt-8">
+        <div className="h-7 w-32 animate-pulse rounded bg-muted" />
+        <div className="h-72 animate-pulse rounded-2xl bg-muted" />
       </div>
     );
   }
@@ -206,62 +244,93 @@ export default function AncragesPage() {
     showAnswer &&
     correctAnswerIds.size === selectedAnswers.size &&
     [...correctAnswerIds].every((id) => selectedAnswers.has(id));
+  const totalCards = cards?.length ?? 0;
+  const progressPct = totalCards > 0 ? ((currentIndex + (showAnswer ? 0.5 : 0)) / totalCards) * 100 : 0;
 
   return (
-    <div className="mx-auto max-w-2xl space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="mx-auto max-w-2xl space-y-6 pt-8 pb-12">
+      <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold">Ancrages</h1>
-          <p className="text-sm text-muted-foreground">
-            Carte {currentIndex + 1} / {cards?.length ?? 0} &middot;{" "}
-            {reviewedCount} revisee{reviewedCount > 1 ? "s" : ""}
+          <p className="text-[10px] font-medium tracking-[0.22em] text-muted-foreground uppercase">
+            Repetition espacee
+          </p>
+          <h1 className="mt-2 text-[2rem] font-semibold leading-[1.1] tracking-display sm:text-[2.5rem]">
+            <span className="text-primary">Ancrages</span>.
+          </h1>
+          <p className="mt-2 text-[13px] tabular-nums text-muted-foreground">
+            Carte{" "}
+            <span className="font-semibold text-foreground">
+              {currentIndex + 1}
+            </span>{" "}
+            sur {totalCards}
+            {reviewedCount > 0 && (
+              <>
+                <span className="mx-1.5 text-border">/</span>
+                {reviewedCount} revisee{reviewedCount > 1 ? "s" : ""}
+              </>
+            )}
           </p>
         </div>
-        {stats && (
-          <Badge variant="secondary">
-            <Brain className="mr-1 h-3 w-3" />
+        {stats && stats.dueToday > 0 && (
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/[0.06] px-3 py-1 text-[12px] font-medium text-primary">
+            <Brain className="h-3 w-3" />
             {stats.dueToday} restante{stats.dueToday > 1 ? "s" : ""}
-          </Badge>
+          </span>
         )}
       </div>
 
-      <Card>
-        <CardHeader>
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+      <div className="h-1 overflow-hidden rounded-full bg-secondary">
+        <div
+          className="h-full rounded-full bg-primary transition-all duration-500"
+          style={{ width: `${progressPct}%` }}
+        />
+      </div>
+
+      <article className="rounded-2xl border bg-card shadow-xs">
+        <header className="border-b border-border/70 px-5 py-4">
+          <p className="flex flex-wrap items-center gap-1.5 text-[11px] tabular-nums text-muted-foreground">
             <span>{question.chapter.subject.concours.name}</span>
-            <span>&middot;</span>
+            <span className="text-border">/</span>
             <span>{question.chapter.subject.name}</span>
-            <span>&middot;</span>
+            <span className="text-border">/</span>
             <span>{question.chapter.title}</span>
-          </div>
-          <CardTitle className="mt-2 text-lg leading-relaxed">
+          </p>
+          <h2 className="mt-2 text-[1.0625rem] font-medium leading-relaxed text-foreground">
             {question.text}
-          </CardTitle>
-          <Badge variant="secondary" className="w-fit">
+          </h2>
+          <span className="mt-3 inline-flex rounded-md bg-secondary px-1.5 py-0.5 text-[11px] font-medium tracking-wide uppercase text-foreground/70">
             {question.type}
-          </Badge>
-        </CardHeader>
-        <CardContent className="space-y-3">
+          </span>
+        </header>
+
+        <div className="space-y-2.5 px-5 py-5">
           {question.answers.map((answer) => {
             const isSelected = selectedAnswers.has(answer.id);
             const isAnswerCorrect = answer.isCorrect;
-
             return (
               <button
                 key={answer.id}
                 onClick={() => toggleAnswer(answer.id)}
                 disabled={showAnswer}
                 className={cn(
-                  "flex w-full items-start gap-3 rounded-lg border p-4 text-left transition-colors",
-                  !showAnswer && isSelected && "border-primary bg-primary/5",
-                  !showAnswer && !isSelected && "hover:bg-muted/50",
+                  "flex w-full items-start gap-3 rounded-xl border p-4 text-left outline-none transition-all focus-visible:ring-2 focus-visible:ring-ring/60",
+                  !showAnswer &&
+                    isSelected &&
+                    "border-primary bg-primary/[0.06] shadow-xs",
+                  !showAnswer &&
+                    !isSelected &&
+                    "border-border/70 bg-card hover:border-border hover:bg-muted/50",
                   showAnswer &&
                     isAnswerCorrect &&
-                    "border-green-500 bg-green-50 dark:bg-green-950/30",
+                    "border-success/40 bg-success/[0.06]",
                   showAnswer &&
                     !isAnswerCorrect &&
                     isSelected &&
-                    "border-red-500 bg-red-50 dark:bg-red-950/30",
+                    "border-destructive/40 bg-destructive/[0.06]",
+                  showAnswer &&
+                    !isAnswerCorrect &&
+                    !isSelected &&
+                    "border-border/70 bg-card opacity-70",
                 )}
               >
                 <Checkbox
@@ -269,82 +338,97 @@ export default function AncragesPage() {
                   className="mt-0.5"
                   disabled={showAnswer}
                 />
-                <span className="flex-1 text-sm">{answer.text}</span>
+                <span className="flex-1 text-[13px] leading-relaxed">
+                  {answer.text}
+                </span>
                 {showAnswer && isAnswerCorrect && (
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-green-500" />
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-success" />
                 )}
                 {showAnswer && !isAnswerCorrect && isSelected && (
-                  <XCircle className="h-4 w-4 shrink-0 text-red-500" />
+                  <XCircle className="h-4 w-4 shrink-0 text-destructive" />
                 )}
               </button>
             );
           })}
 
-          {/* Correction */}
           {showAnswer && (
             <div
               className={cn(
-                "mt-4 rounded-lg border p-4",
+                "rounded-xl border p-4",
                 isCorrect
-                  ? "border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/30"
-                  : "border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/30",
+                  ? "border-success/30 bg-success/[0.06]"
+                  : "border-destructive/30 bg-destructive/[0.06]",
               )}
             >
               <div className="flex items-center gap-2">
                 {isCorrect ? (
-                  <CheckCircle2 className="h-5 w-5 text-green-600" />
+                  <CheckCircle2 className="h-5 w-5 text-success" />
                 ) : (
-                  <XCircle className="h-5 w-5 text-red-600" />
+                  <XCircle className="h-5 w-5 text-destructive" />
                 )}
-                <span className="font-medium">
-                  {isCorrect ? "Correct !" : "Incorrect"}
+                <span
+                  className={cn(
+                    "text-[13px] font-semibold",
+                    isCorrect ? "text-success" : "text-destructive",
+                  )}
+                >
+                  {isCorrect ? "Correct" : "Incorrect"}
                 </span>
               </div>
               {question.explanation && (
-                <p className="mt-2 text-sm text-muted-foreground">
+                <p className="mt-2 text-[13px] leading-relaxed text-foreground/85">
                   {question.explanation}
                 </p>
               )}
             </div>
           )}
 
-          {/* Actions */}
           {!showAnswer ? (
             <div className="flex justify-center pt-2">
               <Button
                 onClick={handleReveal}
                 disabled={selectedAnswers.size === 0}
               >
-                Verifier
-                <ChevronRight className="ml-1 h-4 w-4" />
+                <Sparkles className="mr-1 h-3.5 w-3.5" />
+                Reveler la reponse
               </Button>
             </div>
           ) : (
-            <div className="space-y-3 pt-4">
-              <p className="text-center text-sm font-medium">
-                A quel point avez-vous trouve cette question facile ?
-              </p>
+            <div className="space-y-3 pt-3">
+              <div className="text-center">
+                <p className="text-[10px] font-medium tracking-[0.2em] text-muted-foreground uppercase">
+                  Auto-evaluation
+                </p>
+                <p className="mt-1 text-[13px] font-medium">
+                  A quel point cette question vous a-t-elle paru facile ?
+                </p>
+              </div>
               <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
-                {qualityLabels.map((q) => (
-                  <Button
-                    key={q.value}
-                    variant="outline"
-                    size="sm"
-                    className="flex flex-col gap-1 py-3"
-                    onClick={() => handleRate(q.value)}
-                    disabled={reviewCard.isPending}
-                  >
-                    <div
-                      className={cn("h-2 w-2 rounded-full", q.color)}
-                    />
-                    <span className="text-xs">{q.label}</span>
-                  </Button>
-                ))}
+                {qualityScale.map((q) => {
+                  const cls = toneClasses[q.tone];
+                  return (
+                    <button
+                      key={q.value}
+                      type="button"
+                      onClick={() => handleRate(q.value)}
+                      disabled={reviewCard.isPending}
+                      className={cn(
+                        "flex flex-col items-center gap-1 rounded-xl border px-2 py-3 text-[11px] font-medium outline-none transition-all focus-visible:ring-2 focus-visible:ring-ring/60 disabled:opacity-50",
+                        q.intensity === 2 ? cls.strong : cls.soft,
+                      )}
+                    >
+                      <span className="text-[15px] font-semibold tabular-nums leading-none">
+                        {q.value}
+                      </span>
+                      <span className="leading-tight">{q.label}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </article>
     </div>
   );
 }

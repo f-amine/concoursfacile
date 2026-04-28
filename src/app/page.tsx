@@ -4,6 +4,17 @@ import type { CSSProperties } from "react";
 
 import { getSession } from "~/server/better-auth/server";
 import InteractiveHero from "~/components/blocks/hero-section-nexus";
+import {
+  StatsStrip,
+  ConcoursGrid,
+  ProcessSteps,
+  CtaBanner,
+} from "~/components/blocks/landing-extras";
+import {
+  EyebrowLabel,
+  SectionHeading,
+  SectionLead,
+} from "~/components/blocks/landing-primitives";
 import SectionWithMockup from "~/components/ui/section-with-mockup";
 import { Features } from "~/components/ui/features-10";
 import { TestimonialsColumn } from "~/components/ui/testimonials-columns-1";
@@ -82,38 +93,31 @@ const PRICING_FEATURES = [
   "Acces aux 5 concours",
 ];
 
-// Scoped theme tokens — override shadcn's beige `--primary` with the hero's #0CF2A0
-// so shadcn-styled components (features-10 CardDecorator, pricing-card, testimonials shadow)
-// render with the landing's green accent instead of drifting toward the admin palette.
+// Brand palette — concoursfacile.ma logo
+//   primary blue : #1f4dc1
+//   accent green : #43b870
+//   surface      : white
+// Tokens override shadcn defaults so all child components (pricing-card,
+// CardDecorator, testimonials, footer) inherit the landing's brand tones.
 const LANDING_THEME: CSSProperties = {
-  ["--background" as string]: "#0a0a0a",
-  ["--foreground" as string]: "#f5f5f5",
-  ["--card" as string]: "#111111",
-  ["--card-foreground" as string]: "#f5f5f5",
-  ["--popover" as string]: "#111111",
-  ["--popover-foreground" as string]: "#f5f5f5",
-  ["--primary" as string]: "#0CF2A0",
-  ["--primary-foreground" as string]: "#0a0a0a",
-  ["--secondary" as string]: "rgba(255,255,255,0.06)",
-  ["--secondary-foreground" as string]: "#f5f5f5",
-  ["--muted" as string]: "rgba(255,255,255,0.04)",
-  ["--muted-foreground" as string]: "#9ca3af",
-  ["--accent" as string]: "rgba(12,242,160,0.12)",
-  ["--accent-foreground" as string]: "#0CF2A0",
-  ["--border" as string]: "rgba(255,255,255,0.08)",
-  ["--input" as string]: "rgba(255,255,255,0.08)",
-  ["--ring" as string]: "#0CF2A0",
+  ["--background" as string]: "#ffffff",
+  ["--foreground" as string]: "#0b1530",
+  ["--card" as string]: "#ffffff",
+  ["--card-foreground" as string]: "#0b1530",
+  ["--popover" as string]: "#ffffff",
+  ["--popover-foreground" as string]: "#0b1530",
+  ["--primary" as string]: "#1f4dc1",
+  ["--primary-foreground" as string]: "#ffffff",
+  ["--secondary" as string]: "#eef3ff",
+  ["--secondary-foreground" as string]: "#1f4dc1",
+  ["--muted" as string]: "#f4f7fc",
+  ["--muted-foreground" as string]: "#5b6b8a",
+  ["--accent" as string]: "#e8f6ee",
+  ["--accent-foreground" as string]: "#236d44",
+  ["--border" as string]: "rgba(31,77,193,0.12)",
+  ["--input" as string]: "rgba(31,77,193,0.18)",
+  ["--ring" as string]: "#1f4dc1",
 };
-
-function SectionLabel({ children }: { children: string }) {
-  return (
-    <div className="inline-flex">
-      <span className="rounded-full border border-[#0CF2A0]/20 bg-[#0CF2A0]/[0.06] px-4 py-1 text-[11px] font-medium uppercase tracking-[0.25em] text-[#0CF2A0]">
-        {children}
-      </span>
-    </div>
-  );
-}
 
 function HighlightCard({
   label,
@@ -127,7 +131,7 @@ function HighlightCard({
   image: string;
 }) {
   return (
-    <article className="group relative overflow-hidden rounded-3xl border border-white/[0.08] bg-[#111111] transition-all duration-500 ease-out hover:-translate-y-1 hover:border-[#0CF2A0]/25 hover:shadow-[0_30px_80px_-30px_rgba(12,242,160,0.25)]">
+    <article className="group relative overflow-hidden rounded-3xl border border-[#1f4dc1]/10 bg-white shadow-[0_24px_60px_-30px_rgba(31,77,193,0.18)] transition-all duration-500 ease-out hover:-translate-y-1 hover:border-[#1f4dc1]/25 hover:shadow-[0_36px_90px_-30px_rgba(31,77,193,0.28)]">
       <div className="relative aspect-[4/3] overflow-hidden">
         <div
           className="h-full w-full bg-cover bg-center transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]"
@@ -136,26 +140,26 @@ function HighlightCard({
         {/* Fade image into card body */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#111111] via-[#111111]/80 to-transparent"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white via-white/80 to-transparent"
         />
-        {/* Top hairline */}
+        {/* Top hairline — emerald-to-blue, echo logo check-on-C */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-8 top-0 h-px"
           style={{
             background:
-              "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
+              "linear-gradient(90deg, transparent, rgba(67,184,112,0.5), rgba(31,77,193,0.5), transparent)",
           }}
         />
       </div>
       <div className="relative p-7 md:p-8">
-        <span className="inline-flex rounded-full border border-[#0CF2A0]/20 bg-[#0CF2A0]/[0.06] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.25em] text-[#0CF2A0]">
+        <span className="inline-flex rounded-full border border-[#1f4dc1]/20 bg-[#1f4dc1]/[0.06] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.25em] text-[#1f4dc1]">
           {label}
         </span>
-        <h3 className="mt-4 text-xl font-semibold tracking-tight text-white md:text-2xl">
+        <h3 className="mt-4 text-xl font-semibold tracking-tight text-[#0b1530] md:text-2xl">
           {title}
         </h3>
-        <p className="mt-3 text-sm leading-relaxed text-neutral-400 md:text-[15px]">
+        <p className="mt-3 text-sm leading-relaxed text-[#5b6b8a] md:text-[15px]">
           {description}
         </p>
       </div>
@@ -172,10 +176,12 @@ export default async function Home() {
 
   return (
     <div
-      className="dark min-h-screen bg-[#0a0a0a] text-[#f5f5f5] antialiased"
+      className="min-h-screen bg-white text-[#0b1530] antialiased"
       style={LANDING_THEME}
     >
       <InteractiveHero />
+
+      <StatsStrip />
 
       <SectionWithMockup
         label="Cours"
@@ -218,16 +224,26 @@ export default async function Home() {
 
       <Features />
 
-      <section className="relative bg-[#0a0a0a] py-24 md:py-32">
-        <div className="mx-auto max-w-6xl px-6 md:px-10">
+      <ConcoursGrid />
+
+      <section className="relative bg-white py-24 md:py-32">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(31,77,193,0.06), transparent 60%)",
+          }}
+        />
+        <div className="relative mx-auto max-w-6xl px-6 md:px-10">
           <div className="mx-auto mb-14 max-w-xl text-center">
-            <SectionLabel>Panorama</SectionLabel>
-            <h2 className="mt-6 text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-[3.25rem] lg:leading-[1.1]">
+            <EyebrowLabel>Panorama</EyebrowLabel>
+            <SectionHeading className="mt-6">
               Reuni au meme endroit.
-            </h2>
-            <p className="mt-5 text-base text-neutral-400 sm:text-lg">
+            </SectionHeading>
+            <SectionLead className="mt-5">
               Une plateforme, cinq concours, des reperes clairs a chaque etape.
-            </p>
+            </SectionLead>
           </div>
 
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
@@ -247,16 +263,18 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="relative bg-[#0a0a0a] py-24 md:py-32">
+      <ProcessSteps />
+
+      <section className="relative bg-[#f7faff] py-24 md:py-32">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mx-auto mb-16 max-w-xl text-center">
-            <SectionLabel>Temoignages</SectionLabel>
-            <h2 className="mt-6 text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-[3.25rem] lg:leading-[1.1]">
+            <EyebrowLabel>Temoignages</EyebrowLabel>
+            <SectionHeading className="mt-6">
               Ils ont reussi leurs concours
-            </h2>
-            <p className="mt-5 text-base text-neutral-400 sm:text-lg">
+            </SectionHeading>
+            <SectionLead className="mt-5">
               Des lyceens et bacheliers marocains partagent leur experience.
-            </p>
+            </SectionLead>
           </div>
 
           <div className="flex justify-center gap-6 [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)] max-h-[640px] overflow-hidden">
@@ -275,16 +293,18 @@ export default async function Home() {
         </div>
       </section>
 
+      <CtaBanner />
+
       <section
         id="tarif"
-        className="relative flex flex-col items-center bg-[#0a0a0a] px-6 py-24 md:py-32"
+        className="relative flex flex-col items-center bg-white px-6 py-24 md:py-32"
       >
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
           style={{
             backgroundImage:
-              "radial-gradient(rgba(12,242,160,0.08) 0.8px, transparent 0.8px)",
+              "radial-gradient(rgba(31,77,193,0.10) 0.8px, transparent 0.8px)",
             backgroundSize: "14px 14px",
             maskImage:
               "radial-gradient(circle at 50% 30%, rgba(0,0,0,1), rgba(0,0,0,0.2) 40%, rgba(0,0,0,0) 70%)",
@@ -292,13 +312,13 @@ export default async function Home() {
         />
 
         <div className="relative mb-14 max-w-xl text-center">
-          <SectionLabel>Tarif</SectionLabel>
-          <h2 className="mt-6 text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-[3.25rem] lg:leading-[1.1]">
+          <EyebrowLabel>Tarif</EyebrowLabel>
+          <SectionHeading className="mt-6">
             Un paiement, un an d&apos;acces.
-          </h2>
-          <p className="mt-5 text-base text-neutral-400 sm:text-lg">
+          </SectionHeading>
+          <SectionLead className="mt-5">
             Pas d&apos;abonnement. Pas de renouvellement automatique.
-          </p>
+          </SectionLead>
         </div>
 
         <PricingCard.Card>
@@ -319,7 +339,7 @@ export default async function Home() {
             </PricingCard.Description>
             <Link
               href="/inscription"
-              className="mt-4 inline-flex h-10 w-full items-center justify-center rounded-md bg-gradient-to-b from-[#0CF2A0] to-[#0ac890] text-sm font-semibold text-black shadow-[0_10px_25px_rgba(12,242,160,0.3)] transition-all hover:brightness-110"
+              className="mt-4 inline-flex h-10 w-full items-center justify-center rounded-md bg-gradient-to-b from-[#1f4dc1] to-[#173b96] text-sm font-semibold text-white shadow-[0_12px_30px_-8px_rgba(31,77,193,0.45)] transition-all hover:brightness-110"
             >
               Obtenir l&apos;acces
             </Link>
@@ -330,7 +350,7 @@ export default async function Home() {
                 <PricingCard.ListItem key={item}>
                   <span className="mt-0.5">
                     <CheckCircle2
-                      className="h-4 w-4 text-[#0CF2A0]"
+                      className="h-4 w-4 text-[#43b870]"
                       aria-hidden="true"
                     />
                   </span>

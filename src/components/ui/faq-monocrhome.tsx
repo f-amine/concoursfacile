@@ -31,21 +31,21 @@ const faqs = [
   },
 ];
 
-// Locked-dark palette aligned with the landing's #0a0a0a surface + #0CF2A0 accent.
+// Light brand palette — white surface with #1f4dc1 / #43b870 accents.
 const palette = {
-  surface: "bg-[#0a0a0a] text-neutral-100",
-  panel: "bg-[#111111]/70",
-  border: "border-white/10",
-  heading: "text-white",
-  muted: "text-neutral-400",
-  iconRing: "border-[#0CF2A0]/30",
-  iconSurface: "bg-[#0CF2A0]/10",
-  icon: "text-[#0CF2A0]",
-  glow: "rgba(12, 242, 160, 0.12)",
+  surface: "bg-white text-[#0b1530]",
+  panel: "bg-white/85",
+  border: "border-[#1f4dc1]/12",
+  heading: "text-[#0b1530]",
+  muted: "text-[#5b6b8a]",
+  iconRing: "border-[#1f4dc1]/30",
+  iconSurface: "bg-[#eef3ff]",
+  icon: "text-[#1f4dc1]",
+  glow: "rgba(31, 77, 193, 0.10)",
   aurora:
-    "radial-gradient(ellipse 50% 100% at 10% 0%, rgba(12, 242, 160, 0.12), transparent 60%), #0a0a0a",
-  shadow: "shadow-[0_36px_140px_-60px_rgba(0,0,0,0.95)]",
-  overlay: "linear-gradient(130deg, rgba(255,255,255,0.03) 0%, transparent 65%)",
+    "radial-gradient(ellipse 60% 100% at 15% 0%, rgba(31,77,193,0.10), transparent 60%), radial-gradient(ellipse 50% 80% at 85% 100%, rgba(67,184,112,0.08), transparent 60%), #ffffff",
+  shadow: "shadow-[0_30px_80px_-40px_rgba(31,77,193,0.25)]",
+  overlay: "linear-gradient(130deg, rgba(31,77,193,0.04) 0%, transparent 65%)",
 };
 
 function FAQ1() {
@@ -91,9 +91,9 @@ function FAQ1() {
         padding: 0.85rem 1.4rem;
         border-radius: 9999px;
         overflow: hidden;
-        border: 1px solid rgba(12, 242, 160, 0.18);
-        background: rgba(12, 242, 160, 0.05);
-        color: #0CF2A0;
+        border: 1px solid rgba(31, 77, 193, 0.20);
+        background: rgba(31, 77, 193, 0.05);
+        color: #1f4dc1;
         text-transform: uppercase;
         letter-spacing: 0.35em;
         font-size: 0.65rem;
@@ -119,9 +119,9 @@ function FAQ1() {
         border-radius: 50%;
       }
       .faq1-intro__beam {
-        background: conic-gradient(from 160deg, rgba(12, 242, 160, 0.25), transparent 32%, rgba(87, 220, 205, 0.2) 58%, transparent 78%, rgba(12, 242, 160, 0.15));
+        background: conic-gradient(from 160deg, rgba(31,77,193,0.25), transparent 32%, rgba(67,184,112,0.20) 58%, transparent 78%, rgba(31,77,193,0.15));
         animation: faq1-beam-spin 18s linear infinite;
-        opacity: 0.6;
+        opacity: 0.7;
       }
       .faq1-intro__pulse {
         border: 1px solid currentColor;
@@ -152,7 +152,7 @@ function FAQ1() {
         height: 0.55rem;
         border-radius: 9999px;
         background: currentColor;
-        box-shadow: 0 0 0 4px rgba(12, 242, 160, 0.12);
+        box-shadow: 0 0 0 4px rgba(31,77,193,0.12);
         animation: faq1-tick 3.2s ease-in-out infinite;
       }
       .faq1-fade {
@@ -248,13 +248,13 @@ function FAQ1() {
         </div>
 
         <header className="flex flex-col gap-4 text-center">
-          <p className={`text-[11px] font-medium uppercase tracking-[0.25em] text-[#0CF2A0]`}>
+          <p className={`text-[11px] font-medium uppercase tracking-[0.25em] text-[#1f4dc1]`}>
             Questions frequentes
           </p>
-          <h2 className="text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl lg:text-[3.25rem] lg:leading-[1.1]">
+          <h2 className="text-3xl font-semibold leading-tight tracking-tight text-[#0b1530] sm:text-4xl lg:text-[3.25rem] lg:leading-[1.1]">
             Tout ce qu&apos;il faut savoir.
           </h2>
-          <p className="mx-auto max-w-xl text-base text-neutral-400 sm:text-lg">
+          <p className="mx-auto max-w-xl text-base text-[#5b6b8a] sm:text-lg">
             Les reponses aux questions que se posent les lyceens et bacheliers
             marocains avant de se lancer.
           </p>
@@ -288,7 +288,7 @@ function FAQ1() {
                   aria-controls={panelId}
                   aria-expanded={open}
                   onClick={() => toggleQuestion(index)}
-                  className="relative flex w-full items-start gap-6 px-8 py-7 text-left transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#0CF2A0]/40"
+                  className="relative flex w-full items-start gap-6 px-8 py-7 text-left transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1f4dc1]/40"
                 >
                   <span
                     className={`relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border transition-all duration-500 group-hover:scale-105 ${palette.iconRing} ${palette.iconSurface}`}

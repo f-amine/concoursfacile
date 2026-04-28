@@ -4,6 +4,11 @@ import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "~/lib/utils";
+import {
+  EyebrowLabel,
+  SectionHeading,
+  SectionLead,
+} from "~/components/blocks/landing-primitives";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -42,73 +47,62 @@ const SectionWithMockup: React.FC<SectionWithMockupProps> = ({
     if (!section || !image || !imageWrapper || !orb || !ribbon || !text) return;
 
     const ctx = gsap.context(() => {
-      // Entrance — text block rises and fades in, image scales in with a longer curve
-      const textItems = text.querySelectorAll("[data-reveal]");
-      gsap.from(textItems, {
-        y: 28,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: section,
-          start: "top 75%",
-          once: true,
-        },
-      });
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        // Entrance — text rises in, image scales in with a longer curve
+        const textItems = text.querySelectorAll("[data-reveal]");
+        gsap.from(textItems, {
+          y: 28,
+          stagger: 0.1,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: { trigger: section, start: "top 90%", once: true },
+        });
 
-      gsap.from(image, {
-        y: 60,
-        opacity: 0,
-        scale: 0.94,
-        duration: 1.1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: section,
-          start: "top 75%",
-          once: true,
-        },
-      });
+        gsap.from(image, {
+          y: 60,
+          scale: 0.94,
+          duration: 1.1,
+          ease: "power3.out",
+          scrollTrigger: { trigger: section, start: "top 90%", once: true },
+        });
 
-      // Scroll-linked vertical parallax on the image — image drifts slower than page
-      gsap.to(image, {
-        yPercent: -12,
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
-        },
-      });
-
-      // Idle breathing on the glow orb
-      gsap.to(orb, {
-        scale: 1.18,
-        opacity: 0.55,
-        duration: 4.5,
-        ease: "sine.inOut",
-        repeat: -1,
-        yoyo: true,
-      });
-
-      // Ribbon drifts when section enters view — diagonal sweep
-      gsap.fromTo(
-        ribbon,
-        { xPercent: reverseLayout ? 40 : -40, yPercent: 20, opacity: 0 },
-        {
-          xPercent: reverseLayout ? -20 : 20,
-          yPercent: -15,
-          opacity: 1,
-          duration: 2.4,
-          ease: "power2.out",
+        // Scroll-linked vertical parallax on the image
+        gsap.to(image, {
+          yPercent: -12,
+          ease: "none",
           scrollTrigger: {
             trigger: section,
-            start: "top 70%",
-            once: true,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
           },
-        },
-      );
+        });
+
+        // Idle breathing on the glow orb
+        gsap.to(orb, {
+          scale: 1.18,
+          opacity: 0.55,
+          duration: 4.5,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+        });
+
+        // Ribbon drifts when section enters view — diagonal sweep
+        gsap.fromTo(
+          ribbon,
+          { xPercent: reverseLayout ? 40 : -40, yPercent: 20, opacity: 0 },
+          {
+            xPercent: reverseLayout ? -20 : 20,
+            yPercent: -15,
+            opacity: 1,
+            duration: 2.4,
+            ease: "power2.out",
+            scrollTrigger: { trigger: section, start: "top 70%", once: true },
+          },
+        );
+      });
     }, section);
 
     // Mouse 3D tilt — follows cursor over the image container
@@ -128,8 +122,8 @@ const SectionWithMockup: React.FC<SectionWithMockupProps> = ({
       gsap.to(image, {
         rotationY: 0,
         rotationX: 0,
-        duration: 1.2,
-        ease: "elastic.out(1, 0.4)",
+        duration: 0.9,
+        ease: "power3.out",
       });
     };
     imageWrapper.addEventListener("mousemove", handleMove);
@@ -145,16 +139,16 @@ const SectionWithMockup: React.FC<SectionWithMockupProps> = ({
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#0a0a0a] py-24 md:py-36"
+      className="relative overflow-hidden bg-white py-24 md:py-32"
     >
-      {/* Ambient background light */}
+      {/* Ambient background light — brand blue with a kiss of green */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-60"
+        className="pointer-events-none absolute inset-0 opacity-90"
         style={{
           background: reverseLayout
-            ? "radial-gradient(ellipse 60% 60% at 20% 50%, rgba(12, 242, 160, 0.08), transparent 60%)"
-            : "radial-gradient(ellipse 60% 60% at 80% 50%, rgba(12, 242, 160, 0.08), transparent 60%)",
+            ? "radial-gradient(ellipse 60% 60% at 20% 50%, rgba(31,77,193,0.07), transparent 65%), radial-gradient(ellipse 30% 40% at 30% 75%, rgba(67,184,112,0.05), transparent 70%)"
+            : "radial-gradient(ellipse 60% 60% at 80% 50%, rgba(31,77,193,0.07), transparent 65%), radial-gradient(ellipse 30% 40% at 70% 25%, rgba(67,184,112,0.05), transparent 70%)",
         }}
       />
 
@@ -174,25 +168,10 @@ const SectionWithMockup: React.FC<SectionWithMockupProps> = ({
             )}
           >
             {label ? (
-              <span
-                data-reveal
-                className="inline-flex w-fit rounded-full border border-[#0CF2A0]/20 bg-[#0CF2A0]/[0.06] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.25em] text-[#0CF2A0]"
-              >
-                {label}
-              </span>
+              <EyebrowLabel data-reveal>{label}</EyebrowLabel>
             ) : null}
-            <h2
-              data-reveal
-              className="text-4xl font-semibold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-[3.5rem]"
-            >
-              {title}
-            </h2>
-            <p
-              data-reveal
-              className="text-base leading-relaxed text-neutral-400 sm:text-lg"
-            >
-              {description}
-            </p>
+            <SectionHeading data-reveal>{title}</SectionHeading>
+            <SectionLead data-reveal>{description}</SectionLead>
           </div>
 
           {/* Image column */}
@@ -204,26 +183,26 @@ const SectionWithMockup: React.FC<SectionWithMockupProps> = ({
             )}
             style={{ perspective: "1200px" }}
           >
-            {/* Breathing glow orb behind the image */}
+            {/* Breathing glow orb behind the image — brand blue */}
             <div
               ref={orbRef}
               aria-hidden="true"
-              className="pointer-events-none absolute inset-0 -z-10 translate-y-6 rounded-[48px] opacity-30"
+              className="pointer-events-none absolute inset-0 -z-10 translate-y-6 rounded-[48px] opacity-50"
               style={{
                 background:
-                  "radial-gradient(ellipse at center, rgba(12, 242, 160, 0.55), transparent 60%)",
+                  "radial-gradient(ellipse at center, rgba(31,77,193,0.45), transparent 60%)",
                 filter: "blur(40px)",
               }}
             />
 
-            {/* Drifting diagonal ribbon accent */}
+            {/* Drifting diagonal ribbon accent — green checkmark sweep */}
             <div
               ref={ribbonRef}
               aria-hidden="true"
               className="pointer-events-none absolute -inset-x-20 top-1/2 -z-10 h-px origin-center"
               style={{
                 background:
-                  "linear-gradient(90deg, transparent, rgba(12, 242, 160, 0.4), transparent)",
+                  "linear-gradient(90deg, transparent, rgba(67,184,112,0.55), rgba(31,77,193,0.45), transparent)",
                 transform: "rotate(-8deg)",
               }}
             />
@@ -231,7 +210,7 @@ const SectionWithMockup: React.FC<SectionWithMockupProps> = ({
             {/* Image with 3D tilt */}
             <div
               ref={imageRef}
-              className="relative overflow-hidden rounded-[32px] border border-white/[0.06] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)]"
+              className="relative overflow-hidden rounded-[32px] border border-[#1f4dc1]/12 shadow-[0_40px_90px_-25px_rgba(31,77,193,0.30),0_15px_40px_-15px_rgba(67,184,112,0.18)]"
               style={{
                 transformStyle: "preserve-3d",
                 willChange: "transform",
@@ -250,17 +229,17 @@ const SectionWithMockup: React.FC<SectionWithMockupProps> = ({
                 className="pointer-events-none absolute inset-0"
                 style={{
                   background:
-                    "linear-gradient(130deg, rgba(255,255,255,0.06) 0%, transparent 40%)",
+                    "linear-gradient(130deg, rgba(255,255,255,0.5) 0%, transparent 35%)",
                 }}
               />
 
-              {/* Hairline border highlight on top edge */}
+              {/* Hairline border highlight on top edge — brand-tinted */}
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-x-8 top-0 h-px"
                 style={{
                   background:
-                    "linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent)",
+                    "linear-gradient(90deg, transparent, rgba(31,77,193,0.45), transparent)",
                 }}
               />
             </div>

@@ -8,10 +8,10 @@ import {
   ChevronLeft,
   ArrowRight,
   Play,
+  Clock,
 } from "lucide-react";
 
 import { api } from "~/trpc/server";
-import { Button } from "~/components/ui/button";
 
 export default async function SubjectPage({
   params,
@@ -32,99 +32,209 @@ export default async function SubjectPage({
     0,
   );
   const overallPct =
-    totalLessons > 0
-      ? Math.round((completedLessons / totalLessons) * 100)
-      : 0;
+    totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+  const totalReadingTime = subject.chapters.reduce(
+    (s, ch) => s + ch.totalReadingTime,
+    0,
+  );
+  const finished = overallPct === 100;
+
+  // Find first non-completed lesson across chapters
+  let nextChapter: (typeof subject.chapters)[number] | null = null;
+  let nextLesson: (typeof subject.chapters)[number]["lessons"][number] | null = null;
+  for (const ch of subject.chapters) {
+    const candidate = ch.lessons.find((l) => !l.completed);
+    if (candidate) {
+      nextChapter = ch;
+      nextLesson = candidate;
+      break;
+    }
+  }
+  const activeChapterId = nextChapter?.id;
 
   return (
-    <div className="mx-auto max-w-3xl py-8">
+    <div className="mx-auto max-w-3xl pt-8">
       <Link
         href={`/cours/${concoursSlug}`}
-        className="mb-8 inline-flex items-center gap-1 text-[13px] text-muted-foreground transition-colors hover:text-foreground"
+        className="mb-10 inline-flex items-center gap-1 rounded-md text-[13px] text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60"
       >
         <ChevronLeft className="h-3.5 w-3.5" />
         {subject.concours.name}
       </Link>
 
-      {/* ── Header with progress ──────────────────────── */}
-      <div className="mb-10 rounded-2xl border bg-card p-6 shadow-xs">
-        <h1 className="text-xl font-semibold tracking-tight">
+      {/* Header */}
+      <header className="mb-10">
+        <p className="text-[10px] font-medium tracking-[0.22em] text-muted-foreground uppercase">
+          Matiere {subject.concours.name}
+        </p>
+        <h1 className="mt-2 text-[2.25rem] font-semibold leading-[1.05] tracking-display sm:text-[2.75rem]">
           {subject.name}
         </h1>
         {subject.description && (
-          <p className="mt-1 text-[13px] text-muted-foreground">
+          <p className="mt-3 max-w-2xl text-[14px] leading-relaxed text-muted-foreground">
             {subject.description}
           </p>
         )}
 
-        {totalLessons > 0 && (
-          <div className="mt-5">
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
+        <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-[12px] tabular-nums text-muted-foreground">
+          <span>
+            <span className="font-display-num text-foreground font-semibold">
+              {subject.chapters.length}
+            </span>{" "}
+            chapitre{subject.chapters.length > 1 ? "s" : ""}
+          </span>
+          <span className="text-border">·</span>
+          <span className="flex items-center gap-1.5">
+            <Clock className="h-3 w-3" />
+            <span className="font-display-num text-foreground font-semibold">
+              {totalReadingTime}
+            </span>{" "}
+            min
+          </span>
+          {totalLessons > 0 && (
+            <>
+              <span className="text-border">·</span>
               <span>
-                {completedLessons} / {totalLessons} lecons
+                <span
+                  className={`font-display-num font-semibold ${
+                    finished ? "text-success" : "text-primary"
+                  }`}
+                >
+                  {completedLessons}
+                </span>
+                /{totalLessons} lecons
               </span>
-              <span className="font-medium tabular-nums text-foreground">
-                {overallPct}%
+            </>
+          )}
+        </div>
+
+        {totalLessons > 0 && (
+          <div className="mt-4">
+            <div className="flex items-center justify-between text-[11px]">
+              <span className="text-muted-foreground tabular-nums">
+                {overallPct}% complete
               </span>
+              {finished && (
+                <span className="font-medium tracking-wide uppercase text-success">
+                  Termine
+                </span>
+              )}
             </div>
-            <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-secondary">
+            <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-secondary">
               <div
-                className="h-full rounded-full bg-foreground transition-all duration-700"
+                className={`h-full rounded-full transition-all duration-700 ${
+                  finished ? "bg-success" : "bg-primary"
+                }`}
                 style={{ width: `${overallPct}%` }}
               />
             </div>
           </div>
         )}
+      </header>
 
-        <div className="mt-4 flex items-center gap-4 text-xs text-muted-foreground">
-          <span>
-            {subject.chapters.length} chapitre
-            {subject.chapters.length > 1 ? "s" : ""}
-          </span>
-          <span>
-            {subject.chapters.reduce(
-              (s, ch) => s + ch.totalReadingTime,
-              0,
-            )}
-            min de lecture
-          </span>
-        </div>
-      </div>
+      {/* Reprendre CTA — points at the next non-completed lesson */}
+      {nextLesson && nextChapter && (
+        <Link
+          href={`/cours/${concoursSlug}/${subjectSlug}/${nextChapter.slug}/${nextLesson.slug}`}
+          className="group relative mb-12 block overflow-hidden rounded-2xl bg-primary text-primary-foreground shadow-lg outline-none transition-all hover:shadow-xl focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2"
+        >
+          <div
+            aria-hidden="true"
+            className="bg-dot-grid pointer-events-none absolute inset-0 text-white/[0.07]"
+          />
+          <div className="relative grid gap-6 p-6 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-10">
+            <div className="min-w-0">
+              <p className="text-[10px] font-medium tracking-[0.22em] text-white/60 uppercase">
+                {completedLessons === 0 ? "Demarrer" : "Reprendre"}
+              </p>
+              <p className="mt-1.5 text-[12px] text-white/70 tabular-nums">
+                Chapitre {subject.chapters.indexOf(nextChapter) + 1} —{" "}
+                {nextChapter.title}
+              </p>
+              <h2 className="mt-2 text-[1.375rem] font-semibold leading-snug tracking-tight sm:text-[1.75rem]">
+                {nextLesson.title}
+              </h2>
+              <div className="mt-4 flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-[12px] font-medium text-white/90 ring-1 ring-white/15">
+                  <Clock className="h-3 w-3" />
+                  {nextLesson.readingTimeMin} min
+                </span>
+                {nextLesson.isFree && (
+                  <span className="rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold tracking-wide uppercase text-white">
+                    Gratuit
+                  </span>
+                )}
+              </div>
+            </div>
+            <span className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[14px] font-semibold text-primary shadow-md transition-transform group-hover:translate-x-1">
+              <Play className="h-4 w-4" fill="currentColor" />
+              Lire la lecon
+            </span>
+          </div>
+        </Link>
+      )}
 
-      {/* ── Chapters ──────────────────────────────────── */}
-      <div className="space-y-8">
+      {/* Chapters */}
+      <div className="space-y-12">
         {subject.chapters.map((chapter, idx) => {
           const total = chapter.lessons.length;
           const done = chapter.completedLessons;
           const pct = total > 0 ? Math.round((done / total) * 100) : 0;
-
-          /* Find the first incomplete lesson for "continue" */
-          const nextLesson = chapter.lessons.find((l) => !l.completed);
+          const chapterDone = pct === 100;
+          const inProgress = pct > 0 && pct < 100;
+          const isActive = chapter.id === activeChapterId;
+          const chapterNextLesson = chapter.lessons.find((l) => !l.completed);
 
           return (
-            <section key={chapter.id}>
-              {/* Chapter heading */}
-              <div className="mb-3 flex items-start justify-between gap-4">
-                <div className="flex items-start gap-3">
-                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border bg-card text-xs font-semibold shadow-xs">
-                    {idx + 1}
+            <section
+              key={chapter.id}
+              className={`relative ${isActive ? "pl-5 sm:pl-6" : ""}`}
+            >
+              {isActive && (
+                <span
+                  aria-hidden="true"
+                  className="absolute top-1 left-0 h-12 w-[3px] rounded-full bg-primary"
+                />
+              )}
+              <header className="mb-4 flex items-start justify-between gap-4">
+                <div className="flex min-w-0 items-start gap-4">
+                  <span
+                    className={`mt-0.5 font-mono text-[12px] font-medium tabular-nums leading-none tracking-wider ${
+                      chapterDone
+                        ? "text-success"
+                        : isActive
+                          ? "text-primary"
+                          : "text-muted-foreground/70"
+                    }`}
+                  >
+                    {String(idx + 1).padStart(2, "0")}
                   </span>
-                  <div>
-                    <h2 className="text-[15px] font-semibold tracking-tight leading-snug">
+                  <div className="min-w-0">
+                    <h2
+                      className={`text-[1.125rem] font-semibold leading-snug tracking-tight sm:text-[1.25rem] ${
+                        chapterDone
+                          ? "text-foreground/70"
+                          : isActive
+                            ? "text-foreground"
+                            : "text-foreground"
+                      }`}
+                    >
                       {chapter.title}
                     </h2>
                     {chapter.description && (
-                      <p className="mt-0.5 text-[13px] text-muted-foreground">
+                      <p className="mt-1 max-w-xl text-[13px] leading-relaxed text-muted-foreground">
                         {chapter.description}
                       </p>
                     )}
-                    <div className="mt-1.5 flex items-center gap-3 text-[11px] text-muted-foreground">
-                      <span>{total} lecons</span>
-                      <span>&middot;</span>
+                    <div className="mt-2 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[11px] text-muted-foreground tabular-nums">
+                      <span>
+                        {total} lecon{total > 1 ? "s" : ""}
+                      </span>
+                      <span className="text-border">·</span>
                       <span>{chapter.totalReadingTime}m</span>
                       {chapter._count.questions > 0 && (
                         <>
-                          <span>&middot;</span>
+                          <span className="text-border">·</span>
                           <span>{chapter._count.questions} questions</span>
                         </>
                       )}
@@ -132,48 +242,67 @@ export default async function SubjectPage({
                   </div>
                 </div>
 
-                {/* Chapter progress */}
                 <span
-                  className={`mt-1 shrink-0 rounded-md px-2 py-0.5 text-[11px] font-medium ${
-                    pct === 100
-                      ? "bg-foreground text-background"
-                      : pct > 0
-                        ? "bg-accent text-accent-foreground"
-                        : "text-muted-foreground"
+                  className={`mt-1 shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-semibold tabular-nums tracking-wide ${
+                    chapterDone
+                      ? "bg-success/10 text-success"
+                      : inProgress
+                        ? "bg-primary/[0.08] text-primary"
+                        : "bg-secondary text-muted-foreground"
                   }`}
                 >
-                  {pct === 100 ? "Termine" : `${done}/${total}`}
+                  {chapterDone
+                    ? "Termine"
+                    : inProgress
+                      ? `${pct}%`
+                      : `${done}/${total}`}
                 </span>
-              </div>
+              </header>
 
-              {/* Lesson list */}
-              <div className="overflow-hidden rounded-xl border bg-card shadow-xs">
+              <div
+                className={`overflow-hidden rounded-xl border bg-card shadow-xs ${
+                  isActive ? "border-primary/20" : ""
+                }`}
+              >
                 {chapter.lessons.map((lesson, li) => {
                   const isLast =
                     li === chapter.lessons.length - 1 &&
                     chapter._count.questions === 0;
-                  const isNext = nextLesson?.id === lesson.id;
+                  const isNext = chapterNextLesson?.id === lesson.id;
+                  const highlight = isActive && isNext;
 
                   return (
                     <Link
                       key={lesson.id}
                       href={`/cours/${concoursSlug}/${subjectSlug}/${chapter.slug}/${lesson.slug}`}
-                      className={`group flex items-center gap-3 px-4 py-3 transition-colors hover:bg-accent/50 ${
-                        !isLast ? "border-b" : ""
-                      } ${isNext ? "bg-accent/30" : ""}`}
+                      className={`group relative flex items-center gap-3 px-4 py-3.5 outline-none transition-colors hover:bg-muted focus-visible:bg-muted focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/40 ${
+                        !isLast ? "border-b border-border/70" : ""
+                      } ${highlight ? "bg-primary/[0.04]" : ""}`}
                     >
+                      <span className="font-mono text-[10px] font-medium tabular-nums text-muted-foreground/60">
+                        {String(li + 1).padStart(2, "0")}
+                      </span>
                       {lesson.completed ? (
-                        <CheckCircle2 className="h-[18px] w-[18px] shrink-0 text-foreground" />
+                        <CheckCircle2 className="h-[18px] w-[18px] shrink-0 text-success" />
                       ) : (
                         <Circle
                           className={`h-[18px] w-[18px] shrink-0 ${
-                            isNext ? "text-foreground/40" : "text-border"
+                            highlight ? "text-primary/60" : "text-border"
                           }`}
+                          strokeWidth={highlight ? 2.25 : 1.5}
                         />
                       )}
 
                       <span className="min-w-0 flex-1">
-                        <span className="block truncate text-[13px] font-medium leading-tight">
+                        <span
+                          className={`block truncate text-[14px] leading-tight ${
+                            lesson.completed
+                              ? "font-medium text-foreground/65"
+                              : highlight
+                                ? "font-semibold text-foreground"
+                                : "font-medium text-foreground"
+                          }`}
+                        >
                           {lesson.title}
                         </span>
                       </span>
@@ -183,46 +312,38 @@ export default async function SubjectPage({
                       </span>
 
                       {lesson.isFree && (
-                        <span className="shrink-0 rounded-md bg-accent px-1.5 py-0.5 text-[10px] font-medium text-accent-foreground">
+                        <span className="shrink-0 rounded-md bg-success/10 px-1.5 py-0.5 text-[10px] font-semibold tracking-wide uppercase text-success">
                           Gratuit
                         </span>
                       )}
 
-                      {isNext && !lesson.completed && (
-                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
-                          <Play className="h-3 w-3 pl-px" />
+                      {highlight ? (
+                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xs">
+                          <Play className="h-3 w-3" fill="currentColor" />
                         </span>
-                      )}
-
-                      {!isNext && (
-                        <ArrowRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/0 transition-all group-hover:text-muted-foreground" />
+                      ) : (
+                        <ArrowRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/0 transition-all group-hover:translate-x-0.5 group-hover:text-foreground" />
                       )}
                     </Link>
                   );
                 })}
 
-                {/* Quiz row */}
                 {chapter._count.questions > 0 && (
-                  <div className="border-t bg-accent/20 px-4 py-2.5">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="w-full justify-between text-muted-foreground hover:text-foreground"
-                      render={
-                        <Link
-                          href={`/quiz/preparer?chapters=${chapter.id}`}
-                        />
-                      }
-                    >
-                      <span className="flex items-center gap-2">
-                        <FileQuestion className="h-4 w-4" />
-                        Tester ce chapitre
+                  <Link
+                    href={`/quiz/preparer?chapters=${chapter.id}`}
+                    className="group flex items-center justify-between gap-3 border-t border-border/70 bg-primary/[0.03] px-4 py-3 outline-none transition-colors hover:bg-primary/[0.07] focus-visible:bg-primary/[0.07] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/40"
+                  >
+                    <span className="flex items-center gap-2.5 text-[13px] font-semibold text-primary">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
+                        <FileQuestion className="h-3.5 w-3.5" />
                       </span>
-                      <span className="text-[11px]">
-                        {chapter._count.questions} questions
-                      </span>
-                    </Button>
-                  </div>
+                      Tester ce chapitre
+                    </span>
+                    <span className="flex items-center gap-2 text-[11px] tabular-nums text-primary/80">
+                      {chapter._count.questions} questions
+                      <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </Link>
                 )}
               </div>
             </section>
@@ -231,8 +352,8 @@ export default async function SubjectPage({
       </div>
 
       {subject.chapters.length === 0 && (
-        <div className="rounded-2xl border border-dashed py-20 text-center">
-          <BookOpen className="mx-auto h-7 w-7 text-muted-foreground/30" />
+        <div className="rounded-2xl border border-dashed bg-card/40 py-20 text-center">
+          <BookOpen className="mx-auto h-7 w-7 text-muted-foreground/40" />
           <p className="mt-4 text-sm text-muted-foreground">
             Aucun chapitre disponible pour le moment.
           </p>

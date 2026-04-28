@@ -10,7 +10,6 @@ import React, {
   useMemo,
   type ReactNode,
   type MouseEvent as ReactMouseEvent,
-  type FormEvent,
   type SVGProps,
 } from "react";
 import {
@@ -300,9 +299,9 @@ const ShinyText: React.FC<{ text: string; className?: string }> = ({
         position: "absolute",
         inset: 0,
         background:
-          "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
+          "linear-gradient(90deg, transparent, rgba(31,77,193,0.18), transparent)",
         animation: "shine 2s infinite linear",
-        opacity: 0.5,
+        opacity: 0.7,
         pointerEvents: "none",
       }}
     />
@@ -374,7 +373,7 @@ const NavLink: React.FC<NavLinkProps> = ({
     href={href}
     onClick={onClick}
     className={cn(
-      "group relative flex items-center py-1 text-sm font-medium text-gray-300 transition-colors duration-200 hover:text-white",
+      "group relative flex items-center py-1 text-sm font-medium text-[#3d4a6b] transition-colors duration-200 hover:text-[#1f4dc1]",
       className,
     )}
     whileHover="hover"
@@ -383,7 +382,7 @@ const NavLink: React.FC<NavLinkProps> = ({
     {hasDropdown && <ChevronDownIcon />}
     {!hasDropdown && (
       <motion.div
-        className="absolute bottom-[-2px] left-0 right-0 h-[1px] bg-[#0CF2A0]"
+        className="absolute bottom-[-2px] left-0 right-0 h-[1px] bg-[#1f4dc1]"
         variants={{
           initial: { scaleX: 0, originX: 0.5 },
           hover: { scaleX: 1, originX: 0.5 },
@@ -477,7 +476,7 @@ const InteractiveHero: React.FC = () => {
         newDots.push({
           x,
           y,
-          baseColor: `rgba(87, 220, 205, ${BASE_OPACITY_MAX})`,
+          baseColor: `rgba(31, 77, 193, ${BASE_OPACITY_MAX})`,
           targetOpacity: baseOpacity,
           currentOpacity: baseOpacity,
           opacitySpeed: Math.random() * 0.005 + 0.002,
@@ -580,9 +579,9 @@ const InteractiveHero: React.FC = () => {
 
       const colorMatch =
         /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/.exec(dot.baseColor);
-      const r = colorMatch ? colorMatch[1] : "87";
-      const g = colorMatch ? colorMatch[2] : "220";
-      const b = colorMatch ? colorMatch[3] : "205";
+      const r = colorMatch ? colorMatch[1] : "31";
+      const g = colorMatch ? colorMatch[2] : "77";
+      const b = colorMatch ? colorMatch[3] : "193";
 
       ctx.beginPath();
       ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${finalOpacity.toFixed(3)})`;
@@ -636,16 +635,16 @@ const InteractiveHero: React.FC = () => {
 
   const headerVariants: Variants = {
     top: {
-      backgroundColor: "rgba(17, 17, 17, 0.8)",
-      borderBottomColor: "rgba(55, 65, 81, 0.5)",
+      backgroundColor: "rgba(255, 255, 255, 0.7)",
+      borderBottomColor: "rgba(31, 77, 193, 0.08)",
       position: "fixed",
       boxShadow: "none",
     },
     scrolled: {
-      backgroundColor: "rgba(17, 17, 17, 0.95)",
-      borderBottomColor: "rgba(75, 85, 99, 0.7)",
+      backgroundColor: "rgba(255, 255, 255, 0.92)",
+      borderBottomColor: "rgba(31, 77, 193, 0.14)",
       boxShadow:
-        "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+        "0 6px 24px -10px rgba(31, 77, 193, 0.15), 0 1px 3px -1px rgba(31, 77, 193, 0.08)",
       position: "fixed",
     },
   };
@@ -715,16 +714,16 @@ const InteractiveHero: React.FC = () => {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-[#111111] pt-[100px] text-gray-300">
+    <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-white pt-[100px] text-[#3d4a6b]">
       <canvas
         ref={canvasRef}
-        className="pointer-events-none absolute inset-0 z-0 opacity-80"
+        className="pointer-events-none absolute inset-0 z-0 opacity-70"
       />
       <div
         className="pointer-events-none absolute inset-0 z-[1]"
         style={{
           background:
-            "linear-gradient(to bottom, transparent 0%, #111111 90%), radial-gradient(ellipse at center, transparent 40%, #111111 95%)",
+            "linear-gradient(to bottom, transparent 0%, #ffffff 92%), radial-gradient(ellipse 90% 60% at 50% 30%, rgba(31,77,193,0.08), transparent 70%), radial-gradient(ellipse 60% 40% at 75% 65%, rgba(67,184,112,0.06), transparent 70%)",
         }}
       />
 
@@ -736,37 +735,19 @@ const InteractiveHero: React.FC = () => {
         className="sticky top-0 z-30 w-full border-b px-6 backdrop-blur-md md:px-10 lg:px-16"
       >
         <nav className="mx-auto flex h-[70px] max-w-screen-xl items-center justify-between">
-          <Link href="/" className="flex flex-shrink-0 items-center">
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 2L2 7L12 12L22 7L12 2Z"
-                stroke="#0CF2A0"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M2 17L12 22L22 17"
-                stroke="#0CF2A0"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M2 12L12 17L22 12"
-                stroke="#0CF2A0"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span className="ml-2 text-xl font-bold text-white">ConcoursFacile</span>
+          <Link
+            href="/"
+            className="flex flex-shrink-0 items-center"
+            aria-label="ConcoursFacile.ma"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo1.jpeg"
+              alt="ConcoursFacile.ma"
+              className="h-9 w-auto md:h-10"
+              loading="eager"
+              decoding="async"
+            />
           </Link>
 
           <div className="hidden flex-grow items-center justify-center space-x-6 px-4 md:flex lg:space-x-8">
@@ -783,7 +764,7 @@ const InteractiveHero: React.FC = () => {
 
             <motion.a
               href="/inscription"
-              className="whitespace-nowrap rounded-md bg-[#0CF2A0] px-4 py-[6px] text-sm font-semibold text-[#111111] shadow-sm transition-colors duration-200 hover:bg-opacity-90 hover:shadow-md"
+              className="whitespace-nowrap rounded-md bg-[#1f4dc1] px-4 py-[7px] text-sm font-semibold text-white shadow-[0_8px_20px_-6px_rgba(31,77,193,0.45)] transition-all duration-200 hover:bg-[#173b96] hover:shadow-[0_12px_24px_-8px_rgba(31,77,193,0.55)]"
               whileHover={{ scale: 1.03, y: -1 }}
               whileTap={{ scale: 0.97 }}
               transition={{ type: "spring", stiffness: 400, damping: 15 }}
@@ -792,7 +773,7 @@ const InteractiveHero: React.FC = () => {
             </motion.a>
 
             <motion.button
-              className="z-50 text-gray-300 hover:text-white md:hidden"
+              className="z-50 text-[#3d4a6b] hover:text-[#1f4dc1] md:hidden"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
               whileHover={{ scale: 1.1 }}
@@ -811,7 +792,7 @@ const InteractiveHero: React.FC = () => {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="absolute left-0 right-0 top-full border-t border-gray-800/50 bg-[#111111]/95 py-4 shadow-lg backdrop-blur-sm md:hidden"
+              className="absolute left-0 right-0 top-full border-t border-[#1f4dc1]/10 bg-white/95 py-4 shadow-[0_20px_40px_-20px_rgba(31,77,193,0.18)] backdrop-blur-sm md:hidden"
             >
               <div className="flex flex-col items-center space-y-4 px-6">
                 <NavLink
@@ -829,7 +810,7 @@ const InteractiveHero: React.FC = () => {
                 <NavLink href="#faq" onClick={() => setIsMobileMenuOpen(false)}>
                   FAQ
                 </NavLink>
-                <hr className="my-2 w-full border-t border-gray-700/50" />
+                <hr className="my-2 w-full border-t border-[#1f4dc1]/10" />
                 <NavLink href="/connexion" onClick={() => setIsMobileMenuOpen(false)}>
                   Connexion
                 </NavLink>
@@ -848,7 +829,7 @@ const InteractiveHero: React.FC = () => {
         >
           <ShinyText
             text="Nouveau : 2000+ QCM corriges"
-            className="cursor-pointer rounded-full border border-gray-700 bg-[#1a1a1a] px-4 py-1 text-xs font-medium text-[#0CF2A0] transition-colors hover:border-[#0CF2A0]/50 sm:text-sm"
+            className="cursor-pointer rounded-full border border-[#1f4dc1]/15 bg-[#eef3ff] px-4 py-1 text-xs font-medium text-[#1f4dc1] transition-colors hover:border-[#1f4dc1]/40 sm:text-sm"
           />
         </motion.div>
 
@@ -856,14 +837,14 @@ const InteractiveHero: React.FC = () => {
           variants={headlineVariants}
           initial="hidden"
           animate="visible"
-          className="mb-4 max-w-4xl text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-[64px]"
+          className="mb-4 max-w-4xl text-4xl font-semibold leading-tight text-[#0b1530] sm:text-5xl lg:text-[64px]"
         >
           Reussissez vos concours
-          <br />{" "}
-          <span className="inline-block h-[1.2em] overflow-hidden align-bottom sm:h-[1.2em] lg:h-[1.2em]">
+          <br />
+          <span className="inline-block h-[1.2em] overflow-hidden align-bottom">
             <RotatingText
               texts={["Medecine", "ENSA", "ENCG", "ENSAM", "CPGE"]}
-              mainClassName="text-[#0CF2A0] mx-1"
+              mainClassName="text-[#1f4dc1]"
               staggerFrom="last"
               initial={{ y: "-100%", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -882,44 +863,63 @@ const InteractiveHero: React.FC = () => {
           variants={subHeadlineVariants}
           initial="hidden"
           animate="visible"
-          className="mx-auto mb-8 max-w-2xl text-base text-gray-400 sm:text-lg lg:text-xl"
+          className="mx-auto mb-8 max-w-2xl text-base text-[#5b6b8a] sm:text-lg lg:text-xl"
         >
           Cours structures, QCM corriges et revision intelligente pour les
           concours post-bac marocains. Preparez-vous sereinement, reussissez
           brillamment.
         </motion.p>
 
-        <motion.form
+        <motion.div
           variants={formVariants}
           initial="hidden"
           animate="visible"
-          className="mx-auto mb-3 flex w-full max-w-md flex-col items-center justify-center gap-2 sm:flex-row"
-          onSubmit={(e: FormEvent<HTMLFormElement>) => e.preventDefault()}
+          className="mx-auto mb-3 flex w-full max-w-md flex-col items-center justify-center gap-3 sm:flex-row"
         >
-          <input
-            type="email"
-            placeholder="Votre email"
-            required
-            aria-label="Email"
-            className="w-full flex-grow rounded-md border border-gray-700 bg-[#2a2a2a] px-4 py-2 text-white placeholder-gray-500 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#0CF2A0] sm:w-auto"
-          />
-          <motion.button
-            type="submit"
-            className="flex-shrink-0 whitespace-nowrap rounded-md bg-[#0CF2A0] px-5 py-2 text-sm font-semibold text-[#111111] shadow-sm transition-colors duration-200 hover:bg-opacity-90 hover:shadow-md w-full sm:w-auto"
-            whileHover={{ scale: 1.03, y: -1 }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ type: "spring", stiffness: 400, damping: 15 }}
+          <Link
+            href="/inscription"
+            className="group/cta inline-flex w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-md bg-[#1f4dc1] px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_28px_-8px_rgba(31,77,193,0.5)] transition-all duration-200 hover:-translate-y-px hover:bg-[#173b96] hover:shadow-[0_18px_36px_-10px_rgba(31,77,193,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1f4dc1] focus-visible:ring-offset-2 focus-visible:ring-offset-white sm:w-auto"
           >
             Commencer gratuitement
-          </motion.button>
-        </motion.form>
+            <svg
+              className="h-3.5 w-3.5 transition-transform duration-200 group-hover/cta:translate-x-0.5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </Link>
+          <Link
+            href="/connexion"
+            className="text-sm font-medium text-[#3d4a6b] underline decoration-[#1f4dc1]/30 decoration-2 underline-offset-4 transition-colors hover:text-[#1f4dc1] hover:decoration-[#1f4dc1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1f4dc1] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+          >
+            J&apos;ai deja un compte
+          </Link>
+        </motion.div>
 
         <motion.p
           variants={trialTextVariants}
           initial="hidden"
           animate="visible"
-          className="mb-10 text-xs text-gray-500"
+          className="mb-10 inline-flex items-center gap-1.5 text-xs text-[#5b6b8a]"
         >
+          <svg
+            className="h-3.5 w-3.5 text-[#43b870]"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12l5 5L20 7" />
+          </svg>
           Premiers cours gratuits &middot; Sans carte bancaire
         </motion.p>
 
@@ -929,18 +929,18 @@ const InteractiveHero: React.FC = () => {
           animate="visible"
           className="mb-10 flex flex-col items-center justify-center space-y-2"
         >
-          <span className="text-xs font-medium uppercase tracking-wider text-gray-500">
+          <span className="text-xs font-medium uppercase tracking-[0.25em] text-[#1f4dc1]">
             Concours couverts
           </span>
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-gray-400">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[#3d4a6b]">
             <span className="whitespace-nowrap">Medecine</span>
-            <span className="text-gray-700">&middot;</span>
+            <span className="text-[#43b870]">&#10003;</span>
             <span className="whitespace-nowrap">ENSA</span>
-            <span className="text-gray-700">&middot;</span>
+            <span className="text-[#43b870]">&#10003;</span>
             <span className="whitespace-nowrap">ENCG</span>
-            <span className="text-gray-700">&middot;</span>
+            <span className="text-[#43b870]">&#10003;</span>
             <span className="whitespace-nowrap">ENSAM</span>
-            <span className="text-gray-700">&middot;</span>
+            <span className="text-[#43b870]">&#10003;</span>
             <span className="whitespace-nowrap">CPGE</span>
           </div>
         </motion.div>
@@ -951,7 +951,7 @@ const InteractiveHero: React.FC = () => {
           animate="visible"
           className="mx-auto w-full max-w-4xl px-4 sm:px-0"
         >
-          <div className="relative aspect-[1024/640] w-full overflow-hidden rounded-2xl border border-white/[0.08] shadow-[0_40px_100px_-30px_rgba(12,242,160,0.3)]">
+          <div className="relative aspect-[1024/640] w-full overflow-hidden rounded-2xl border border-[#1f4dc1]/15 shadow-[0_50px_120px_-40px_rgba(31,77,193,0.45),0_20px_50px_-25px_rgba(67,184,112,0.18)]">
             <div
               className="absolute inset-0 bg-cover bg-center"
               style={{ backgroundImage: "url(/landing/hero-preview.webp)" }}
@@ -961,7 +961,7 @@ const InteractiveHero: React.FC = () => {
               className="pointer-events-none absolute inset-x-8 top-0 h-px"
               style={{
                 background:
-                  "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
+                  "linear-gradient(90deg, transparent, rgba(31,77,193,0.45), rgba(67,184,112,0.45), transparent)",
               }}
             />
           </div>

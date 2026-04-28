@@ -14,9 +14,9 @@ export default async function AppLayout({
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="flex min-h-screen flex-col bg-background">
       <AppNav user={session.user} />
-      <main className="mx-auto max-w-5xl px-4 pb-16 sm:px-6 lg:px-10">
+      <main className="mx-auto w-full max-w-5xl flex-1 px-4 pb-24 sm:px-6 lg:px-10">
         {children}
       </main>
     </div>
