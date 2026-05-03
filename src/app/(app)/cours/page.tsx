@@ -7,9 +7,12 @@ import {
   Wrench,
   Stethoscope,
   FlaskConical,
+  Lock,
+  CheckCircle2,
 } from "lucide-react";
 
 import { api } from "~/trpc/server";
+import { PRICE_PER_CONCOURS_MAD } from "~/lib/pricing";
 
 const concoursThemes: Record<
   string,
@@ -80,10 +83,21 @@ export default async function CoursPage() {
                     <p className="mt-2 max-w-md text-[13px] leading-relaxed text-muted-foreground">
                       {concours.description ?? theme.tagline}
                     </p>
-                    <p className="mt-3 flex items-center gap-1.5 text-[11px] font-medium tracking-wide text-muted-foreground/80 uppercase tabular-nums">
+                    <p className="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-medium tracking-wide text-muted-foreground/80 uppercase tabular-nums">
                       <span>
                         {subjectCount} matiere{subjectCount > 1 ? "s" : ""}
                       </span>
+                      {concours.hasAccess ? (
+                        <span className="inline-flex items-center gap-1 rounded-full border border-success/25 bg-success/[0.08] px-2 py-0.5 text-[10px] tracking-wide text-success">
+                          <CheckCircle2 className="h-3 w-3" />
+                          Actif
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 rounded-full border border-primary/25 bg-primary/[0.06] px-2 py-0.5 text-[10px] tracking-wide text-primary">
+                          <Lock className="h-3 w-3" />
+                          {PRICE_PER_CONCOURS_MAD} MAD
+                        </span>
+                      )}
                     </p>
                   </div>
 

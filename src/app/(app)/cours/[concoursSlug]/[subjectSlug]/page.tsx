@@ -9,6 +9,7 @@ import {
   ArrowRight,
   Play,
   Clock,
+  Lock,
 } from "lucide-react";
 
 import { api } from "~/trpc/server";
@@ -43,7 +44,7 @@ export default async function SubjectPage({
   let nextChapter: (typeof subject.chapters)[number] | null = null;
   let nextLesson: (typeof subject.chapters)[number]["lessons"][number] | null = null;
   for (const ch of subject.chapters) {
-    const candidate = ch.lessons.find((l) => !l.completed);
+    const candidate = ch.lessons.find((l) => !l.completed && !l.locked);
     if (candidate) {
       nextChapter = ch;
       nextLesson = candidate;
@@ -183,7 +184,9 @@ export default async function SubjectPage({
           const chapterDone = pct === 100;
           const inProgress = pct > 0 && pct < 100;
           const isActive = chapter.id === activeChapterId;
-          const chapterNextLesson = chapter.lessons.find((l) => !l.completed);
+          const chapterNextLesson = chapter.lessons.find(
+            (l) => !l.completed && !l.locked,
+          );
 
           return (
             <section
@@ -269,20 +272,23 @@ export default async function SubjectPage({
                     li === chapter.lessons.length - 1 &&
                     chapter._count.questions === 0;
                   const isNext = chapterNextLesson?.id === lesson.id;
-                  const highlight = isActive && isNext;
+                  const highlight = isActive && isNext && !lesson.locked;
+                  const rowClass = `group relative flex items-center gap-3 px-4 py-3.5 outline-none transition-colors ${
+                    !isLast ? "border-b border-border/70" : ""
+                  } ${highlight ? "bg-primary/[0.04]" : ""} ${
+                    lesson.locked
+                      ? "cursor-not-allowed opacity-60"
+                      : "hover:bg-muted focus-visible:bg-muted focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/40"
+                  }`;
 
-                  return (
-                    <Link
-                      key={lesson.id}
-                      href={`/cours/${concoursSlug}/${subjectSlug}/${chapter.slug}/${lesson.slug}`}
-                      className={`group relative flex items-center gap-3 px-4 py-3.5 outline-none transition-colors hover:bg-muted focus-visible:bg-muted focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/40 ${
-                        !isLast ? "border-b border-border/70" : ""
-                      } ${highlight ? "bg-primary/[0.04]" : ""}`}
-                    >
+                  const inner = (
+                    <>
                       <span className="font-mono text-[10px] font-medium tabular-nums text-muted-foreground/60">
                         {String(li + 1).padStart(2, "0")}
                       </span>
-                      {lesson.completed ? (
+                      {lesson.locked ? (
+                        <Lock className="h-[18px] w-[18px] shrink-0 text-muted-foreground" />
+                      ) : lesson.completed ? (
                         <CheckCircle2 className="h-[18px] w-[18px] shrink-0 text-success" />
                       ) : (
                         <Circle
@@ -317,33 +323,87 @@ export default async function SubjectPage({
                         </span>
                       )}
 
-                      {highlight ? (
+                      {lesson.locked ? (
+                        <Lock className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                      ) : highlight ? (
                         <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xs">
                           <Play className="h-3 w-3" fill="currentColor" />
                         </span>
                       ) : (
                         <ArrowRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/0 transition-all group-hover:translate-x-0.5 group-hover:text-foreground" />
                       )}
+                    </>
+                  );
+
+                  return lesson.locked ? (
+                    <div
+                      key={lesson.id}
+                      className={rowClass}
+                      aria-disabled="true"
+                      title="Acces verrouille — paiement requis"
+                    >
+                      {inner}
+                    </div>
+                  ) : (
+                    <Link
+                      key={lesson.id}
+                      href={`/cours/${concoursSlug}/${subjectSlug}/${chapter.slug}/${lesson.slug}`}
+                      className={rowClass}
+                    >
+                      {inner}
                     </Link>
                   );
                 })}
 
                 {chapter._count.questions > 0 && (
-                  <Link
-                    href={`/quiz/preparer?chapters=${chapter.id}`}
-                    className="group flex items-center justify-between gap-3 border-t border-border/70 bg-primary/[0.03] px-4 py-3 outline-none transition-colors hover:bg-primary/[0.07] focus-visible:bg-primary/[0.07] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/40"
-                  >
-                    <span className="flex items-center gap-2.5 text-[13px] font-semibold text-primary">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
-                        <FileQuestion className="h-3.5 w-3.5" />
+                  chapter.quizLocked ? (
+                    <Link
+                      href={`/cours/${concoursSlug}`}
+                      aria-disabled="true"
+                      className="group flex items-center justify-between gap-3 border-t border-border/70 bg-muted/30 px-4 py-3 outline-none transition-colors hover:bg-muted/50 focus-visible:bg-muted/50 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/40"
+                      title="Debloquez ce concours pour tester ce chapitre"
+                    >
+                      <span className="flex items-center gap-2.5 text-[13px] font-semibold text-muted-foreground">
+                        <span className="flex h-7 w-7 items-center justify-center rounded-md bg-muted">
+                          <Lock className="h-3.5 w-3.5" />
+                        </span>
+                        Tester ce chapitre
                       </span>
-                      Tester ce chapitre
-                    </span>
-                    <span className="flex items-center gap-2 text-[11px] tabular-nums text-primary/80">
-                      {chapter._count.questions} questions
-                      <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
-                    </span>
-                  </Link>
+                      <span className="flex items-center gap-2 text-[11px] tabular-nums text-muted-foreground">
+                        <span className="rounded-md bg-foreground/[0.06] px-1.5 py-0.5 font-semibold tracking-wide uppercase text-[10px]">
+                          Premium
+                        </span>
+                        {chapter._count.questions} questions
+                      </span>
+                    </Link>
+                  ) : (
+                    <Link
+                      href={`/quiz/preparer?chapters=${chapter.id}`}
+                      className="group flex items-center justify-between gap-3 border-t border-border/70 bg-primary/[0.03] px-4 py-3 outline-none transition-colors hover:bg-primary/[0.07] focus-visible:bg-primary/[0.07] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring/40"
+                    >
+                      <span className="flex items-center gap-2.5 text-[13px] font-semibold text-primary">
+                        <span className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
+                          <FileQuestion className="h-3.5 w-3.5" />
+                        </span>
+                        Tester ce chapitre
+                      </span>
+                      <span className="flex items-center gap-2 text-[11px] tabular-nums text-primary/80">
+                        {chapter.playableQuestions < chapter._count.questions ? (
+                          <>
+                            <span className="rounded-md bg-success/10 px-1.5 py-0.5 text-[10px] font-semibold tracking-wide uppercase text-success">
+                              {chapter.playableQuestions} gratuites
+                            </span>
+                            <span className="text-muted-foreground">
+                              / {chapter._count.questions}
+                            </span>
+                          </>
+                        ) : (
+                          <>{chapter._count.questions} questions</>
+                        )}
+                        <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                      </span>
+                    </Link>
+                  )
                 )}
               </div>
             </section>

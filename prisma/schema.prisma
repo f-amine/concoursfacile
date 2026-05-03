@@ -85,15 +85,17 @@ model Verification {
 // ============================================
 
 model Concours {
-  id          String   @id @default(cuid())
-  name        String
-  slug        String   @unique
-  description String?
-  iconUrl     String?
-  order       Int      @default(0)
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              String   @id @default(cuid())
+  name            String
+  slug            String   @unique
+  description     String?
+  iconUrl         String?
+  order           Int      @default(0)
+  isActive        Boolean  @default(true)
+  polarProductId  String?
+  priceMad        Int      @default(300)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   subjects     Subject[]
   userConcours UserConcours[]
@@ -194,6 +196,10 @@ model Question {
   isFree      Boolean      @default(false)
   isActive    Boolean      @default(true)
   order       Int          @default(0)
+  imageUrl    String?
+  imageWidth  Int?
+  imageHeight Int?
+  imageAlt    String?
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 
@@ -308,8 +314,11 @@ model QuizResponseAnswer {
 // ============================================
 
 model UserConcours {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  expiresAt DateTime?
+  pricePaid Int?
+  polarOrderId String?
 
   userId String
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)

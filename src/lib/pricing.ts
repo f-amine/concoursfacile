@@ -1,0 +1,4 @@
+export const PRICE_PER_CONCOURS_MAD = 300;
+export const ACCESS_DURATION_MONTHS = 12;
+export const PRICE_DISPLAY = `${PRICE_PER_CONCOURS_MAD} MAD`;
+export const PRICE_PER_CONCOURS_DISPLAY = `${PRICE_DISPLAY} / concours`;

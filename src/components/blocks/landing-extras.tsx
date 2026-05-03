@@ -921,8 +921,8 @@ export function CtaBanner({ children: _ = null }: CtaBannerProps = {}) {
                 className="mt-5 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg"
               >
                 Rejoins les milliers de bacheliers marocains qui revisent
-                serieusement, sans bachoter. 300 MAD pour un an. Premiers
-                chapitres offerts.
+                serieusement, sans bachoter. 300 MAD par concours, acces 1 an.
+                Premiers chapitres offerts.
               </p>
 
               <div
@@ -951,7 +951,7 @@ export function CtaBanner({ children: _ = null }: CtaBannerProps = {}) {
                 { icon: Zap, label: "Acces instantane", value: "30 sec" },
                 { icon: Clock, label: "Acces", value: "12 mois" },
                 { icon: Trophy, label: "Concours", value: "5 filieres" },
-                { icon: Sparkles, label: "Sans abonnement", value: "300 MAD" },
+                { icon: Sparkles, label: "Par concours", value: "300 MAD" },
               ].map(({ icon: Icon, label, value }) => (
                 <div
                   key={label}

@@ -9,11 +9,19 @@ export default function AuthLayout({
     <div className="flex min-h-screen flex-col">
       {/* Minimal topbar */}
       <header className="flex h-12 items-center px-5">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary">
-            <span className="text-[9px] font-bold text-primary-foreground">CF</span>
-          </div>
-          <span className="text-sm font-semibold">ConcoursFacile</span>
+        <Link
+          href="/"
+          aria-label="ConcoursFacile.ma"
+          className="flex flex-shrink-0 items-center"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo1.jpeg"
+            alt="ConcoursFacile.ma"
+            className="h-7 w-auto"
+            loading="eager"
+            decoding="async"
+          />
         </Link>
       </header>
 

@@ -4,6 +4,7 @@ import {
   createTRPCRouter,
   protectedProcedure,
 } from "~/server/api/trpc";
+import { hasConcoursAccess } from "~/lib/access";
 
 export const chapterRouter = createTRPCRouter({
   getBySlug: protectedProcedure
@@ -28,7 +29,7 @@ export const chapterRouter = createTRPCRouter({
             select: {
               name: true,
               slug: true,
-              concours: { select: { name: true, slug: true } },
+              concours: { select: { id: true, name: true, slug: true } },
             },
           },
           lessons: {
@@ -49,6 +50,12 @@ export const chapterRouter = createTRPCRouter({
 
       if (!chapter) return null;
 
+      const hasAccess = await hasConcoursAccess(
+        ctx.db,
+        ctx.session.user.id,
+        { concoursId: chapter.subject.concours.id },
+      );
+
       const progresses = await ctx.db.userLessonProgress.findMany({
         where: {
           userId: ctx.session.user.id,
@@ -63,8 +70,10 @@ export const chapterRouter = createTRPCRouter({
 
       return {
         ...chapter,
+        hasAccess,
         lessons: chapter.lessons.map((l) => ({
           ...l,
+          locked: !hasAccess && !l.isFree,
           completed: progressMap.get(l.id) ?? false,
         })),
       };

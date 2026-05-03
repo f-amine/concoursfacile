@@ -370,6 +370,19 @@ export default function QuizSessionPage() {
               <p className="mt-4 text-[1.25rem] font-semibold leading-[1.4] tracking-tight text-foreground sm:text-[1.5rem]">
                 {currentQuestion.text}
               </p>
+              {currentQuestion.imageUrl && (
+                <div className="mt-4 overflow-hidden rounded-lg border border-border/60 bg-card">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={currentQuestion.imageUrl}
+                    alt={currentQuestion.imageAlt ?? "Figure"}
+                    width={currentQuestion.imageWidth ?? undefined}
+                    height={currentQuestion.imageHeight ?? undefined}
+                    loading="lazy"
+                    className="mx-auto h-auto max-h-[420px] w-full object-contain"
+                  />
+                </div>
+              )}
             </div>
 
             {/* Answer options — letter pills */}

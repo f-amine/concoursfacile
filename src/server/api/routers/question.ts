@@ -4,6 +4,7 @@ import {
   createTRPCRouter,
   protectedProcedure,
 } from "~/server/api/trpc";
+import { hasConcoursAccess } from "~/lib/access";
 
 export const questionRouter = createTRPCRouter({
   listByChapter: protectedProcedure
@@ -13,10 +14,39 @@ export const questionRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
+      const chapters = await ctx.db.chapter.findMany({
+        where: { id: { in: input.chapterIds } },
+        select: { subject: { select: { concoursId: true } } },
+      });
+      const concoursIds = Array.from(
+        new Set(chapters.map((c) => c.subject.concoursId)),
+      );
+      const lockedConcoursIds: string[] = [];
+      for (const cid of concoursIds) {
+        const ok = await hasConcoursAccess(ctx.db, ctx.session.user.id, {
+          concoursId: cid,
+        });
+        if (!ok) lockedConcoursIds.push(cid);
+      }
+
       const questions = await ctx.db.question.findMany({
         where: {
           chapterId: { in: input.chapterIds },
           isActive: true,
+          ...(lockedConcoursIds.length > 0
+            ? {
+                OR: [
+                  { isFree: true },
+                  {
+                    chapter: {
+                      subject: {
+                        concoursId: { notIn: lockedConcoursIds },
+                      },
+                    },
+                  },
+                ],
+              }
+            : {}),
         },
         select: {
           id: true,

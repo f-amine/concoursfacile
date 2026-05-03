@@ -5,6 +5,7 @@ import {
   createTRPCRouter,
   protectedProcedure,
 } from "~/server/api/trpc";
+import { hasConcoursAccess } from "~/lib/access";
 
 export const quizRouter = createTRPCRouter({
   create: protectedProcedure
@@ -20,13 +21,44 @@ export const quizRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      // 1. Find all matching questions
+      const chapters = await ctx.db.chapter.findMany({
+        where: { id: { in: input.chapterIds } },
+        select: { subject: { select: { concoursId: true } } },
+      });
+      const concoursIds = Array.from(
+        new Set(chapters.map((c) => c.subject.concoursId)),
+      );
+      const accessMap = new Map<string, boolean>();
+      for (const cid of concoursIds) {
+        accessMap.set(
+          cid,
+          await hasConcoursAccess(ctx.db, ctx.session.user.id, {
+            concoursId: cid,
+          }),
+        );
+      }
+      const lockedConcoursIds = concoursIds.filter((c) => !accessMap.get(c));
+
       let questions = await ctx.db.question.findMany({
         where: {
           chapterId: { in: input.chapterIds },
           isActive: true,
           ...(input.questionTypes && input.questionTypes.length > 0
             ? { type: { in: input.questionTypes } }
+            : {}),
+          ...(lockedConcoursIds.length > 0
+            ? {
+                OR: [
+                  { isFree: true },
+                  {
+                    chapter: {
+                      subject: {
+                        concoursId: { notIn: lockedConcoursIds },
+                      },
+                    },
+                  },
+                ],
+              }
             : {}),
         },
         select: { id: true },
@@ -142,6 +174,10 @@ export const quizRouter = createTRPCRouter({
             type: r.question.type,
             points: r.question.points,
             explanation: isExamInProgress ? null : r.question.explanation,
+            imageUrl: r.question.imageUrl,
+            imageWidth: r.question.imageWidth,
+            imageHeight: r.question.imageHeight,
+            imageAlt: r.question.imageAlt,
             answers: r.question.answers.map((a) => ({
               id: a.id,
               text: a.text,

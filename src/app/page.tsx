@@ -22,6 +22,7 @@ import * as PricingCard from "~/components/ui/pricing-card";
 import FAQ1 from "~/components/ui/faq-monocrhome";
 import { CinematicFooter } from "~/components/ui/motion-footer";
 import { CheckCircle2, GraduationCap } from "lucide-react";
+import { PRICE_DISPLAY } from "~/lib/pricing";
 
 const TESTIMONIALS = [
   {
@@ -49,7 +50,7 @@ const TESTIMONIALS = [
     role: "Admis CPGE MP",
   },
   {
-    text: "Rapport qualite-prix imbattable. Pour 300 MAD, j'ai eu acces a tout pendant un an.",
+    text: "Rapport qualite-prix imbattable. 300 MAD pour mon concours, acces pendant un an.",
     image: "https://randomuser.me/api/portraits/women/12.jpg",
     name: "Meryem K.",
     role: "Admise ENSAM Casablanca",
@@ -85,12 +86,12 @@ const col2 = TESTIMONIALS.slice(3, 6);
 const col3 = TESTIMONIALS.slice(6, 9);
 
 const PRICING_FEATURES = [
-  "Acces a tous les cours",
+  "Acces complet au concours choisi",
+  "Tous les cours et chapitres",
   "QCM illimites avec corrections",
   "Mode etude et mode examen",
   "Suivi de progression complet",
   "Revision par repetition espacee",
-  "Acces aux 5 concours",
 ];
 
 // Brand palette — concoursfacile.ma logo
@@ -314,10 +315,11 @@ export default async function Home() {
         <div className="relative mb-14 max-w-xl text-center">
           <EyebrowLabel>Tarif</EyebrowLabel>
           <SectionHeading className="mt-6">
-            Un paiement, un an d&apos;acces.
+            300 MAD par concours, un an d&apos;acces.
           </SectionHeading>
           <SectionLead className="mt-5">
-            Pas d&apos;abonnement. Pas de renouvellement automatique.
+            Tu ne paies que pour les concours qui t&apos;interessent. Pas
+            d&apos;abonnement, pas de renouvellement automatique.
           </SectionLead>
         </div>
 
@@ -326,16 +328,17 @@ export default async function Home() {
             <PricingCard.Plan>
               <PricingCard.PlanName>
                 <GraduationCap aria-hidden="true" />
-                <span className="text-muted-foreground">Acces complet</span>
+                <span className="text-muted-foreground">Par concours</span>
               </PricingCard.PlanName>
               <PricingCard.Badge>1 an</PricingCard.Badge>
             </PricingCard.Plan>
             <PricingCard.Price>
-              <PricingCard.MainPrice>300 MAD</PricingCard.MainPrice>
-              <PricingCard.Period>/ an</PricingCard.Period>
+              <PricingCard.MainPrice>{PRICE_DISPLAY}</PricingCard.MainPrice>
+              <PricingCard.Period>/ concours</PricingCard.Period>
             </PricingCard.Price>
             <PricingCard.Description>
-              Paiement unique, environ 33 USD.
+              Paiement unique par concours, environ 33 USD. Active uniquement
+              ceux qui t&apos;interessent.
             </PricingCard.Description>
             <Link
               href="/inscription"

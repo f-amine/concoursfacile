@@ -7626,10 +7626,12 @@ export namespace Prisma {
 
   export type ConcoursAvgAggregateOutputType = {
     order: number | null
+    priceMad: number | null
   }
 
   export type ConcoursSumAggregateOutputType = {
     order: number | null
+    priceMad: number | null
   }
 
   export type ConcoursMinAggregateOutputType = {
@@ -7640,6 +7642,8 @@ export namespace Prisma {
     iconUrl: string | null
     order: number | null
     isActive: boolean | null
+    polarProductId: string | null
+    priceMad: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7652,6 +7656,8 @@ export namespace Prisma {
     iconUrl: string | null
     order: number | null
     isActive: boolean | null
+    polarProductId: string | null
+    priceMad: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7664,6 +7670,8 @@ export namespace Prisma {
     iconUrl: number
     order: number
     isActive: number
+    polarProductId: number
+    priceMad: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -7672,10 +7680,12 @@ export namespace Prisma {
 
   export type ConcoursAvgAggregateInputType = {
     order?: true
+    priceMad?: true
   }
 
   export type ConcoursSumAggregateInputType = {
     order?: true
+    priceMad?: true
   }
 
   export type ConcoursMinAggregateInputType = {
@@ -7686,6 +7696,8 @@ export namespace Prisma {
     iconUrl?: true
     order?: true
     isActive?: true
+    polarProductId?: true
+    priceMad?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7698,6 +7710,8 @@ export namespace Prisma {
     iconUrl?: true
     order?: true
     isActive?: true
+    polarProductId?: true
+    priceMad?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7710,6 +7724,8 @@ export namespace Prisma {
     iconUrl?: true
     order?: true
     isActive?: true
+    polarProductId?: true
+    priceMad?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -7809,6 +7825,8 @@ export namespace Prisma {
     iconUrl: string | null
     order: number
     isActive: boolean
+    polarProductId: string | null
+    priceMad: number
     createdAt: Date
     updatedAt: Date
     _count: ConcoursCountAggregateOutputType | null
@@ -7840,6 +7858,8 @@ export namespace Prisma {
     iconUrl?: boolean
     order?: boolean
     isActive?: boolean
+    polarProductId?: boolean
+    priceMad?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     subjects?: boolean | Concours$subjectsArgs<ExtArgs>
@@ -7855,6 +7875,8 @@ export namespace Prisma {
     iconUrl?: boolean
     order?: boolean
     isActive?: boolean
+    polarProductId?: boolean
+    priceMad?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["concours"]>
@@ -7867,6 +7889,8 @@ export namespace Prisma {
     iconUrl?: boolean
     order?: boolean
     isActive?: boolean
+    polarProductId?: boolean
+    priceMad?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["concours"]>
@@ -7879,11 +7903,13 @@ export namespace Prisma {
     iconUrl?: boolean
     order?: boolean
     isActive?: boolean
+    polarProductId?: boolean
+    priceMad?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ConcoursOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "iconUrl" | "order" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["concours"]>
+  export type ConcoursOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "iconUrl" | "order" | "isActive" | "polarProductId" | "priceMad" | "createdAt" | "updatedAt", ExtArgs["result"]["concours"]>
   export type ConcoursInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subjects?: boolean | Concours$subjectsArgs<ExtArgs>
     userConcours?: boolean | Concours$userConcoursArgs<ExtArgs>
@@ -7906,6 +7932,8 @@ export namespace Prisma {
       iconUrl: string | null
       order: number
       isActive: boolean
+      polarProductId: string | null
+      priceMad: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["concours"]>
@@ -8340,6 +8368,8 @@ export namespace Prisma {
     readonly iconUrl: FieldRef<"Concours", 'String'>
     readonly order: FieldRef<"Concours", 'Int'>
     readonly isActive: FieldRef<"Concours", 'Boolean'>
+    readonly polarProductId: FieldRef<"Concours", 'String'>
+    readonly priceMad: FieldRef<"Concours", 'Int'>
     readonly createdAt: FieldRef<"Concours", 'DateTime'>
     readonly updatedAt: FieldRef<"Concours", 'DateTime'>
   }
@@ -13539,11 +13569,15 @@ export namespace Prisma {
   export type QuestionAvgAggregateOutputType = {
     points: number | null
     order: number | null
+    imageWidth: number | null
+    imageHeight: number | null
   }
 
   export type QuestionSumAggregateOutputType = {
     points: number | null
     order: number | null
+    imageWidth: number | null
+    imageHeight: number | null
   }
 
   export type QuestionMinAggregateOutputType = {
@@ -13555,6 +13589,10 @@ export namespace Prisma {
     isFree: boolean | null
     isActive: boolean | null
     order: number | null
+    imageUrl: string | null
+    imageWidth: number | null
+    imageHeight: number | null
+    imageAlt: string | null
     createdAt: Date | null
     updatedAt: Date | null
     chapterId: string | null
@@ -13570,6 +13608,10 @@ export namespace Prisma {
     isFree: boolean | null
     isActive: boolean | null
     order: number | null
+    imageUrl: string | null
+    imageWidth: number | null
+    imageHeight: number | null
+    imageAlt: string | null
     createdAt: Date | null
     updatedAt: Date | null
     chapterId: string | null
@@ -13585,6 +13627,10 @@ export namespace Prisma {
     isFree: number
     isActive: number
     order: number
+    imageUrl: number
+    imageWidth: number
+    imageHeight: number
+    imageAlt: number
     createdAt: number
     updatedAt: number
     chapterId: number
@@ -13596,11 +13642,15 @@ export namespace Prisma {
   export type QuestionAvgAggregateInputType = {
     points?: true
     order?: true
+    imageWidth?: true
+    imageHeight?: true
   }
 
   export type QuestionSumAggregateInputType = {
     points?: true
     order?: true
+    imageWidth?: true
+    imageHeight?: true
   }
 
   export type QuestionMinAggregateInputType = {
@@ -13612,6 +13662,10 @@ export namespace Prisma {
     isFree?: true
     isActive?: true
     order?: true
+    imageUrl?: true
+    imageWidth?: true
+    imageHeight?: true
+    imageAlt?: true
     createdAt?: true
     updatedAt?: true
     chapterId?: true
@@ -13627,6 +13681,10 @@ export namespace Prisma {
     isFree?: true
     isActive?: true
     order?: true
+    imageUrl?: true
+    imageWidth?: true
+    imageHeight?: true
+    imageAlt?: true
     createdAt?: true
     updatedAt?: true
     chapterId?: true
@@ -13642,6 +13700,10 @@ export namespace Prisma {
     isFree?: true
     isActive?: true
     order?: true
+    imageUrl?: true
+    imageWidth?: true
+    imageHeight?: true
+    imageAlt?: true
     createdAt?: true
     updatedAt?: true
     chapterId?: true
@@ -13744,6 +13806,10 @@ export namespace Prisma {
     isFree: boolean
     isActive: boolean
     order: number
+    imageUrl: string | null
+    imageWidth: number | null
+    imageHeight: number | null
+    imageAlt: string | null
     createdAt: Date
     updatedAt: Date
     chapterId: string
@@ -13778,6 +13844,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: boolean
+    imageUrl?: boolean
+    imageWidth?: boolean
+    imageHeight?: boolean
+    imageAlt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     chapterId?: boolean
@@ -13800,6 +13870,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: boolean
+    imageUrl?: boolean
+    imageWidth?: boolean
+    imageHeight?: boolean
+    imageAlt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     chapterId?: boolean
@@ -13817,6 +13891,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: boolean
+    imageUrl?: boolean
+    imageWidth?: boolean
+    imageHeight?: boolean
+    imageAlt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     chapterId?: boolean
@@ -13834,13 +13912,17 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: boolean
+    imageUrl?: boolean
+    imageWidth?: boolean
+    imageHeight?: boolean
+    imageAlt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     chapterId?: boolean
     dossierId?: boolean
   }
 
-  export type QuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "text" | "type" | "explanation" | "points" | "isFree" | "isActive" | "order" | "createdAt" | "updatedAt" | "chapterId" | "dossierId", ExtArgs["result"]["question"]>
+  export type QuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "text" | "type" | "explanation" | "points" | "isFree" | "isActive" | "order" | "imageUrl" | "imageWidth" | "imageHeight" | "imageAlt" | "createdAt" | "updatedAt" | "chapterId" | "dossierId", ExtArgs["result"]["question"]>
   export type QuestionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     chapter?: boolean | ChapterDefaultArgs<ExtArgs>
     dossier?: boolean | Question$dossierArgs<ExtArgs>
@@ -13878,6 +13960,10 @@ export namespace Prisma {
       isFree: boolean
       isActive: boolean
       order: number
+      imageUrl: string | null
+      imageWidth: number | null
+      imageHeight: number | null
+      imageAlt: string | null
       createdAt: Date
       updatedAt: Date
       chapterId: string
@@ -14319,6 +14405,10 @@ export namespace Prisma {
     readonly isFree: FieldRef<"Question", 'Boolean'>
     readonly isActive: FieldRef<"Question", 'Boolean'>
     readonly order: FieldRef<"Question", 'Int'>
+    readonly imageUrl: FieldRef<"Question", 'String'>
+    readonly imageWidth: FieldRef<"Question", 'Int'>
+    readonly imageHeight: FieldRef<"Question", 'Int'>
+    readonly imageAlt: FieldRef<"Question", 'String'>
     readonly createdAt: FieldRef<"Question", 'DateTime'>
     readonly updatedAt: FieldRef<"Question", 'DateTime'>
     readonly chapterId: FieldRef<"Question", 'String'>
@@ -20536,13 +20626,26 @@ export namespace Prisma {
 
   export type AggregateUserConcours = {
     _count: UserConcoursCountAggregateOutputType | null
+    _avg: UserConcoursAvgAggregateOutputType | null
+    _sum: UserConcoursSumAggregateOutputType | null
     _min: UserConcoursMinAggregateOutputType | null
     _max: UserConcoursMaxAggregateOutputType | null
+  }
+
+  export type UserConcoursAvgAggregateOutputType = {
+    pricePaid: number | null
+  }
+
+  export type UserConcoursSumAggregateOutputType = {
+    pricePaid: number | null
   }
 
   export type UserConcoursMinAggregateOutputType = {
     id: string | null
     createdAt: Date | null
+    expiresAt: Date | null
+    pricePaid: number | null
+    polarOrderId: string | null
     userId: string | null
     concoursId: string | null
   }
@@ -20550,6 +20653,9 @@ export namespace Prisma {
   export type UserConcoursMaxAggregateOutputType = {
     id: string | null
     createdAt: Date | null
+    expiresAt: Date | null
+    pricePaid: number | null
+    polarOrderId: string | null
     userId: string | null
     concoursId: string | null
   }
@@ -20557,15 +20663,29 @@ export namespace Prisma {
   export type UserConcoursCountAggregateOutputType = {
     id: number
     createdAt: number
+    expiresAt: number
+    pricePaid: number
+    polarOrderId: number
     userId: number
     concoursId: number
     _all: number
   }
 
 
+  export type UserConcoursAvgAggregateInputType = {
+    pricePaid?: true
+  }
+
+  export type UserConcoursSumAggregateInputType = {
+    pricePaid?: true
+  }
+
   export type UserConcoursMinAggregateInputType = {
     id?: true
     createdAt?: true
+    expiresAt?: true
+    pricePaid?: true
+    polarOrderId?: true
     userId?: true
     concoursId?: true
   }
@@ -20573,6 +20693,9 @@ export namespace Prisma {
   export type UserConcoursMaxAggregateInputType = {
     id?: true
     createdAt?: true
+    expiresAt?: true
+    pricePaid?: true
+    polarOrderId?: true
     userId?: true
     concoursId?: true
   }
@@ -20580,6 +20703,9 @@ export namespace Prisma {
   export type UserConcoursCountAggregateInputType = {
     id?: true
     createdAt?: true
+    expiresAt?: true
+    pricePaid?: true
+    polarOrderId?: true
     userId?: true
     concoursId?: true
     _all?: true
@@ -20623,6 +20749,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserConcoursAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserConcoursSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserConcoursMinAggregateInputType
@@ -20653,6 +20791,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserConcoursCountAggregateInputType | true
+    _avg?: UserConcoursAvgAggregateInputType
+    _sum?: UserConcoursSumAggregateInputType
     _min?: UserConcoursMinAggregateInputType
     _max?: UserConcoursMaxAggregateInputType
   }
@@ -20660,9 +20800,14 @@ export namespace Prisma {
   export type UserConcoursGroupByOutputType = {
     id: string
     createdAt: Date
+    expiresAt: Date | null
+    pricePaid: number | null
+    polarOrderId: string | null
     userId: string
     concoursId: string
     _count: UserConcoursCountAggregateOutputType | null
+    _avg: UserConcoursAvgAggregateOutputType | null
+    _sum: UserConcoursSumAggregateOutputType | null
     _min: UserConcoursMinAggregateOutputType | null
     _max: UserConcoursMaxAggregateOutputType | null
   }
@@ -20684,6 +20829,9 @@ export namespace Prisma {
   export type UserConcoursSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     createdAt?: boolean
+    expiresAt?: boolean
+    pricePaid?: boolean
+    polarOrderId?: boolean
     userId?: boolean
     concoursId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -20693,6 +20841,9 @@ export namespace Prisma {
   export type UserConcoursSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     createdAt?: boolean
+    expiresAt?: boolean
+    pricePaid?: boolean
+    polarOrderId?: boolean
     userId?: boolean
     concoursId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -20702,6 +20853,9 @@ export namespace Prisma {
   export type UserConcoursSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     createdAt?: boolean
+    expiresAt?: boolean
+    pricePaid?: boolean
+    polarOrderId?: boolean
     userId?: boolean
     concoursId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -20711,11 +20865,14 @@ export namespace Prisma {
   export type UserConcoursSelectScalar = {
     id?: boolean
     createdAt?: boolean
+    expiresAt?: boolean
+    pricePaid?: boolean
+    polarOrderId?: boolean
     userId?: boolean
     concoursId?: boolean
   }
 
-  export type UserConcoursOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "userId" | "concoursId", ExtArgs["result"]["userConcours"]>
+  export type UserConcoursOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "expiresAt" | "pricePaid" | "polarOrderId" | "userId" | "concoursId", ExtArgs["result"]["userConcours"]>
   export type UserConcoursInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     concours?: boolean | ConcoursDefaultArgs<ExtArgs>
@@ -20738,6 +20895,9 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       createdAt: Date
+      expiresAt: Date | null
+      pricePaid: number | null
+      polarOrderId: string | null
       userId: string
       concoursId: string
     }, ExtArgs["result"]["userConcours"]>
@@ -21167,6 +21327,9 @@ export namespace Prisma {
   interface UserConcoursFieldRefs {
     readonly id: FieldRef<"UserConcours", 'String'>
     readonly createdAt: FieldRef<"UserConcours", 'DateTime'>
+    readonly expiresAt: FieldRef<"UserConcours", 'DateTime'>
+    readonly pricePaid: FieldRef<"UserConcours", 'Int'>
+    readonly polarOrderId: FieldRef<"UserConcours", 'String'>
     readonly userId: FieldRef<"UserConcours", 'String'>
     readonly concoursId: FieldRef<"UserConcours", 'String'>
   }
@@ -26073,6 +26236,8 @@ export namespace Prisma {
     iconUrl: 'iconUrl',
     order: 'order',
     isActive: 'isActive',
+    polarProductId: 'polarProductId',
+    priceMad: 'priceMad',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -26147,6 +26312,10 @@ export namespace Prisma {
     isFree: 'isFree',
     isActive: 'isActive',
     order: 'order',
+    imageUrl: 'imageUrl',
+    imageWidth: 'imageWidth',
+    imageHeight: 'imageHeight',
+    imageAlt: 'imageAlt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     chapterId: 'chapterId',
@@ -26222,6 +26391,9 @@ export namespace Prisma {
   export const UserConcoursScalarFieldEnum: {
     id: 'id',
     createdAt: 'createdAt',
+    expiresAt: 'expiresAt',
+    pricePaid: 'pricePaid',
+    polarOrderId: 'polarOrderId',
     userId: 'userId',
     concoursId: 'concoursId'
   };
@@ -26735,6 +26907,8 @@ export namespace Prisma {
     iconUrl?: StringNullableFilter<"Concours"> | string | null
     order?: IntFilter<"Concours"> | number
     isActive?: BoolFilter<"Concours"> | boolean
+    polarProductId?: StringNullableFilter<"Concours"> | string | null
+    priceMad?: IntFilter<"Concours"> | number
     createdAt?: DateTimeFilter<"Concours"> | Date | string
     updatedAt?: DateTimeFilter<"Concours"> | Date | string
     subjects?: SubjectListRelationFilter
@@ -26749,6 +26923,8 @@ export namespace Prisma {
     iconUrl?: SortOrderInput | SortOrder
     order?: SortOrder
     isActive?: SortOrder
+    polarProductId?: SortOrderInput | SortOrder
+    priceMad?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     subjects?: SubjectOrderByRelationAggregateInput
@@ -26766,6 +26942,8 @@ export namespace Prisma {
     iconUrl?: StringNullableFilter<"Concours"> | string | null
     order?: IntFilter<"Concours"> | number
     isActive?: BoolFilter<"Concours"> | boolean
+    polarProductId?: StringNullableFilter<"Concours"> | string | null
+    priceMad?: IntFilter<"Concours"> | number
     createdAt?: DateTimeFilter<"Concours"> | Date | string
     updatedAt?: DateTimeFilter<"Concours"> | Date | string
     subjects?: SubjectListRelationFilter
@@ -26780,6 +26958,8 @@ export namespace Prisma {
     iconUrl?: SortOrderInput | SortOrder
     order?: SortOrder
     isActive?: SortOrder
+    polarProductId?: SortOrderInput | SortOrder
+    priceMad?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ConcoursCountOrderByAggregateInput
@@ -26800,6 +26980,8 @@ export namespace Prisma {
     iconUrl?: StringNullableWithAggregatesFilter<"Concours"> | string | null
     order?: IntWithAggregatesFilter<"Concours"> | number
     isActive?: BoolWithAggregatesFilter<"Concours"> | boolean
+    polarProductId?: StringNullableWithAggregatesFilter<"Concours"> | string | null
+    priceMad?: IntWithAggregatesFilter<"Concours"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Concours"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Concours"> | Date | string
   }
@@ -27135,6 +27317,10 @@ export namespace Prisma {
     isFree?: BoolFilter<"Question"> | boolean
     isActive?: BoolFilter<"Question"> | boolean
     order?: IntFilter<"Question"> | number
+    imageUrl?: StringNullableFilter<"Question"> | string | null
+    imageWidth?: IntNullableFilter<"Question"> | number | null
+    imageHeight?: IntNullableFilter<"Question"> | number | null
+    imageAlt?: StringNullableFilter<"Question"> | string | null
     createdAt?: DateTimeFilter<"Question"> | Date | string
     updatedAt?: DateTimeFilter<"Question"> | Date | string
     chapterId?: StringFilter<"Question"> | string
@@ -27156,6 +27342,10 @@ export namespace Prisma {
     isFree?: SortOrder
     isActive?: SortOrder
     order?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    imageWidth?: SortOrderInput | SortOrder
+    imageHeight?: SortOrderInput | SortOrder
+    imageAlt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     chapterId?: SortOrder
@@ -27180,6 +27370,10 @@ export namespace Prisma {
     isFree?: BoolFilter<"Question"> | boolean
     isActive?: BoolFilter<"Question"> | boolean
     order?: IntFilter<"Question"> | number
+    imageUrl?: StringNullableFilter<"Question"> | string | null
+    imageWidth?: IntNullableFilter<"Question"> | number | null
+    imageHeight?: IntNullableFilter<"Question"> | number | null
+    imageAlt?: StringNullableFilter<"Question"> | string | null
     createdAt?: DateTimeFilter<"Question"> | Date | string
     updatedAt?: DateTimeFilter<"Question"> | Date | string
     chapterId?: StringFilter<"Question"> | string
@@ -27201,6 +27395,10 @@ export namespace Prisma {
     isFree?: SortOrder
     isActive?: SortOrder
     order?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    imageWidth?: SortOrderInput | SortOrder
+    imageHeight?: SortOrderInput | SortOrder
+    imageAlt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     chapterId?: SortOrder
@@ -27224,6 +27422,10 @@ export namespace Prisma {
     isFree?: BoolWithAggregatesFilter<"Question"> | boolean
     isActive?: BoolWithAggregatesFilter<"Question"> | boolean
     order?: IntWithAggregatesFilter<"Question"> | number
+    imageUrl?: StringNullableWithAggregatesFilter<"Question"> | string | null
+    imageWidth?: IntNullableWithAggregatesFilter<"Question"> | number | null
+    imageHeight?: IntNullableWithAggregatesFilter<"Question"> | number | null
+    imageAlt?: StringNullableWithAggregatesFilter<"Question"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Question"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Question"> | Date | string
     chapterId?: StringWithAggregatesFilter<"Question"> | string
@@ -27579,6 +27781,9 @@ export namespace Prisma {
     NOT?: UserConcoursWhereInput | UserConcoursWhereInput[]
     id?: StringFilter<"UserConcours"> | string
     createdAt?: DateTimeFilter<"UserConcours"> | Date | string
+    expiresAt?: DateTimeNullableFilter<"UserConcours"> | Date | string | null
+    pricePaid?: IntNullableFilter<"UserConcours"> | number | null
+    polarOrderId?: StringNullableFilter<"UserConcours"> | string | null
     userId?: StringFilter<"UserConcours"> | string
     concoursId?: StringFilter<"UserConcours"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -27588,6 +27793,9 @@ export namespace Prisma {
   export type UserConcoursOrderByWithRelationInput = {
     id?: SortOrder
     createdAt?: SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    pricePaid?: SortOrderInput | SortOrder
+    polarOrderId?: SortOrderInput | SortOrder
     userId?: SortOrder
     concoursId?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -27601,6 +27809,9 @@ export namespace Prisma {
     OR?: UserConcoursWhereInput[]
     NOT?: UserConcoursWhereInput | UserConcoursWhereInput[]
     createdAt?: DateTimeFilter<"UserConcours"> | Date | string
+    expiresAt?: DateTimeNullableFilter<"UserConcours"> | Date | string | null
+    pricePaid?: IntNullableFilter<"UserConcours"> | number | null
+    polarOrderId?: StringNullableFilter<"UserConcours"> | string | null
     userId?: StringFilter<"UserConcours"> | string
     concoursId?: StringFilter<"UserConcours"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -27610,11 +27821,16 @@ export namespace Prisma {
   export type UserConcoursOrderByWithAggregationInput = {
     id?: SortOrder
     createdAt?: SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    pricePaid?: SortOrderInput | SortOrder
+    polarOrderId?: SortOrderInput | SortOrder
     userId?: SortOrder
     concoursId?: SortOrder
     _count?: UserConcoursCountOrderByAggregateInput
+    _avg?: UserConcoursAvgOrderByAggregateInput
     _max?: UserConcoursMaxOrderByAggregateInput
     _min?: UserConcoursMinOrderByAggregateInput
+    _sum?: UserConcoursSumOrderByAggregateInput
   }
 
   export type UserConcoursScalarWhereWithAggregatesInput = {
@@ -27623,6 +27839,9 @@ export namespace Prisma {
     NOT?: UserConcoursScalarWhereWithAggregatesInput | UserConcoursScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"UserConcours"> | string
     createdAt?: DateTimeWithAggregatesFilter<"UserConcours"> | Date | string
+    expiresAt?: DateTimeNullableWithAggregatesFilter<"UserConcours"> | Date | string | null
+    pricePaid?: IntNullableWithAggregatesFilter<"UserConcours"> | number | null
+    polarOrderId?: StringNullableWithAggregatesFilter<"UserConcours"> | string | null
     userId?: StringWithAggregatesFilter<"UserConcours"> | string
     concoursId?: StringWithAggregatesFilter<"UserConcours"> | string
   }
@@ -28252,6 +28471,8 @@ export namespace Prisma {
     iconUrl?: string | null
     order?: number
     isActive?: boolean
+    polarProductId?: string | null
+    priceMad?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     subjects?: SubjectCreateNestedManyWithoutConcoursInput
@@ -28266,6 +28487,8 @@ export namespace Prisma {
     iconUrl?: string | null
     order?: number
     isActive?: boolean
+    polarProductId?: string | null
+    priceMad?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     subjects?: SubjectUncheckedCreateNestedManyWithoutConcoursInput
@@ -28280,6 +28503,8 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    polarProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    priceMad?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUpdateManyWithoutConcoursNestedInput
@@ -28294,6 +28519,8 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    polarProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    priceMad?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUncheckedUpdateManyWithoutConcoursNestedInput
@@ -28308,6 +28535,8 @@ export namespace Prisma {
     iconUrl?: string | null
     order?: number
     isActive?: boolean
+    polarProductId?: string | null
+    priceMad?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -28320,6 +28549,8 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    polarProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    priceMad?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -28332,6 +28563,8 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    polarProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    priceMad?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -28687,6 +28920,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: number
+    imageUrl?: string | null
+    imageWidth?: number | null
+    imageHeight?: number | null
+    imageAlt?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     chapter: ChapterCreateNestedOneWithoutQuestionsInput
@@ -28706,6 +28943,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: number
+    imageUrl?: string | null
+    imageWidth?: number | null
+    imageHeight?: number | null
+    imageAlt?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     chapterId: string
@@ -28725,6 +28966,10 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    imageHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    imageAlt?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapter?: ChapterUpdateOneRequiredWithoutQuestionsNestedInput
@@ -28744,6 +28989,10 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    imageHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    imageAlt?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapterId?: StringFieldUpdateOperationsInput | string
@@ -28763,6 +29012,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: number
+    imageUrl?: string | null
+    imageWidth?: number | null
+    imageHeight?: number | null
+    imageAlt?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     chapterId: string
@@ -28778,6 +29031,10 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    imageHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    imageAlt?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -28791,6 +29048,10 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    imageHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    imageAlt?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapterId?: StringFieldUpdateOperationsInput | string
@@ -29145,6 +29406,9 @@ export namespace Prisma {
   export type UserConcoursCreateInput = {
     id?: string
     createdAt?: Date | string
+    expiresAt?: Date | string | null
+    pricePaid?: number | null
+    polarOrderId?: string | null
     user: UserCreateNestedOneWithoutUserConcoursInput
     concours: ConcoursCreateNestedOneWithoutUserConcoursInput
   }
@@ -29152,6 +29416,9 @@ export namespace Prisma {
   export type UserConcoursUncheckedCreateInput = {
     id?: string
     createdAt?: Date | string
+    expiresAt?: Date | string | null
+    pricePaid?: number | null
+    polarOrderId?: string | null
     userId: string
     concoursId: string
   }
@@ -29159,6 +29426,9 @@ export namespace Prisma {
   export type UserConcoursUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePaid?: NullableIntFieldUpdateOperationsInput | number | null
+    polarOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutUserConcoursNestedInput
     concours?: ConcoursUpdateOneRequiredWithoutUserConcoursNestedInput
   }
@@ -29166,6 +29436,9 @@ export namespace Prisma {
   export type UserConcoursUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePaid?: NullableIntFieldUpdateOperationsInput | number | null
+    polarOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     concoursId?: StringFieldUpdateOperationsInput | string
   }
@@ -29173,6 +29446,9 @@ export namespace Prisma {
   export type UserConcoursCreateManyInput = {
     id?: string
     createdAt?: Date | string
+    expiresAt?: Date | string | null
+    pricePaid?: number | null
+    polarOrderId?: string | null
     userId: string
     concoursId: string
   }
@@ -29180,11 +29456,17 @@ export namespace Prisma {
   export type UserConcoursUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePaid?: NullableIntFieldUpdateOperationsInput | number | null
+    polarOrderId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserConcoursUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePaid?: NullableIntFieldUpdateOperationsInput | number | null
+    polarOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     concoursId?: StringFieldUpdateOperationsInput | string
   }
@@ -29829,12 +30111,15 @@ export namespace Prisma {
     iconUrl?: SortOrder
     order?: SortOrder
     isActive?: SortOrder
+    polarProductId?: SortOrder
+    priceMad?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type ConcoursAvgOrderByAggregateInput = {
     order?: SortOrder
+    priceMad?: SortOrder
   }
 
   export type ConcoursMaxOrderByAggregateInput = {
@@ -29845,6 +30130,8 @@ export namespace Prisma {
     iconUrl?: SortOrder
     order?: SortOrder
     isActive?: SortOrder
+    polarProductId?: SortOrder
+    priceMad?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -29857,12 +30144,15 @@ export namespace Prisma {
     iconUrl?: SortOrder
     order?: SortOrder
     isActive?: SortOrder
+    polarProductId?: SortOrder
+    priceMad?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type ConcoursSumOrderByAggregateInput = {
     order?: SortOrder
+    priceMad?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -30145,6 +30435,17 @@ export namespace Prisma {
     not?: NestedEnumQuestionTypeFilter<$PrismaModel> | $Enums.QuestionType
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type DossierNullableScalarRelationFilter = {
     is?: DossierWhereInput | null
     isNot?: DossierWhereInput | null
@@ -30179,6 +30480,10 @@ export namespace Prisma {
     isFree?: SortOrder
     isActive?: SortOrder
     order?: SortOrder
+    imageUrl?: SortOrder
+    imageWidth?: SortOrder
+    imageHeight?: SortOrder
+    imageAlt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     chapterId?: SortOrder
@@ -30188,6 +30493,8 @@ export namespace Prisma {
   export type QuestionAvgOrderByAggregateInput = {
     points?: SortOrder
     order?: SortOrder
+    imageWidth?: SortOrder
+    imageHeight?: SortOrder
   }
 
   export type QuestionMaxOrderByAggregateInput = {
@@ -30199,6 +30506,10 @@ export namespace Prisma {
     isFree?: SortOrder
     isActive?: SortOrder
     order?: SortOrder
+    imageUrl?: SortOrder
+    imageWidth?: SortOrder
+    imageHeight?: SortOrder
+    imageAlt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     chapterId?: SortOrder
@@ -30214,6 +30525,10 @@ export namespace Prisma {
     isFree?: SortOrder
     isActive?: SortOrder
     order?: SortOrder
+    imageUrl?: SortOrder
+    imageWidth?: SortOrder
+    imageHeight?: SortOrder
+    imageAlt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     chapterId?: SortOrder
@@ -30223,6 +30538,8 @@ export namespace Prisma {
   export type QuestionSumOrderByAggregateInput = {
     points?: SortOrder
     order?: SortOrder
+    imageWidth?: SortOrder
+    imageHeight?: SortOrder
   }
 
   export type EnumQuestionTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -30233,6 +30550,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumQuestionTypeFilter<$PrismaModel>
     _max?: NestedEnumQuestionTypeFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type QuestionScalarRelationFilter = {
@@ -30530,13 +30863,23 @@ export namespace Prisma {
   export type UserConcoursCountOrderByAggregateInput = {
     id?: SortOrder
     createdAt?: SortOrder
+    expiresAt?: SortOrder
+    pricePaid?: SortOrder
+    polarOrderId?: SortOrder
     userId?: SortOrder
     concoursId?: SortOrder
+  }
+
+  export type UserConcoursAvgOrderByAggregateInput = {
+    pricePaid?: SortOrder
   }
 
   export type UserConcoursMaxOrderByAggregateInput = {
     id?: SortOrder
     createdAt?: SortOrder
+    expiresAt?: SortOrder
+    pricePaid?: SortOrder
+    polarOrderId?: SortOrder
     userId?: SortOrder
     concoursId?: SortOrder
   }
@@ -30544,8 +30887,15 @@ export namespace Prisma {
   export type UserConcoursMinOrderByAggregateInput = {
     id?: SortOrder
     createdAt?: SortOrder
+    expiresAt?: SortOrder
+    pricePaid?: SortOrder
+    polarOrderId?: SortOrder
     userId?: SortOrder
     concoursId?: SortOrder
+  }
+
+  export type UserConcoursSumOrderByAggregateInput = {
+    pricePaid?: SortOrder
   }
 
   export type UserLessonProgressUserIdLessonIdCompoundUniqueInput = {
@@ -31582,6 +31932,14 @@ export namespace Prisma {
     set?: $Enums.QuestionType
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type ChapterUpdateOneRequiredWithoutQuestionsNestedInput = {
     create?: XOR<ChapterCreateWithoutQuestionsInput, ChapterUncheckedCreateWithoutQuestionsInput>
     connectOrCreate?: ChapterCreateOrConnectWithoutQuestionsInput
@@ -32332,11 +32690,20 @@ export namespace Prisma {
     _max?: NestedEnumQuestionTypeFilter<$PrismaModel>
   }
 
-  export type NestedEnumQuizModeFilter<$PrismaModel = never> = {
-    equals?: $Enums.QuizMode | EnumQuizModeFieldRefInput<$PrismaModel>
-    in?: $Enums.QuizMode[] | ListEnumQuizModeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.QuizMode[] | ListEnumQuizModeFieldRefInput<$PrismaModel>
-    not?: NestedEnumQuizModeFilter<$PrismaModel> | $Enums.QuizMode
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type NestedFloatNullableFilter<$PrismaModel = never> = {
@@ -32348,6 +32715,13 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumQuizModeFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuizMode | EnumQuizModeFieldRefInput<$PrismaModel>
+    in?: $Enums.QuizMode[] | ListEnumQuizModeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuizMode[] | ListEnumQuizModeFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuizModeFilter<$PrismaModel> | $Enums.QuizMode
   }
 
   export type NestedEnumQuizModeWithAggregatesFilter<$PrismaModel = never> = {
@@ -32611,12 +32985,18 @@ export namespace Prisma {
   export type UserConcoursCreateWithoutUserInput = {
     id?: string
     createdAt?: Date | string
+    expiresAt?: Date | string | null
+    pricePaid?: number | null
+    polarOrderId?: string | null
     concours: ConcoursCreateNestedOneWithoutUserConcoursInput
   }
 
   export type UserConcoursUncheckedCreateWithoutUserInput = {
     id?: string
     createdAt?: Date | string
+    expiresAt?: Date | string | null
+    pricePaid?: number | null
+    polarOrderId?: string | null
     concoursId: string
   }
 
@@ -32857,6 +33237,9 @@ export namespace Prisma {
     NOT?: UserConcoursScalarWhereInput | UserConcoursScalarWhereInput[]
     id?: StringFilter<"UserConcours"> | string
     createdAt?: DateTimeFilter<"UserConcours"> | Date | string
+    expiresAt?: DateTimeNullableFilter<"UserConcours"> | Date | string | null
+    pricePaid?: IntNullableFilter<"UserConcours"> | number | null
+    polarOrderId?: StringNullableFilter<"UserConcours"> | string | null
     userId?: StringFilter<"UserConcours"> | string
     concoursId?: StringFilter<"UserConcours"> | string
   }
@@ -33097,12 +33480,18 @@ export namespace Prisma {
   export type UserConcoursCreateWithoutConcoursInput = {
     id?: string
     createdAt?: Date | string
+    expiresAt?: Date | string | null
+    pricePaid?: number | null
+    polarOrderId?: string | null
     user: UserCreateNestedOneWithoutUserConcoursInput
   }
 
   export type UserConcoursUncheckedCreateWithoutConcoursInput = {
     id?: string
     createdAt?: Date | string
+    expiresAt?: Date | string | null
+    pricePaid?: number | null
+    polarOrderId?: string | null
     userId: string
   }
 
@@ -33172,6 +33561,8 @@ export namespace Prisma {
     iconUrl?: string | null
     order?: number
     isActive?: boolean
+    polarProductId?: string | null
+    priceMad?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     userConcours?: UserConcoursCreateNestedManyWithoutConcoursInput
@@ -33185,6 +33576,8 @@ export namespace Prisma {
     iconUrl?: string | null
     order?: number
     isActive?: boolean
+    polarProductId?: string | null
+    priceMad?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     userConcours?: UserConcoursUncheckedCreateNestedManyWithoutConcoursInput
@@ -33252,6 +33645,8 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    polarProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    priceMad?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userConcours?: UserConcoursUpdateManyWithoutConcoursNestedInput
@@ -33265,6 +33660,8 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    polarProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    priceMad?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userConcours?: UserConcoursUncheckedUpdateManyWithoutConcoursNestedInput
@@ -33381,6 +33778,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: number
+    imageUrl?: string | null
+    imageWidth?: number | null
+    imageHeight?: number | null
+    imageAlt?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     dossier?: DossierCreateNestedOneWithoutQuestionsInput
@@ -33399,6 +33800,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: number
+    imageUrl?: string | null
+    imageWidth?: number | null
+    imageHeight?: number | null
+    imageAlt?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     dossierId?: string | null
@@ -33546,6 +33951,10 @@ export namespace Prisma {
     isFree?: BoolFilter<"Question"> | boolean
     isActive?: BoolFilter<"Question"> | boolean
     order?: IntFilter<"Question"> | number
+    imageUrl?: StringNullableFilter<"Question"> | string | null
+    imageWidth?: IntNullableFilter<"Question"> | number | null
+    imageHeight?: IntNullableFilter<"Question"> | number | null
+    imageAlt?: StringNullableFilter<"Question"> | string | null
     createdAt?: DateTimeFilter<"Question"> | Date | string
     updatedAt?: DateTimeFilter<"Question"> | Date | string
     chapterId?: StringFilter<"Question"> | string
@@ -34157,6 +34566,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: number
+    imageUrl?: string | null
+    imageWidth?: number | null
+    imageHeight?: number | null
+    imageAlt?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     chapter: ChapterCreateNestedOneWithoutQuestionsInput
@@ -34175,6 +34588,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: number
+    imageUrl?: string | null
+    imageWidth?: number | null
+    imageHeight?: number | null
+    imageAlt?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     chapterId: string
@@ -34229,6 +34646,10 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    imageHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    imageAlt?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapter?: ChapterUpdateOneRequiredWithoutQuestionsNestedInput
@@ -34247,6 +34668,10 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    imageHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    imageAlt?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapterId?: StringFieldUpdateOperationsInput | string
@@ -34323,6 +34748,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: number
+    imageUrl?: string | null
+    imageWidth?: number | null
+    imageHeight?: number | null
+    imageAlt?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     chapter: ChapterCreateNestedOneWithoutQuestionsInput
@@ -34341,6 +34770,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: number
+    imageUrl?: string | null
+    imageWidth?: number | null
+    imageHeight?: number | null
+    imageAlt?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     chapterId: string
@@ -34585,6 +35018,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: number
+    imageUrl?: string | null
+    imageWidth?: number | null
+    imageHeight?: number | null
+    imageAlt?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     chapter: ChapterCreateNestedOneWithoutQuestionsInput
@@ -34603,6 +35040,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: number
+    imageUrl?: string | null
+    imageWidth?: number | null
+    imageHeight?: number | null
+    imageAlt?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     chapterId: string
@@ -34694,6 +35135,10 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    imageHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    imageAlt?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapter?: ChapterUpdateOneRequiredWithoutQuestionsNestedInput
@@ -34712,6 +35157,10 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    imageHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    imageAlt?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapterId?: StringFieldUpdateOperationsInput | string
@@ -34892,6 +35341,8 @@ export namespace Prisma {
     iconUrl?: string | null
     order?: number
     isActive?: boolean
+    polarProductId?: string | null
+    priceMad?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     subjects?: SubjectCreateNestedManyWithoutConcoursInput
@@ -34905,6 +35356,8 @@ export namespace Prisma {
     iconUrl?: string | null
     order?: number
     isActive?: boolean
+    polarProductId?: string | null
+    priceMad?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     subjects?: SubjectUncheckedCreateNestedManyWithoutConcoursInput
@@ -34979,6 +35432,8 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    polarProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    priceMad?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUpdateManyWithoutConcoursNestedInput
@@ -34992,6 +35447,8 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    polarProductId?: NullableStringFieldUpdateOperationsInput | string | null
+    priceMad?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subjects?: SubjectUncheckedUpdateManyWithoutConcoursNestedInput
@@ -35205,6 +35662,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: number
+    imageUrl?: string | null
+    imageWidth?: number | null
+    imageHeight?: number | null
+    imageAlt?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     chapter: ChapterCreateNestedOneWithoutQuestionsInput
@@ -35223,6 +35684,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: number
+    imageUrl?: string | null
+    imageWidth?: number | null
+    imageHeight?: number | null
+    imageAlt?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     chapterId: string
@@ -35302,6 +35767,10 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    imageHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    imageAlt?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapter?: ChapterUpdateOneRequiredWithoutQuestionsNestedInput
@@ -35320,6 +35789,10 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    imageHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    imageAlt?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapterId?: StringFieldUpdateOperationsInput | string
@@ -35377,6 +35850,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: number
+    imageUrl?: string | null
+    imageWidth?: number | null
+    imageHeight?: number | null
+    imageAlt?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     chapter: ChapterCreateNestedOneWithoutQuestionsInput
@@ -35395,6 +35872,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: number
+    imageUrl?: string | null
+    imageWidth?: number | null
+    imageHeight?: number | null
+    imageAlt?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     chapterId: string
@@ -35474,6 +35955,10 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    imageHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    imageAlt?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapter?: ChapterUpdateOneRequiredWithoutQuestionsNestedInput
@@ -35492,6 +35977,10 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    imageHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    imageAlt?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapterId?: StringFieldUpdateOperationsInput | string
@@ -35650,6 +36139,9 @@ export namespace Prisma {
   export type UserConcoursCreateManyUserInput = {
     id?: string
     createdAt?: Date | string
+    expiresAt?: Date | string | null
+    pricePaid?: number | null
+    polarOrderId?: string | null
     concoursId: string
   }
 
@@ -35844,18 +36336,27 @@ export namespace Prisma {
   export type UserConcoursUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePaid?: NullableIntFieldUpdateOperationsInput | number | null
+    polarOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     concours?: ConcoursUpdateOneRequiredWithoutUserConcoursNestedInput
   }
 
   export type UserConcoursUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePaid?: NullableIntFieldUpdateOperationsInput | number | null
+    polarOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     concoursId?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserConcoursUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePaid?: NullableIntFieldUpdateOperationsInput | number | null
+    polarOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     concoursId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -35874,6 +36375,9 @@ export namespace Prisma {
   export type UserConcoursCreateManyConcoursInput = {
     id?: string
     createdAt?: Date | string
+    expiresAt?: Date | string | null
+    pricePaid?: number | null
+    polarOrderId?: string | null
     userId: string
   }
 
@@ -35918,18 +36422,27 @@ export namespace Prisma {
   export type UserConcoursUpdateWithoutConcoursInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePaid?: NullableIntFieldUpdateOperationsInput | number | null
+    polarOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutUserConcoursNestedInput
   }
 
   export type UserConcoursUncheckedUpdateWithoutConcoursInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePaid?: NullableIntFieldUpdateOperationsInput | number | null
+    polarOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserConcoursUncheckedUpdateManyWithoutConcoursInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    pricePaid?: NullableIntFieldUpdateOperationsInput | number | null
+    polarOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -36005,6 +36518,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: number
+    imageUrl?: string | null
+    imageWidth?: number | null
+    imageHeight?: number | null
+    imageAlt?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     dossierId?: string | null
@@ -36071,6 +36588,10 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    imageHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    imageAlt?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dossier?: DossierUpdateOneWithoutQuestionsNestedInput
@@ -36089,6 +36610,10 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    imageHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    imageAlt?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dossierId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36107,6 +36632,10 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    imageHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    imageAlt?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dossierId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36366,6 +36895,10 @@ export namespace Prisma {
     isFree?: boolean
     isActive?: boolean
     order?: number
+    imageUrl?: string | null
+    imageWidth?: number | null
+    imageHeight?: number | null
+    imageAlt?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     chapterId: string
@@ -36380,6 +36913,10 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    imageHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    imageAlt?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapter?: ChapterUpdateOneRequiredWithoutQuestionsNestedInput
@@ -36398,6 +36935,10 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    imageHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    imageAlt?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapterId?: StringFieldUpdateOperationsInput | string
@@ -36416,6 +36957,10 @@ export namespace Prisma {
     isFree?: BoolFieldUpdateOperationsInput | boolean
     isActive?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageWidth?: NullableIntFieldUpdateOperationsInput | number | null
+    imageHeight?: NullableIntFieldUpdateOperationsInput | number | null
+    imageAlt?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     chapterId?: StringFieldUpdateOperationsInput | string

@@ -1,8 +1,17 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BookOpen, ArrowRight, ChevronLeft, Layers } from "lucide-react";
+import {
+  BookOpen,
+  ArrowRight,
+  ChevronLeft,
+  Layers,
+  Lock,
+  CheckCircle2,
+} from "lucide-react";
 
 import { api } from "~/trpc/server";
+import { CheckoutSuccessPoller } from "./checkout-success-poller";
+import { UnlockButton } from "./unlock-button";
 
 export default async function ConcoursDetailPage({
   params,
@@ -64,6 +73,48 @@ export default async function ConcoursDetailPage({
           </div>
         </dl>
       </header>
+
+      <CheckoutSuccessPoller
+        slug={concoursSlug}
+        initialHasAccess={concours.hasAccess}
+      />
+
+      {concours.hasAccess ? (
+        <div className="mb-10 flex items-center gap-3 rounded-2xl border border-success/20 bg-success/[0.05] px-5 py-4">
+          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-success/15 text-success">
+            <CheckCircle2 className="h-4 w-4" />
+          </span>
+          <div>
+            <p className="text-[13px] font-semibold text-success">
+              Acces actif
+            </p>
+            <p className="text-[12px] text-muted-foreground">
+              Tous les cours et QCM de ce concours sont debloques.
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div className="mb-10 flex flex-col gap-4 rounded-2xl border border-primary/20 bg-primary/[0.04] p-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-3">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <Lock className="h-4 w-4" />
+            </span>
+            <div>
+              <p className="text-[14px] font-semibold text-foreground">
+                Acces verrouille — {concours.priceMad} MAD pour {concours.accessMonths} mois
+              </p>
+              <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground">
+                Paiement unique pour ce concours. Les chapitres marques
+                &laquo;Gratuit&raquo; restent accessibles sans paiement.
+              </p>
+            </div>
+          </div>
+          <UnlockButton
+            concoursId={concours.id}
+            priceMad={concours.priceMad}
+          />
+        </div>
+      )}
 
       {concours.subjects.length > 0 ? (
         <ol className="border-y border-border/70">

@@ -1,9 +1,11 @@
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
 
 import {
   createTRPCRouter,
   protectedProcedure,
 } from "~/server/api/trpc";
+import { hasConcoursAccess } from "~/lib/access";
 
 export const lessonRouter = createTRPCRouter({
   getBySlug: protectedProcedure
@@ -38,7 +40,7 @@ export const lessonRouter = createTRPCRouter({
                 select: {
                   name: true,
                   slug: true,
-                  concours: { select: { name: true, slug: true } },
+                  concours: { select: { id: true, name: true, slug: true } },
                 },
               },
               lessons: {
@@ -57,6 +59,21 @@ export const lessonRouter = createTRPCRouter({
       });
 
       if (!lesson) return null;
+
+      if (!lesson.isFree) {
+        const allowed = await hasConcoursAccess(
+          ctx.db,
+          ctx.session.user.id,
+          { concoursId: lesson.chapter.subject.concours.id },
+        );
+        if (!allowed) {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message:
+              "Acces non actif pour ce concours. 300 MAD pour activer.",
+          });
+        }
+      }
 
       // Update or create progress
       await ctx.db.userLessonProgress.upsert({
@@ -93,6 +110,26 @@ export const lessonRouter = createTRPCRouter({
   markComplete: protectedProcedure
     .input(z.object({ lessonId: z.string() }))
     .mutation(async ({ ctx, input }) => {
+      const lesson = await ctx.db.lesson.findUnique({
+        where: { id: input.lessonId },
+        select: {
+          isFree: true,
+          chapter: { select: { subject: { select: { concoursId: true } } } },
+        },
+      });
+      if (!lesson) throw new TRPCError({ code: "NOT_FOUND" });
+
+      if (!lesson.isFree) {
+        const allowed = await hasConcoursAccess(
+          ctx.db,
+          ctx.session.user.id,
+          { concoursId: lesson.chapter.subject.concoursId },
+        );
+        if (!allowed) {
+          throw new TRPCError({ code: "FORBIDDEN" });
+        }
+      }
+
       return ctx.db.userLessonProgress.upsert({
         where: {
           userId_lessonId: {

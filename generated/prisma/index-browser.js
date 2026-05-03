@@ -175,6 +175,8 @@ exports.Prisma.ConcoursScalarFieldEnum = {
   iconUrl: 'iconUrl',
   order: 'order',
   isActive: 'isActive',
+  polarProductId: 'polarProductId',
+  priceMad: 'priceMad',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -234,6 +236,10 @@ exports.Prisma.QuestionScalarFieldEnum = {
   isFree: 'isFree',
   isActive: 'isActive',
   order: 'order',
+  imageUrl: 'imageUrl',
+  imageWidth: 'imageWidth',
+  imageHeight: 'imageHeight',
+  imageAlt: 'imageAlt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   chapterId: 'chapterId',
@@ -291,6 +297,9 @@ exports.Prisma.QuizResponseAnswerScalarFieldEnum = {
 exports.Prisma.UserConcoursScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
+  expiresAt: 'expiresAt',
+  pricePaid: 'pricePaid',
+  polarOrderId: 'polarOrderId',
   userId: 'userId',
   concoursId: 'concoursId'
 };

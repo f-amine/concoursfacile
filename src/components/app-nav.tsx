@@ -77,14 +77,17 @@ export function AppNav({ user }: AppNavProps) {
       <div className="mx-auto flex h-14 max-w-5xl items-center gap-6 px-4 sm:px-6 lg:px-10">
         <Link
           href="/tableau-de-bord"
-          className="group flex items-center gap-2 rounded-md outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          aria-label="ConcoursFacile.ma"
+          className="group flex flex-shrink-0 items-center rounded-md outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
-          <span className="relative flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-xs ring-1 ring-primary/20">
-            <span className="text-[10px] font-bold tracking-tight">CF</span>
-          </span>
-          <span className="hidden text-sm font-semibold tracking-tight text-foreground sm:block">
-            ConcoursFacile
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo1.jpeg"
+            alt="ConcoursFacile.ma"
+            className="h-8 w-auto"
+            loading="eager"
+            decoding="async"
+          />
         </Link>
 
         <nav aria-label="Navigation principale" className="hidden items-center gap-0.5 md:flex">

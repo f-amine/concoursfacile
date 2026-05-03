@@ -380,11 +380,21 @@ function QuizPreparerContent() {
       )}
 
       {/* Big start CTA */}
+      {!isLoading && totalQuestions === 0 && (
+        <div className="mb-4 rounded-2xl border border-dashed border-border bg-muted/40 p-5 text-center">
+          <p className="text-[13px] font-medium text-foreground">
+            Aucune question disponible.
+          </p>
+          <p className="mt-1 text-[12px] text-muted-foreground">
+            Debloquez le concours pour acceder aux questions de ce chapitre.
+          </p>
+        </div>
+      )}
       <button
         type="button"
         onClick={handleStart}
-        disabled={createQuiz.isPending || isLoading}
-        className="group relative flex w-full items-center justify-between gap-4 overflow-hidden rounded-2xl bg-primary px-6 py-5 text-left text-primary-foreground shadow-lg outline-none transition-all hover:shadow-xl focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 disabled:opacity-60"
+        disabled={createQuiz.isPending || isLoading || totalQuestions === 0}
+        className="group relative flex w-full items-center justify-between gap-4 overflow-hidden rounded-2xl bg-primary px-6 py-5 text-left text-primary-foreground shadow-lg outline-none transition-all hover:shadow-xl focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed"
       >
         <div
           aria-hidden="true"

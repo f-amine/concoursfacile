@@ -1,5 +1,6 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
+import { TRPCError } from "@trpc/server";
 import {
   Clock,
   ChevronLeft,
@@ -24,12 +25,20 @@ export default async function LessonPage({
   }>;
 }) {
   const { concoursSlug, subjectSlug, chapterSlug, lessonSlug } = await params;
-  const lesson = await api.lesson.getBySlug({
-    concoursSlug,
-    subjectSlug,
-    chapterSlug,
-    lessonSlug,
-  });
+  let lesson;
+  try {
+    lesson = await api.lesson.getBySlug({
+      concoursSlug,
+      subjectSlug,
+      chapterSlug,
+      lessonSlug,
+    });
+  } catch (err) {
+    if (err instanceof TRPCError && err.code === "FORBIDDEN") {
+      redirect(`/cours/${concoursSlug}?locked=${subjectSlug}`);
+    }
+    throw err;
+  }
 
   if (!lesson) notFound();
 

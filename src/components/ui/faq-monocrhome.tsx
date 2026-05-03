@@ -8,13 +8,13 @@ const faqs = [
   {
     question: "C'est un abonnement ?",
     answer:
-      "Non. Un paiement unique de 300 MAD te donne acces a la plateforme pendant 1 an. Aucun renouvellement automatique.",
+      "Non. 300 MAD par concours, paiement unique. Tu ne paies que pour les concours que tu choisis. Acces 1 an. Aucun renouvellement automatique.",
     meta: "Tarif",
   },
   {
     question: "Quels concours sont couverts ?",
     answer:
-      "ENSA, ENCG, ENSAM, Medecine et CPGE. Chaque concours a ses propres cours et QCM alignes sur le programme officiel marocain.",
+      "ENSA, ENCG, ENSAM, Medecine et CPGE. Chaque concours a ses propres cours et QCM alignes sur le programme officiel marocain. Tu actives ceux qui t'interessent (300 MAD chacun).",
     meta: "Scope",
   },
   {
